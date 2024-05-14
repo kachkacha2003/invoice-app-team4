@@ -7,9 +7,12 @@ import logo from "/images/logo.svg"
 export default function Header() {
     return (
         <HeaderContainer>
+            
             <LogoMoon>
-            <img className="logo" src={logo} alt="" />
-            <img className="moon" src={moon} alt="" />
+            <div className="dark"></div>
+            <div className="light"></div>
+                <img className="logo" src={logo} alt="" />
+                <img className="moon" src={moon} alt="" />
             </LogoMoon>
             <img className="avatar" src={avatar} alt="logo-icon" />
 
@@ -18,35 +21,55 @@ export default function Header() {
 }
 
 const HeaderContainer = styled.div`
-    height: 72px;
+    height: 7.2rem;
     width: 100%;
     background-color: #373b53;
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 0 24px 0 0;
+    padding: 0 2.4rem 0 0;
 
     .avatar {
-        height: 32px;
-        width: 32px;
+        height: 3.2rem;
+        width: 3.2rem;
         border-radius: 50%;
-        margin-left: 24px;
+        margin-left: 2.4rem;
     }
+
+    .dark {
+            position: relative;
+            width: 7.2rem;
+            height: 7.2rem;
+            background-color: #7c5dfa;
+            border-radius: 0 2rem 2rem 0;
+        } 
+
+    .light {
+            position: absolute;
+            width: 7.2rem;
+            height: 3.7rem;
+            background-color: #9277ff;
+            transform: rotate(180deg);
+            margin-bottom: -3.7rem;
+            border-radius: 2rem 0 2rem 0;
+        }
 `
 
 const LogoMoon = styled.div`
         display: flex;
         justify-content: space-between;
         align-items: center;
-        width: 100%; 
-        height: 72px;
-        padding: 0 24px 0 0;
-        border-right: 1px solid  #494e6e;
+        width: 100%;
+        height: 7.2rem;
+        padding: 0 2.4rem 0 0;
+        border-right: 0.1rem solid  #494e6e;
 
         .logo {
-        background-color: #9277ff;
-        border-radius: 0 20px 20px 0;
+        position: absolute;
+        margin-left: 2rem;
         } 
+
+        
     `
 
 

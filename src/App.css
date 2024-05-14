@@ -1,13 +1,18 @@
+@import url('https://fonts.googleapis.com/css2?family=League+Spartan:wght@100..900&display=swap');
+
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
   }
-  
-  body {
-    min-width: 375px;
-  }
-  
+
   html {
     font-size: 62.5%;
   }
+  
+  body {
+    min-width: 37.5rem;
+    font-family: "League Spartan", sans-serif;
+  }
+  
+  
