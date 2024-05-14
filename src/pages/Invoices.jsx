@@ -22,7 +22,9 @@ export default function Invoices() {
           </FilterCon>
           <BtnCon>
             <Btn>New</Btn>
-            <Circle></Circle>
+            <Circle>
+              <img src={plus} alt="" />
+            </Circle>
           </BtnCon>
         </FilterAndNew>
       </InvoicecCounterCon>
@@ -41,7 +43,9 @@ const Circle = styled.div`
   position: absolute;
   top: 0.6rem;
   left: 0.6rem;
-  z-index: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 `;
 const Btn = styled.button`
   text-align: right;
@@ -53,13 +57,13 @@ const Btn = styled.button`
   line-height: 15px;
   letter-spacing: -0.25px;
   border-radius: 24px;
-  background: black /*var(--01, #7c5dfa) */;
+  background: var(--01, #7c5dfa);
   border: none;
   padding: 1.5rem;
   width: 9rem;
-  background-image: url(${plus});
+  /* background-image: url(${plus});
   background-repeat: no-repeat;
-  background-position: right;
+  background-position: right; */
 `;
 const InvoicecCounterCon = styled.div`
   display: flex;
