@@ -35,7 +35,7 @@ export default function CreateInvoice() {
 
 
 
-const handldraft = (event)=>{
+const handldraft = (event)=>{ 
     event.preventDefault();
     // console.log({senderAddress, ClientAddress})
     // console.log({ClientsName, ClientsEmail, streetTo, CityTo, PostCodeTo, CountryTo, InvoiceDate, PaymentTerms, ProjectDescription})
