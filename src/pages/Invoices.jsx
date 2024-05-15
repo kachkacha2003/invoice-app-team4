@@ -47,7 +47,10 @@ export default function Invoices({ data, setData }) {
                 <span className="personPayDate">{person.paymentDue}</span>
                 <span className="personTotal">{person.total}</span>
               </DateTotalCon>
-              <span className="personStatus">{person.status}</span>
+              <SpanCon status={person.status}>
+                <Circletwo status={person.status}></Circletwo>
+                <span className="personStatus">{person.status}</span>
+              </SpanCon>
             </InvoiceContainer>
           );
         })}
@@ -55,6 +58,34 @@ export default function Invoices({ data, setData }) {
     </InvoicesInfoDiv>
   );
 }
+const Circletwo = styled.div`
+  background: ${(props) => (props.status === "paid" ? "#33D69F" : "#FF8F00")};
+  width: 0.8rem;
+  height: 0.8rem;
+  border-radius: 50%;
+`;
+const SpanCon = styled.div`
+  border-radius: 6px;
+  background-color: ${(props) =>
+    props.status === "paid"
+      ? "rgba(51, 214, 159, 0.0571)"
+      : "rgba(255, 143, 0, 0.0571)"};
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.8rem;
+  & .personStatus {
+    text-align: center;
+    color: ${(props) => (props.status === "paid" ? "#33D69F" : "#FF8F00")};
+    font-family: "League Spartan";
+    font-size: 15px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 15px;
+    letter-spacing: -0.25px;
+    border-radius: 6px;
+  }
+`;
 const DateTotalCon = styled.div`
   display: flex;
   flex-direction: column;
@@ -120,19 +151,6 @@ const InvoiceContainer = styled.div`
     font-weight: 500;
     line-height: 15px;
     letter-spacing: -0.1px;
-  }
-  & .personStatus {
-    text-align: center;
-    color: ${(props) => (props.status === "paid" ? "#33D69F" : "#FF8F00")};
-    font-family: "League Spartan";
-    font-size: 15px;
-    font-style: normal;
-    font-weight: 700;
-    line-height: 15px;
-    letter-spacing: -0.25px;
-    border-radius: 6px;
-    opacity: 0.0571;
-    background: ${(props) => (props.status === "paid" ? "#33D69F" : "#FF8F00")};
   }
 `;
 
