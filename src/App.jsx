@@ -6,14 +6,17 @@ import Invoices from "./pages/Invoices";
 import CreateInvoice from "./pages/CreateInvoice";
 
 function App() {
-  const [count, setCount] = useState(0);
+  const [data, setData] = useState([]);
 
   return (
     <>
       <BrowserRouter>
         <Header />
         <Routes>
-          <Route path="/" element={<Invoices />} />
+          <Route
+            path="/"
+            element={<Invoices data={data} setData={setData} />}
+          />
           <Route path="/createinvoice" element={<CreateInvoice />} />
           {/* <Route path="/Editinvoice" element={<EditInvoice />} />
         <Route path="/Invoices/:id" element={<ViewInvoice />} /> */}
