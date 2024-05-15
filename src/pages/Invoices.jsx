@@ -59,7 +59,12 @@ export default function Invoices({ data, setData }) {
   );
 }
 const Circletwo = styled.div`
-  background: ${(props) => (props.status === "paid" ? "#33D69F" : "#FF8F00")};
+  background: ${(props) =>
+    props.status === "paid"
+      ? "#33D69F"
+      : props.status === "pending"
+      ? "#FF8F00"
+      : "#373B53"};
   width: 0.8rem;
   height: 0.8rem;
   border-radius: 50%;
@@ -69,14 +74,21 @@ const SpanCon = styled.div`
   background-color: ${(props) =>
     props.status === "paid"
       ? "rgba(51, 214, 159, 0.0571)"
-      : "rgba(255, 143, 0, 0.0571)"};
+      : props.status === "pending"
+      ? "rgba(255, 143, 0, 0.0571)"
+      : "rgba(55, 59, 83, 0.0571)"};
   display: flex;
   align-items: center;
   justify-content: center;
   gap: 0.8rem;
   & .personStatus {
     text-align: center;
-    color: ${(props) => (props.status === "paid" ? "#33D69F" : "#FF8F00")};
+    color: ${(props) =>
+      props.status === "paid"
+        ? "#33D69F"
+        : props.status === "pending"
+        ? "#FF8F00"
+        : "#373B53"};
     font-family: "League Spartan";
     font-size: 15px;
     font-style: normal;
