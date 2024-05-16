@@ -1,5 +1,7 @@
-
 @import url("https://fonts.googleapis.com/css2?family=League+Spartan:wght@100..900&display=swap");
+#root {
+  width: 100%;
+}
 * {
   margin: 0;
   padding: 0;
@@ -7,11 +9,11 @@
 }
 
 body {
-  min-width: 375px;
+  min-width: 100vw;
   font-family: "League Spartan", sans-serif;
+  display: flex;
 }
 
 html {
   font-size: 62.5%;
 }
-
