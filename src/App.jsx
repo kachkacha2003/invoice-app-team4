@@ -9,6 +9,7 @@ import ViewInvoice from "./pages/ViewInvoice";
 
 function App() {
   const [data, setData] = useState([]);
+  const [filtered, setFiltered] = useState("");
 
   return (
     <>
@@ -17,7 +18,15 @@ function App() {
         <Routes>
           <Route
             path="/"
-            element={<Invoices data={data} setData={setData} />} />
+            element={
+              <Invoices
+                data={data}
+                setData={setData}
+                filtered={filtered}
+                setFiltered={setFiltered}
+              />
+            }
+          />
           <Route path="/createinvoice" element={<CreateInvoice />} />
           <Route path="/viewinvoice" element={<ViewInvoice />} />
           {/* <Route path="/create" element={<Create />} /> */}
