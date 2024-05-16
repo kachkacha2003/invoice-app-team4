@@ -4,7 +4,11 @@ import arrowDown from "/images/icon-arrow-down.svg";
 import plus from "/images/icon-plus.svg";
 import empty from "/images/illustration-empty.svg";
 import { useEffect } from "react";
+
+import { Link } from "react-router-dom";
+
 import FilterContainer from "../components/FilterContainer";
+
 
 export default function Invoices({ data, setData, filtered, setFiltered }) {
   useEffect(() => {

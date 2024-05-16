@@ -9,6 +9,8 @@
 }
 
 body {
+
+  height: 100vh;
   min-width: 100vw;
   font-family: "League Spartan", sans-serif;
   display: flex;
@@ -17,3 +19,4 @@ body {
 html {
   font-size: 62.5%;
 }
+

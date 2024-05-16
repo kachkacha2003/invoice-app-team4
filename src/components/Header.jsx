@@ -19,12 +19,14 @@ export default function Header() {
 }
 
 const HeaderContainer = styled.div`
-  width: 100%;
-  background-color: #373b53;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 0 2.4rem 0 0;
+
+    width: 100%;
+    background-color: #373b53;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 2.4rem 0 0;
+
 
   .avatar {
     height: 3.2rem;
