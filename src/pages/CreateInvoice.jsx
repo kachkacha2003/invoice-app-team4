@@ -3,6 +3,7 @@ import styled from "styled-components";
 import arrowLeft from "/images/icon-arrow-left.svg"
 import deleteIcon from "/images/icon-delete.svg"
 import { useState } from "react";
+import { Link } from "react-router-dom";
 
 
 
@@ -30,6 +31,27 @@ export default function CreateInvoice() {
     const [Items, setItems] =useState("")
     const [PaymentDue, setPaymentDue] = useState()
     const arr=[]
+    const [Error, setError] =useState("")
+
+
+
+    /* error statses*/
+        const [streetError, setstreetError] = useState("")
+        const [cityError, setcityError] = useState("")
+        const [postcodeError, setpostcodeError] = useState("")
+        const [countryError, setcountryError] = useState("") 
+        const [clientnameError, setclientnameError] = useState("")  
+        const [clientemailError, setclientemailError] = useState("") 
+        const [streettoError, setstreettoError] = useState("")
+        const [citytoError, setcitytoError] = useState("")
+        const [postcodetoError, setpostcodetoError] = useState("")
+        const [countrytoError, setcountrytoError] = useState("") 
+        const [invoicedataError, setinvoicedataError] = useState("") 
+        const [PaymentTermsError, setPaymentTermsError] = useState("")
+        const [ProjectDescriptionError, setProjectDescriptionError] = useState("") 
+        const [ItemNameError, setItemNameError] = useState("")
+        const [QtyError, setQtyError] = useState("")
+        const [PriceError, setPriceError] = useState("")
     
     
 
@@ -42,35 +64,54 @@ const handldraft = (event)=>{
     // console.log({Items: [...arr, {name: `${ItemName}`, quantity: `${Qty}`, price: `${Price}`, total: `${Total}`}]})
     // console.log({Items})
 
+    if (!street) setstreetError("can't Empty")
+    if (!City) setcityError("can't Empty")
+    if (!PostCode) setpostcodeError("can't Empty")
+    if (!Country) setcountryError("can't Empty") 
+    if (!ClientsName) setclientnameError("can't Empty")  
+    if (!ClientsEmail) setclientemailError("can't Empty") 
+    if (!streetTo) setstreettoError("can't Empty")
+    if (!CityTo) setcitytoError("can't Empty")
+    if (!PostCodeTo) setpostcodetoError("can't Empty")
+    if (!CountryTo) setcountrytoError("can't Empty") 
+    if (!InvoiceDate) setinvoicedataError("can't Empty") 
+    if (!PaymentTerms) setPaymentTermsError("can't Empty")
+    if (!ProjectDescription) setProjectDescriptionError("can't Empty") 
+    if (!ItemName) setItemNameError("can't Empty")
+    if (!Qty) setQtyError("can't Empty")
+    if (!Price) setPriceError("can't Empty")
+
+
+
     console.log([{createdAt: InvoiceDate, /*paymentDue: (`${PaymentTerms}` + (`${InvoiceDate}`)),*/ 
     description: ProjectDescription, paymentTerms: PaymentTerms,
     clientEmail: ClientsEmail, status: "pending", senderAddress: senderAddress,
     clientAddress: ClientAddress, items: [{name: `${ItemName}`, quantity: `${Qty}`, price: `${Price}`, /*total: `${Total}`*/}]}])
-
-    setStreet("");
-    setCity("");
-    setPostCode("");
-    setCountry("");
-    setClientsName("");
-    setClientsEmail("");
-    setClientAddress("");
-    setStreetTo("");
-    setCityTo("");
-    setPostCodeTo("");
-    setCountryTo("");
-    setInvoiceDate("");
-    setPaymentTerms("");
-    setProjectDescription("");
-    setItemName("");
-    setQty("");
-    setTotal();
+    
+    // setStreet("");
+    // setCity("");
+    // setPostCode("");
+    // setCountry("");
+    // setClientsName("");
+    // setClientsEmail("");
+    // setClientAddress("");
+    // setStreetTo("");
+    // setCityTo("");
+    // setPostCodeTo("");
+    // setCountryTo("");
+    // setInvoiceDate("");
+    // setPaymentTerms("");
+    // setProjectDescription("");
+    // setItemName("");
+    // setQty("");
+    // setTotal();
 }
 
     return (
         <MainContainer>
            <GoBack>
                 <img src={arrowLeft} alt="" />
-                <p>Go back</p>
+                <p><Link to={"/"}>Go back</Link></p>
            </GoBack>
 
            <h1>New Invoice</h1>
@@ -80,19 +121,20 @@ const handldraft = (event)=>{
             <SenderAddress onSubmit={handldraft}  >
                 <Couple>
                 <label className="label" htmlFor="street" >
-                    Street Address <span>can't Empty</span></label>
+                    Street Address <span style={{color: "red"}}>{streetError}</span></label>
                     <input 
                     id="street"
                     name="street"
                     value={street}
                     type="text" 
-                    onChange={(e)=>setStreet(e.target.value)}/>
+                    onChange={(e)=>setStreet(e.target.value)}
+                    />
                 </Couple>
               <CityPostcodeCountry>
                 <CityPostCode>
                 <Couple>
                     <label className="label" htmlFor="City">
-                        City<span>can't Empty</span>
+                        City<span style={{color: "red"}}>{cityError}</span>
                         </label>
                         <input 
                         id="City"
@@ -103,7 +145,7 @@ const handldraft = (event)=>{
                 </Couple>  
                 <Couple>       
                     <label className="label" htmlFor="Post Code">
-                        Post Code<span>can't Empty</span></label>
+                        Post Code<span style={{color: "red"}}>{postcodeError}</span></label>
                         <input 
                         id="PostCode"
                         name="Post Code"
@@ -114,7 +156,7 @@ const handldraft = (event)=>{
                 </CityPostCode>
                 <Couple>
                 <label className="label" htmlFor="Country">
-                        Country<span>can't Empty</span></label>
+                        Country<span style={{color: "red"}}>{countryError}</span></label>
                         <input 
                         id="Country"
                         name="Country"
@@ -128,7 +170,7 @@ const handldraft = (event)=>{
 
             <Couple>
                 <label className="label" htmlFor="ClientsName" >
-                Client's Name <span>can't Empty</span></label>
+                Client's Name <span style={{color: "red"}}>{clientnameError}</span></label>
                     <input 
                     id="ClientsName"
                     name="ClientsName"
@@ -139,7 +181,7 @@ const handldraft = (event)=>{
 
                 <Couple>
                 <label className="label" htmlFor="ClientsEmail" >
-                Client's Email <span>can't Empty</span></label>
+                Client's Email <span style={{color: "red"}}>{clientemailError}</span></label>
                     <input 
                     id="ClientsEmail"
                     name="ClientsEmail"
@@ -150,7 +192,7 @@ const handldraft = (event)=>{
 
                 <Couple>
                 <label className="label" htmlFor="streetTo" >
-                    Street Address <span>can't Empty</span></label>
+                    Street Address <span style={{color: "red"}}>{streettoError}</span></label>
                     <input 
                     id="streetTo"
                     name="streetTo"
@@ -162,7 +204,7 @@ const handldraft = (event)=>{
                 <CityPostCode>
                 <Couple>
                     <label className="label" htmlFor="CityTo">
-                        City<span>can't Empty</span>
+                        City<span style={{color: "red"}}>{citytoError}</span>
                         </label>
                         <input 
                         id="CityTo"
@@ -173,7 +215,7 @@ const handldraft = (event)=>{
                 </Couple>  
                 <Couple>       
                     <label className="label" htmlFor="Post Code To">
-                        Post Code<span>can't Empty</span></label>
+                        Post Code<span style={{color: "red"}}>{postcodetoError}</span></label>
                         <input 
                         id="PostCodeTo"
                         name="Post Code To"
@@ -184,7 +226,7 @@ const handldraft = (event)=>{
                 </CityPostCode>
                 <Couple>
                 <label className="label" htmlFor="CountryTo">
-                        Country<span>can't Empty</span></label>
+                        Country<span style={{color: "red"}}>{countrytoError}</span></label>
                         <input 
                         id="CountryTo"
                         name="CountryTo"
@@ -197,7 +239,7 @@ const handldraft = (event)=>{
                 <DateTerms> 
                  <Couple>
                 <label className="label" htmlFor="InvoiceDate">
-                Invoice Date<span>can't Empty</span></label>
+                Invoice Date<span style={{color: "red"}}>{invoicedataError}</span></label>
                         <input 
                         id="InvoiceDate"
                         name="InvoiceDate"
@@ -208,7 +250,7 @@ const handldraft = (event)=>{
 
                 <Couple>
                 <label className="label" htmlFor="PaymentTerms">
-                Payment Terms<span>can't Empty</span></label>
+                Payment Terms<span style={{color: "red"}}>{PaymentTermsError}</span></label>
                         <input 
                         id="PaymentTerms"
                         name="PaymentTerms"
@@ -220,7 +262,7 @@ const handldraft = (event)=>{
 
                 <Couple>
                 <label className="label" htmlFor="ProjectDescription">
-                Project Description<span>can't Empty</span></label>
+                Project Description<span style={{color: "red"}}>{ProjectDescriptionError}</span></label>
                         <input 
                         id="ProjectDescription"
                         name="ProjectDescription"
@@ -235,7 +277,7 @@ const handldraft = (event)=>{
                 
                 <Couple>
                     <label className="label" htmlFor="ItemName">
-                    Item Name<span>can't Empty</span></label>
+                    Item Name<span style={{color: "red"}}>{ItemNameError}</span></label>
                             <input 
                             id="ItemName"
                             name="ItemName"
@@ -247,7 +289,7 @@ const handldraft = (event)=>{
             <ItemPrice>
                 <Couple>
                     <label className="label" htmlFor="Qty">
-                    Qty.<span>can't Empty</span></label>
+                    Qty.<span style={{color: "red"}}>{QtyError}</span></label>
                             <input 
                             id="Qty"
                             name="Qty"
@@ -258,7 +300,7 @@ const handldraft = (event)=>{
 
                 <Couple>
                     <label className="label" htmlFor="Price">
-                    Price<span>can't Empty</span></label>
+                    Price<span style={{color: "red"}}>{PriceError}</span></label>
                             <input 
                             id="Price"
                             name="Price"
@@ -269,7 +311,7 @@ const handldraft = (event)=>{
 
                 <Couple>
                     <label className="label" htmlFor="Total">
-                    Total<span>can't Empty</span></label>
+                    Total</label>
                     <input 
                         id="TotalPrice"
                         name="Total"
@@ -306,7 +348,7 @@ const handldraft = (event)=>{
 
 const MainContainer = styled.div`
      width: 100%;
-    padding: 33px 24px 24px 22px;
+    padding: 3.3rem 2.4rem 2.4rem 2.2rem;
 
     h1 {
         margin-top: 2.6rem;
@@ -328,8 +370,8 @@ const GoBack = styled.div`
     }
 
     img {
-        width: 4.2px;
-        height: 8.5px;
+        width: 0.42rem;
+        height: 0.85rem;
     }
 `
 
@@ -340,7 +382,7 @@ const Bill = styled.div`
     gap: 2.4rem;
 
     p {
-        font-size: 15px;
+        font-size: 1.5rem;
         font-weight: bold;
         color: #7c5dfa;
         line-height: 1;
@@ -402,10 +444,10 @@ const Couple = styled.div`
     #ItemName
     {
         height: 4.8rem;
-        border-radius: 4px;
-        border: solid 1px #dfe3fa;
+        border-radius: 0.4rem;
+        border: solid 0.1rem #dfe3fa;
         padding: 1.8rem 11.5rem 1.5rem 1.2rem;
-        font-size: 15px;
+        font-size: 1.5rem;
         font-weight: bold;
         letter-spacing: -0.25px;
         text-align: left;
@@ -431,14 +473,14 @@ const Couple = styled.div`
     #Qty {
         width: 6.4rem;
         height: 4.8rem;
-        border: solid 1px #dfe3fa;
+        border: solid 0.1rem #dfe3fa;
         text-align: center;
     }
 
     #Price {
         width: 10rem;
         height: 4.8rem;
-        border: solid 1px #dfe3fa;
+        border: solid 0.1rem #dfe3fa;
         text-align: center
     }
 
@@ -450,7 +492,7 @@ const Couple = styled.div`
     }
     
     span {
-        display: none;
+        display: block;
     }
 `
 const ItemPrice = styled.div`

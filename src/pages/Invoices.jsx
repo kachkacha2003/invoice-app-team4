@@ -3,6 +3,7 @@ import styled from "styled-components";
 import arrowDown from "/images/icon-arrow-down.svg";
 import plus from "/images/icon-plus.svg";
 import { useEffect } from "react";
+import { Link } from "react-router-dom";
 
 export default function Invoices({ data, setData }) {
   useEffect(() => {
@@ -27,10 +28,12 @@ export default function Invoices({ data, setData }) {
             <img src={arrowDown} alt="arrow down" />
           </FilterCon>
           <BtnCon>
+            <Link to={"/createinvoice"}>
             <Btn>New</Btn>
             <Circle>
               <img src={plus} alt="" />
             </Circle>
+            </Link>
           </BtnCon>
         </FilterAndNew>
       </InvoicecCounterCon>

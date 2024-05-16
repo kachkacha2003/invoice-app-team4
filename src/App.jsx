@@ -4,6 +4,8 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Header from "./components/Header";
 import Invoices from "./pages/Invoices";
 import CreateInvoice from "./pages/CreateInvoice";
+import ViewInvoice from "./pages/ViewInvoice";
+import styled from "styled-components";
 
 function App() {
   const [data, setData] = useState([]);
@@ -15,11 +17,9 @@ function App() {
         <Routes>
           <Route
             path="/"
-            element={<Invoices data={data} setData={setData} />}
-          />
+            element={<Invoices data={data} setData={setData} />} />
           <Route path="/createinvoice" element={<CreateInvoice />} />
-          {/* <Route path="/Editinvoice" element={<EditInvoice />} />
-        <Route path="/Invoices/:id" element={<ViewInvoice />} /> */}
+          <Route path="/viuwinvoice" element={<ViewInvoice />} />
         </Routes>
       </BrowserRouter>
     </>
