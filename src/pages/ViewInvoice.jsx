@@ -146,6 +146,7 @@ const GoBack = styled.div`
     display: flex;
     flex-direction: row;
     gap: 2.79rem;
+    text-decoration: none;
     
 
 
@@ -160,6 +161,10 @@ const GoBack = styled.div`
     img {
         width: 0.42rem;
         height: 0.85rem;
+    }
+
+    link {
+        text-decoration: none;
     }
 `
 const Status = styled.div`

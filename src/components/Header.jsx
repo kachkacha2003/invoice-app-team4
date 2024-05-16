@@ -21,7 +21,6 @@ export default function Header() {
 }
 
 const HeaderContainer = styled.div`
-    height: 7.2rem;
     width: 100%;
     background-color: #373b53;
     display: flex;

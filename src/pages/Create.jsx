@@ -8,85 +8,105 @@ import { Link } from "react-router-dom";
 
 
 
-export default function CreateInvoice() {
-    const [senderAddress, setSenderAddress]=useState({})
-    const [street, setStreet] = useState("")
-    const [City, setCity] = useState("")
-    const [PostCode, setPostCode] = useState("")
-    const [Country, setCountry] = useState("")
-    const [ClientsName, setClientsName] = useState("")
-    const [ClientsEmail, setClientsEmail] = useState("")
-    const [ClientAddress, setClientAddress] = useState({})
-    const [streetTo, setStreetTo] = useState("")
-    const [CityTo, setCityTo] = useState("")
-    const [PostCodeTo, setPostCodeTo] = useState("")
-    const [CountryTo, setCountryTo] = useState("")
-    const [InvoiceDate, setInvoiceDate] = useState("")
-    const [PaymentTerms, setPaymentTerms] = useState("")
-    const [ProjectDescription, setProjectDescription] = useState("")
-    const [ItemName, setItemName] = useState("")
-    const [Qty, setQty] = useState("")
-    const [Price, setPrice] = useState("")
-    const [Total, setTotal] = useState("")
-    const [Items, setItems] =useState("")
-    const [PaymentDue, setPaymentDue] = useState()
-    const arr=[]
-    const [Error, setError] =useState("")
+export default function Create() {
+    
+    const [createinvoice, setCreateInvoice] = useState ({
+    "id": "",
+    "createdAt": "",
+    "paymentDue": "",
+    "description": "",
+    "paymentTerms": 0,
+    "clientName": "",
+    "clientEmail": "",
+    "status": "",
+    
+    "senderAddress": {
+        "street": "",
+        "city": "",
+        "postCode": "",
+        "country": "",
+        },
+    "clientAddress": {
+        "street": "",
+        "city": "",
+        "postCode": "",
+        "country": "",
+        },
+    "items": [
+        {
+          "name": "",
+          "quantity": 0,
+          "price": 0,
+          "total": 0
+        }
+      ],
+      "total": 0
+    })
 
-
+    // const [senderAddress, setSenderAddress]=useState({})
+    // const [street, setStreet] = useState("")
+    // const [City, setCity] = useState("")
+    // const [PostCode, setPostCode] = useState("")
+    // const [Country, setCountry] = useState("")
+    // const [ClientsName, setClientsName] = useState("")
+    // const [ClientsEmail, setClientsEmail] = useState("")
+    // const [ClientAddress, setClientAddress] = useState({})
+    // const [streetTo, setStreetTo] = useState("")
+    // const [CityTo, setCityTo] = useState("")
+    // const [PostCodeTo, setPostCodeTo] = useState("")
+    // const [CountryTo, setCountryTo] = useState("")
+    // const [InvoiceDate, setInvoiceDate] = useState("")
+    // const [PaymentTerms, setPaymentTerms] = useState("")
+    // const [ProjectDescription, setProjectDescription] = useState("")
+    // const [ItemName, setItemName] = useState("")
+    // const [Qty, setQty] = useState("")
+    // const [Price, setPrice] = useState("")
+    // const [Total, setTotal] = useState("")
+    // const [Items, setItems] =useState("")
+    // const [PaymentDue, setPaymentDue] = useState()
+    // const arr=[]
+    // const [Error, setError] =useState("")
 
     /* error statses*/
-        const [streetError, setstreetError] = useState("")
-        const [cityError, setcityError] = useState("")
-        const [postcodeError, setpostcodeError] = useState("")
-        const [countryError, setcountryError] = useState("") 
-        const [clientnameError, setclientnameError] = useState("")  
-        const [clientemailError, setclientemailError] = useState("") 
-        const [streettoError, setstreettoError] = useState("")
-        const [citytoError, setcitytoError] = useState("")
-        const [postcodetoError, setpostcodetoError] = useState("")
-        const [countrytoError, setcountrytoError] = useState("") 
-        const [invoicedataError, setinvoicedataError] = useState("") 
-        const [PaymentTermsError, setPaymentTermsError] = useState("")
-        const [ProjectDescriptionError, setProjectDescriptionError] = useState("") 
-        const [ItemNameError, setItemNameError] = useState("")
-        const [QtyError, setQtyError] = useState("")
-        const [PriceError, setPriceError] = useState("")
-    
-    
+        // const [streetError, setstreetError] = useState("")
+        // const [cityError, setcityError] = useState("")
+        // const [postcodeError, setpostcodeError] = useState("")
+        // const [countryError, setcountryError] = useState("") 
+        // const [clientnameError, setclientnameError] = useState("")  
+        // const [clientemailError, setclientemailError] = useState("") 
+        // const [streettoError, setstreettoError] = useState("")
+        // const [citytoError, setcitytoError] = useState("")
+        // const [postcodetoError, setpostcodetoError] = useState("")
+        // const [countrytoError, setcountrytoError] = useState("") 
+        // const [invoicedataError, setinvoicedataError] = useState("") 
+        // const [PaymentTermsError, setPaymentTermsError] = useState("")
+        // const [ProjectDescriptionError, setProjectDescriptionError] = useState("") 
+        // const [ItemNameError, setItemNameError] = useState("")
+        // const [QtyError, setQtyError] = useState("")
+        // const [PriceError, setPriceError] = useState("")
 
-
-
-const handldraft = (event)=>{ 
+const handlchange = (event)=>{ 
     event.preventDefault();
-    // console.log({senderAddress, ClientAddress})
-    // console.log({ClientsName, ClientsEmail, streetTo, CityTo, PostCodeTo, CountryTo, InvoiceDate, PaymentTerms, ProjectDescription})
-    // console.log({Items: [...arr, {name: `${ItemName}`, quantity: `${Qty}`, price: `${Price}`, total: `${Total}`}]})
-    // console.log({Items})
 
-    if (!street) setstreetError("can't Empty")
-    if (!City) setcityError("can't Empty")
-    if (!PostCode) setpostcodeError("can't Empty")
-    if (!Country) setcountryError("can't Empty") 
-    if (!ClientsName) setclientnameError("can't Empty")  
-    if (!ClientsEmail) setclientemailError("can't Empty") 
-    if (!streetTo) setstreettoError("can't Empty")
-    if (!CityTo) setcitytoError("can't Empty")
-    if (!PostCodeTo) setpostcodetoError("can't Empty")
-    if (!CountryTo) setcountrytoError("can't Empty") 
-    if (!InvoiceDate) setinvoicedataError("can't Empty") 
-    if (!PaymentTerms) setPaymentTermsError("can't Empty")
-    if (!ProjectDescription) setProjectDescriptionError("can't Empty") 
-    if (!ItemName) setItemNameError("can't Empty")
-    if (!Qty) setQtyError("can't Empty")
-    if (!Price) setPriceError("can't Empty")
+    // if (!street) setstreetError("can't Empty")
+    // if (!City) setcityError("can't Empty")
+    // if (!PostCode) setpostcodeError("can't Empty")
+    // if (!Country) setcountryError("can't Empty") 
+    // if (!ClientsName) setclientnameError("can't Empty")  
+    // if (!ClientsEmail) setclientemailError("can't Empty") 
+    // if (!streetTo) setstreettoError("can't Empty")
+    // if (!CityTo) setcitytoError("can't Empty")
+    // if (!PostCodeTo) setpostcodetoError("can't Empty")
+    // if (!CountryTo) setcountrytoError("can't Empty") 
+    // if (!InvoiceDate) setinvoicedataError("can't Empty") 
+    // if (!PaymentTerms) setPaymentTermsError("can't Empty")
+    // if (!ProjectDescription) setProjectDescriptionError("can't Empty") 
+    // if (!ItemName) setItemNameError("can't Empty")
+    // if (!Qty) setQtyError("can't Empty")
+    // if (!Price) setPriceError("can't Empty")
 
 
 
-    console.log([{createdAt: InvoiceDate, /*paymentDue: (`${PaymentTerms}` + (`${InvoiceDate}`)),*/ 
-    description: ProjectDescription, paymentTerms: PaymentTerms,
-    clientEmail: ClientsEmail, status: "pending", senderAddress: senderAddress,
-    clientAddress: ClientAddress, items: [{name: `${ItemName}`, quantity: `${Qty}`, price: `${Price}`, /*total: `${Total}`*/}]}])
     
     // setStreet("");
     // setCity("");
@@ -107,21 +127,25 @@ const handldraft = (event)=>{
     // setTotal();
 }
 
+const handleChange = (event)=>{
+    const {name, value} = event.target
+    console.log(name)
+}
+
     return (
         <MainContainer>
            <GoBack>
                 <img src={arrowLeft} alt="" />
                 <p><Link to={"/"}>Go back</Link></p>
            </GoBack>
-
            <h1>New Invoice</h1>
 
            <Bill>
             <p>Bill From</p>
-            <SenderAddress onSubmit={handldraft}  >
+            <SenderAddress onSubmit={handleSubmit}  >
                 <Couple>
                 <label className="label" htmlFor="street" >
-                    Street Address <span style={{color: "red"}}>{streetError}</span></label>
+         Address <span style={{color: "red"}}>{streetError}</span></label>
                     <input 
                     id="street"
                     name="street"
@@ -192,7 +216,7 @@ const handldraft = (event)=>{
 
                 <Couple>
                 <label className="label" htmlFor="streetTo" >
-                    Street Address <span style={{color: "red"}}>{streettoError}</span></label>
+         Address <span style={{color: "red"}}>{streettoError}</span></label>
                     <input 
                     id="streetTo"
                     name="streetTo"

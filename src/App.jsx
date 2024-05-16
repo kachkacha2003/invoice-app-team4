@@ -5,7 +5,7 @@ import Header from "./components/Header";
 import Invoices from "./pages/Invoices";
 import CreateInvoice from "./pages/CreateInvoice";
 import ViewInvoice from "./pages/ViewInvoice";
-import styled from "styled-components";
+// import Create from "./pages/Create";
 
 function App() {
   const [data, setData] = useState([]);
@@ -19,7 +19,8 @@ function App() {
             path="/"
             element={<Invoices data={data} setData={setData} />} />
           <Route path="/createinvoice" element={<CreateInvoice />} />
-          <Route path="/viuwinvoice" element={<ViewInvoice />} />
+          <Route path="/viewinvoice" element={<ViewInvoice />} />
+          {/* <Route path="/create" element={<Create />} /> */}
         </Routes>
       </BrowserRouter>
     </>
