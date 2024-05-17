@@ -9,103 +9,81 @@ import { Link } from "react-router-dom";
 
 
 export default function CreateInvoice() {
-    const [senderAddress, setSenderAddress]=useState({})
-    const [street, setStreet] = useState("")
-    const [City, setCity] = useState("")
-    const [PostCode, setPostCode] = useState("")
-    const [Country, setCountry] = useState("")
-    const [ClientsName, setClientsName] = useState("")
-    const [ClientsEmail, setClientsEmail] = useState("")
-    const [ClientAddress, setClientAddress] = useState({})
-    const [streetTo, setStreetTo] = useState("")
-    const [CityTo, setCityTo] = useState("")
-    const [PostCodeTo, setPostCodeTo] = useState("")
-    const [CountryTo, setCountryTo] = useState("")
-    const [InvoiceDate, setInvoiceDate] = useState("")
-    const [PaymentTerms, setPaymentTerms] = useState("")
-    const [ProjectDescription, setProjectDescription] = useState("")
-    const [ItemName, setItemName] = useState("")
-    const [Qty, setQty] = useState("")
-    const [Price, setPrice] = useState("")
-    const [Total, setTotal] = useState("")
-    const [Items, setItems] =useState("")
-    const [PaymentDue, setPaymentDue] = useState()
-    const arr=[]
-    const [Error, setError] =useState("")
 
+    const [createInvoice, setCreateinvoice] = useState({
+
+    "id": "",
+    "createdAt": "",
+    "paymentDue": "",
+    "description": "",
+    "paymentTerms": "",
+    "clientName": "",
+    "clientEmail": "",
+    "status": "",
+    "senderAddress": {
+        "street": "",
+        "city": "",
+        "postCode": "",
+        "country": ""
+      },
+    "clientAddress": {
+        "street": "",
+        "city": "",
+        "postCode": "",
+        "country": ""
+      },
+    "items": [
+        {
+        "name": "",
+        "quantity": "",
+        "price": "",
+        "total": ""
+        }
+      ],
+    "total": 0
+    })
 
 
     /* error statses*/
-        const [streetError, setstreetError] = useState("")
-        const [cityError, setcityError] = useState("")
-        const [postcodeError, setpostcodeError] = useState("")
-        const [countryError, setcountryError] = useState("") 
-        const [clientnameError, setclientnameError] = useState("")  
-        const [clientemailError, setclientemailError] = useState("") 
-        const [streettoError, setstreettoError] = useState("")
-        const [citytoError, setcitytoError] = useState("")
-        const [postcodetoError, setpostcodetoError] = useState("")
-        const [countrytoError, setcountrytoError] = useState("") 
-        const [invoicedataError, setinvoicedataError] = useState("") 
-        const [PaymentTermsError, setPaymentTermsError] = useState("")
-        const [ProjectDescriptionError, setProjectDescriptionError] = useState("") 
-        const [ItemNameError, setItemNameError] = useState("")
-        const [QtyError, setQtyError] = useState("")
-        const [PriceError, setPriceError] = useState("")
-    
-    
-
-
-
-const handldraft = (event)=>{ 
+    const [errorMes, setErrorMes] = useState("")
+        
+ const errorMessage = (event)=>{
     event.preventDefault();
-    // console.log({senderAddress, ClientAddress})
-    // console.log({ClientsName, ClientsEmail, streetTo, CityTo, PostCodeTo, CountryTo, InvoiceDate, PaymentTerms, ProjectDescription})
-    // console.log({Items: [...arr, {name: `${ItemName}`, quantity: `${Qty}`, price: `${Price}`, total: `${Total}`}]})
-    // console.log({Items})
-
-    if (!street) setstreetError("can't Empty")
-    if (!City) setcityError("can't Empty")
-    if (!PostCode) setpostcodeError("can't Empty")
-    if (!Country) setcountryError("can't Empty") 
-    if (!ClientsName) setclientnameError("can't Empty")  
-    if (!ClientsEmail) setclientemailError("can't Empty") 
-    if (!streetTo) setstreettoError("can't Empty")
-    if (!CityTo) setcitytoError("can't Empty")
-    if (!PostCodeTo) setpostcodetoError("can't Empty")
-    if (!CountryTo) setcountrytoError("can't Empty") 
-    if (!InvoiceDate) setinvoicedataError("can't Empty") 
-    if (!PaymentTerms) setPaymentTermsError("can't Empty")
-    if (!ProjectDescription) setProjectDescriptionError("can't Empty") 
-    if (!ItemName) setItemNameError("can't Empty")
-    if (!Qty) setQtyError("can't Empty")
-    if (!Price) setPriceError("can't Empty")
-
-
-
-    console.log([{createdAt: InvoiceDate, /*paymentDue: (`${PaymentTerms}` + (`${InvoiceDate}`)),*/ 
-    description: ProjectDescription, paymentTerms: PaymentTerms,
-    clientEmail: ClientsEmail, status: "pending", senderAddress: senderAddress,
-    clientAddress: ClientAddress, items: [{name: `${ItemName}`, quantity: `${Qty}`, price: `${Price}`, /*total: `${Total}`*/}]}])
     
-    // setStreet("");
-    // setCity("");
-    // setPostCode("");
-    // setCountry("");
-    // setClientsName("");
-    // setClientsEmail("");
-    // setClientAddress("");
-    // setStreetTo("");
-    // setCityTo("");
-    // setPostCodeTo("");
-    // setCountryTo("");
-    // setInvoiceDate("");
-    // setPaymentTerms("");
-    // setProjectDescription("");
-    // setItemName("");
-    // setQty("");
-    // setTotal();
+    if (createInvoice.clientEmail == ""){
+        setErrorMes("can't Empty")
+    }
+       
+    console.log(createInvoice)
+ }   
+
+
+
+    const handleChange = (event)=>{ 
+    event.preventDefault();
+    const {name, value} = event.target;
+
+    
+        let str = `ABCDEFGHIJKLMNOPQRSTUVWXYZ`
+
+        let numberrandom = Math.floor(Math.random() * 9000) + 999
+        let stringrandom1 = str.charAt(Math.floor(Math.random() * 27))
+        let stringrandom2 = str.charAt(Math.floor(Math.random() * 27))
+            
+        let result = stringrandom1 + stringrandom2 + numberrandom
+        createInvoice.id = result
+    
+
+    setCreateinvoice ({
+        ...createInvoice,
+        [name]: value,
+    })
+    
 }
+console.log(createInvoice)
+
+
+
 
     return (
         <MainContainer>
@@ -113,56 +91,55 @@ const handldraft = (event)=>{
                 <img src={arrowLeft} alt="" />
                 <p><Link to={"/"}>Go back</Link></p>
            </GoBack>
-
            <h1>New Invoice</h1>
 
            <Bill>
             <p>Bill From</p>
-            <SenderAddress onSubmit={handldraft}  >
+            <SenderAddress onSubmit={errorMessage}  >
                 <Couple>
                 <label className="label" htmlFor="street" >
-                    Street Address <span style={{color: "red"}}>{streetError}</span></label>
+                    Street Address <span style={{color: "red"}}>{errorMes}</span></label>
                     <input 
                     id="street"
                     name="street"
-                    value={street}
+                    value={createInvoice.street}
                     type="text" 
-                    onChange={(e)=>setStreet(e.target.value)}
+                    onChange={handleChange}
                     />
                 </Couple>
               <CityPostcodeCountry>
                 <CityPostCode>
                 <Couple>
                     <label className="label" htmlFor="City">
-                        City<span style={{color: "red"}}>{cityError}</span>
+                        City<span style={{color: "red"}}>{errorMes}</span>
                         </label>
                         <input 
                         id="City"
-                        name="City"
-                        value={City}
+                        name="city"
+                        value={createInvoice.city}
                         type="text" 
-                        onChange={(e)=>setCity(e.target.value)}/>
+                        onChange={handleChange}/>
                 </Couple>  
                 <Couple>       
                     <label className="label" htmlFor="Post Code">
-                        Post Code<span style={{color: "red"}}>{postcodeError}</span></label>
+                        Post Code<span style={{color: "red"}}>{errorMes}</span></label>
                         <input 
                         id="PostCode"
-                        name="Post Code"
-                        value={PostCode}
+                        name="postCode"
+                        value={createInvoice.postCode}
                         type="text" 
-                        onChange={(e)=>setPostCode(e.target.value)}/>
+                        onChange={handleChange}/>
                 </Couple>
                 </CityPostCode>
                 <Couple>
                 <label className="label" htmlFor="Country">
-                        Country<span style={{color: "red"}}>{countryError}</span></label>
+                        Country<span style={{color: "red"}}>{errorMes}</span></label>
                         <input 
                         id="Country"
-                        name="Country"
-                        value={Country}
+                        name="country"
+                        value={createInvoice.country}
                         type="text" 
-                        onChange={(e)=>setCountry(e.target.value) & setSenderAddress({street: `${street}`, city: `${City}`, postCode: `${PostCode}`, country: e.target.value})}/>
+                        onChange={handleChange}/>
                 </Couple>
                  </CityPostcodeCountry>  
                
@@ -170,105 +147,105 @@ const handldraft = (event)=>{
 
             <Couple>
                 <label className="label" htmlFor="ClientsName" >
-                Client's Name <span style={{color: "red"}}>{clientnameError}</span></label>
+                Client's Name <span style={{color: "red"}}>{errorMes}</span></label>
                     <input 
                     id="ClientsName"
-                    name="ClientsName"
-                    value={ClientsName}
+                    name="clientName"
+                    value={createInvoice.clientName}
                     type="text" 
-                    onChange={(e)=>setClientsName(e.target.value)}/>
+                    onChange={handleChange}/>
                 </Couple>
 
                 <Couple>
                 <label className="label" htmlFor="ClientsEmail" >
-                Client's Email <span style={{color: "red"}}>{clientemailError}</span></label>
+                Client's Email <span style={{color: "red"}}>{errorMes}</span></label>
                     <input 
                     id="ClientsEmail"
-                    name="ClientsEmail"
-                    value={ClientsEmail}
+                    name="clientEmail"
+                    value={createInvoice.clientEmail}
                     type="text" 
-                    onChange={(e)=>setClientsEmail(e.target.value)}/>
+                    onChange={handleChange}/>
                 </Couple>
 
                 <Couple>
                 <label className="label" htmlFor="streetTo" >
-                    Street Address <span style={{color: "red"}}>{streettoError}</span></label>
+                    Street Address <span style={{color: "red"}}>{errorMes}</span></label>
                     <input 
                     id="streetTo"
-                    name="streetTo"
-                    value={streetTo}
+                    name="street"
+                    value={createInvoice.street}
                     type="text" 
-                    onChange={(e)=>setStreetTo(e.target.value)}/>
+                    onChange={handleChange}/>
                 </Couple>
               <CityPostcodeCountry>
                 <CityPostCode>
                 <Couple>
                     <label className="label" htmlFor="CityTo">
-                        City<span style={{color: "red"}}>{citytoError}</span>
+                        City<span style={{color: "red"}}>{errorMes}</span>
                         </label>
                         <input 
                         id="CityTo"
-                        name="CityTo"
-                        value={CityTo}
+                        name="city"
+                        value={createInvoice.city}
                         type="text" 
-                        onChange={(e)=>setCityTo(e.target.value)}/>
+                        onChange={handleChange}/>
                 </Couple>  
                 <Couple>       
                     <label className="label" htmlFor="Post Code To">
-                        Post Code<span style={{color: "red"}}>{postcodetoError}</span></label>
+                        Post Code<span style={{color: "red"}}>{errorMes}</span></label>
                         <input 
                         id="PostCodeTo"
-                        name="Post Code To"
-                        value={PostCodeTo}
+                        name="postCode"
+                        value={createInvoice.postCode}
                         type="text" 
-                        onChange={(e)=>setPostCodeTo(e.target.value)}/>
+                        onChange={handleChange}/>
                 </Couple>
                 </CityPostCode>
                 <Couple>
                 <label className="label" htmlFor="CountryTo">
-                        Country<span style={{color: "red"}}>{countrytoError}</span></label>
+                        Country<span style={{color: "red"}}>{errorMes}</span></label>
                         <input 
                         id="CountryTo"
-                        name="CountryTo"
-                        value={CountryTo}
+                        name="country"
+                        value={createInvoice.country}
                         type="text" 
-                        onChange={(e)=>setCountryTo(e.target.value) & setClientAddress({street: `${streetTo}`, city: `${CityTo}`, postCode: `${PostCodeTo}`, country: e.target.value})}/>
+                        onChange={handleChange}/>
                 </Couple>
                  </CityPostcodeCountry>   
                  
                 <DateTerms> 
                  <Couple>
                 <label className="label" htmlFor="InvoiceDate">
-                Invoice Date<span style={{color: "red"}}>{invoicedataError}</span></label>
+                Invoice Date<span style={{color: "red"}}>{errorMes}</span></label>
                         <input 
                         id="InvoiceDate"
-                        name="InvoiceDate"
-                        value={InvoiceDate}
+                        name="createdAt"
+                        value={createInvoice.createdAt}
                         type="Date" 
-                        onChange={(e)=>setInvoiceDate(e.target.value)}/>
+                        onChange={handleChange}/>
                 </Couple>  
 
                 <Couple>
                 <label className="label" htmlFor="PaymentTerms">
-                Payment Terms<span style={{color: "red"}}>{PaymentTermsError}</span></label>
+                Payment Terms<span style={{color: "red"}}>{errorMes}</span></label>
                         <input 
                         id="PaymentTerms"
-                        name="PaymentTerms"
-                        value={PaymentTerms}
+                        name="paymentTerms"
+                        value={createInvoice.paymentTerms}
                         type="text" 
-                        onChange={(e)=>setPaymentTerms(e.target.value)}/>
+                        onChange={handleChange}/>
                 </Couple>
                 </DateTerms>
 
                 <Couple>
                 <label className="label" htmlFor="ProjectDescription">
-                Project Description<span style={{color: "red"}}>{ProjectDescriptionError}</span></label>
+                Project Description<span style={{color: "red"}}>{errorMes}</span></label>
                         <input 
                         id="ProjectDescription"
-                        name="ProjectDescription"
-                        value={ProjectDescription}
+                        name="description"
+                        value={createInvoice.description}
                         type="text" 
-                        onChange={(e)=>setProjectDescription(e.target.value)}/>
+                        onChange={handleChange}/>
                 </Couple>
 
                 <ItemList>
@@ -277,36 +254,36 @@ const handldraft = (event)=>{
                 
                 <Couple>
                     <label className="label" htmlFor="ItemName">
-                    Item Name<span style={{color: "red"}}>{ItemNameError}</span></label>
+                    Item Name<span style={{color: "red"}}>{errorMes}</span></label>
                             <input 
                             id="ItemName"
-                            name="ItemName"
-                            value={ItemName}
+                            name="name"
+                            value={createInvoice.items.name}
                             type="text"
-                            onChange={(e)=>setItemName(e.target.value)}/>
+                            onChange={handleChange}/>
                 </Couple>
             <ItemsPriceDel>
             <ItemPrice>
                 <Couple>
                     <label className="label" htmlFor="Qty">
-                    Qty.<span style={{color: "red"}}>{QtyError}</span></label>
+                    Qty.<span style={{color: "red"}}>{errorMes}</span></label>
                             <input 
                             id="Qty"
-                            name="Qty"
-                            value={Qty}
+                            name="quantity"
+                            value={createInvoice.items.quantity}
                             type="text" 
-                            onChange={(e)=>setQty(e.target.value)}/>
+                            onChange={handleChange}/>
                 </Couple>
 
                 <Couple>
                     <label className="label" htmlFor="Price">
-                    Price<span style={{color: "red"}}>{PriceError}</span></label>
+                    Price<span style={{color: "red"}}>{errorMes}</span></label>
                             <input 
                             id="Price"
-                            name="Price"
-                            value={Price}
+                            name="price"
+                            value={createInvoice.items.price}
                             type="text"
-                            onChange={(e)=>setPrice(e.target.value)}/>
+                            onChange={handleChange}/>
                 </Couple>
 
                 <Couple>
@@ -315,9 +292,9 @@ const handldraft = (event)=>{
                     <input 
                         id="TotalPrice"
                         name="Total"
-                        value={`${Price}`* `${Qty}`}
+                        value = {`${createInvoice.price}`* `${createInvoice.quantity}`}
                         type="submit"
-                        onChange={(e)=>setPrice(e.target.value)}/>
+                        onChange={handleChange}/>
                 </Couple>
             </ItemPrice>
             
@@ -333,16 +310,11 @@ const handldraft = (event)=>{
                 <EmptyContainer></EmptyContainer>
                 <Buttons>
                      <button className="discard" type="click" >Discard</button>
-                     <button className="draft" type="click">Save as Draft</button>
+                     <button className="draft" type="submit">Save as Draft</button>
                      <button className="send" type="submit">Save & Send</button>
                 </Buttons>   
                 </SenderAddress>
-                
             </Bill>
-
-            
-
-            
         </MainContainer>
     )
 }
