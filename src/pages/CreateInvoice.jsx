@@ -44,22 +44,20 @@ export default function CreateInvoice() {
     })
 
 
-    /* error statses*/
-    const [errorMes, setErrorMes] = useState("")
-        
+   
+
+const [errorMes, setErrorMes] = useState("")
+
  const errorMessage = (event)=>{
     event.preventDefault();
-    
+
     if (createInvoice.clientEmail == ""){
-        setErrorMes("can't Empty")
-    }
-       
-    console.log(createInvoice)
- }   
+        setErrorMes("can't")
+    }     
+ console.log(errorMes)
 
-
-
-    const handleChange = (event)=>{ 
+ }
+const handleChange = (event)=>{ 
     event.preventDefault();
     const {name, value} = event.target;
 
@@ -380,6 +378,11 @@ const DateTerms = styled.div`
     display: flex;
     flex-direction: column; /*tablet, desktop*/
     gap:2.5rem;
+
+    input::-webkit-calendar-picker-indicator {
+    position: absolute;
+    right: 10%;
+}
 `
 const CityPostcodeCountry = styled.div`
     display: flex;
