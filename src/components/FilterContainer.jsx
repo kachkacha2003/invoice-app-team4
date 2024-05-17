@@ -3,21 +3,22 @@ import styled from "styled-components";
 import check from "/images/icon-check.svg";
 
 export default function FilterContainer({ filtered, setFiltered }) {
+  console.log(filtered);
   return (
     <Parent>
-      <Inside onClick={() => setFiltered("Draft")}>
+      <Inside onClick={() => setFiltered([...filtered, "draft"])}>
         <CheckCon>
           <img src={check} alt="" />
         </CheckCon>
         <span>Draft</span>
       </Inside>
-      <Inside onClick={() => setFiltered("Pending")}>
+      <Inside onClick={() => setFiltered([...filtered, "pending"])}>
         <CheckCon>
           <img src={check} alt="" />
         </CheckCon>
         <span>Pending</span>
       </Inside>
-      <Inside onClick={() => setFiltered("Paid")}>
+      <Inside onClick={() => setFiltered([...filtered, "paid"])}>
         <CheckCon>
           <img src={check} alt="" />
         </CheckCon>
@@ -52,6 +53,8 @@ const Inside = styled.div`
 `;
 
 const Parent = styled.div`
+  top: 10rem;
+  right: 15rem;
   position: absolute;
   width: 12rem;
   display: flex;

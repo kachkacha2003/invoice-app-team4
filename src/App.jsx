@@ -10,7 +10,8 @@ import ViewInvoice from "./pages/ViewInvoice";
 
 function App() {
   const [data, setData] = useState([]);
-  const [filtered, setFiltered] = useState("");
+  const [filtered, setFiltered] = useState(["draft", "pending", "paid"]);
+  const [show, setShow] = useState(false);
 
   return (
     <>
@@ -25,6 +26,8 @@ function App() {
                 setData={setData}
                 filtered={filtered}
                 setFiltered={setFiltered}
+                show={show}
+                setShow={setShow}
               />
             }
           />
