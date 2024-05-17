@@ -7,9 +7,18 @@ export default function ViewInvoice() {
   let invoiceObj;
   let x;
 
+<<<<<<< HEAD
   for (let i = 0; i < data.length; i++) {
     if (data[i].id == "XM9141") {
       invoiceObj = data[i];
+=======
+    for (let i=0; i<data.people.length; i++) {
+        if (data.people[i].id == "XM9141"){
+         invoiceObj = data.people[i]
+
+        }
+       console.log(data.people)
+>>>>>>> main
     }
   }
 

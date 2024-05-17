@@ -5,7 +5,8 @@ import Header from "./components/Header";
 import Invoices from "./pages/Invoices";
 import CreateInvoice from "./pages/CreateInvoice";
 import ViewInvoice from "./pages/ViewInvoice";
-// import Create from "./pages/Create";
+
+
 
 function App() {
   const [data, setData] = useState([]);
@@ -32,7 +33,8 @@ function App() {
           />
           <Route path="/createinvoice" element={<CreateInvoice />} />
           <Route path="/viewinvoice" element={<ViewInvoice />} />
-          {/* <Route path="/create" element={<Create />} /> */}
+         
+         
         </Routes>
       </BrowserRouter>
     </>
