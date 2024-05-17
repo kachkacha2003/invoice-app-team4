@@ -38,7 +38,19 @@ export default function CreateInvoice() {
         "quantity": "",
         "price": "",
         "total": ""
-        }
+        },
+        {
+            "name": "",
+            "quantity": "",
+            "price": "",
+            "total": ""
+        },
+        {
+            "name": "",
+            "quantity": "",
+            "price": "",
+            "total": ""
+            }
       ],
     "total": 0
     })
@@ -80,7 +92,20 @@ const handleChange = (event)=>{
 }
 console.log(createInvoice)
 
+let itemsObj = {
+    "itemname": "Item Name", 
+    "quantity": "Qty.",
+    "price": "Price",
+    "total": "Total"
+}
 
+let itemsArr = [{
+    "itemname": "Item Name", 
+    "quantity": "Qty.",
+    "price": "Price",
+    "total": "Total"
+    }
+    ]
 
 
     return (
@@ -246,10 +271,12 @@ console.log(createInvoice)
                         onChange={handleChange}/>
                 </Couple>
 
-                <ItemList>
+        <ItemList>
                 <p>Item List</p>
                 
-                
+         {createInvoice.items.map((item)=>(
+
+             <div>
                 <Couple>
                     <label className="label" htmlFor="ItemName">
                     Item Name<span style={{color: "red"}}>{errorMes}</span></label>
@@ -260,11 +287,12 @@ console.log(createInvoice)
                             type="text"
                             onChange={handleChange}/>
                 </Couple>
-            <ItemsPriceDel>
+
+        <ItemsPriceDel>
             <ItemPrice>
                 <Couple>
                     <label className="label" htmlFor="Qty">
-                    Qty.<span style={{color: "red"}}>{errorMes}</span></label>
+                    QTY.<span style={{color: "red"}}>{errorMes}</span></label>
                             <input 
                             id="Qty"
                             name="quantity"
@@ -297,17 +325,27 @@ console.log(createInvoice)
             </ItemPrice>
             
                 <img src={deleteIcon} alt="" />
-
-    
-                </ItemsPriceDel>
+        </ItemsPriceDel>
+        </div>
+))}
                 <button id="add" type="click" 
-                
+                // onClick={itemsArr.push(
+                //     ... itemsArr, itemsObj
+                // )}
                 >+ Add New Item</button>
-                </ItemList>
-                
+
+
+        </ItemList>
+        
                 <EmptyContainer></EmptyContainer>
                 <Buttons>
-                     <button className="discard" type="click" >Discard</button>
+                     <button className="discard" type="click" 
+                     onClick={
+                    
+                            createInvoice.clientEmail = ""
+                          
+                     }
+                >Discard</button>
                      <button className="draft" type="submit">Save as Draft</button>
                      <button className="send" type="submit">Save & Send</button>
                 </Buttons>   
@@ -475,7 +513,7 @@ const ItemPrice = styled.div`
     display: flex;
     flex-direction: row;
     gap: 1.6rem;
-
+margin-top: 2rem;
 `
 
 const ItemList = styled.div`
