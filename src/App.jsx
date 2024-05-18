@@ -29,7 +29,9 @@ function App() {
             }
           />
           <Route path="/createinvoice" element={<CreateInvoice />} />
-          <Route path="/viewinvoice" element={<ViewInvoice />} />
+          <Route path="/viewinvoice" element={<ViewInvoice 
+          data={data}
+            setData={setData}/>} />
          
         </Routes>
       </BrowserRouter>

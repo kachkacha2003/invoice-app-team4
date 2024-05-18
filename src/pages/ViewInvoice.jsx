@@ -2,12 +2,11 @@ import React, { useState } from "react";
 import styled from "styled-components";
 import arrowLeft from "/images/icon-arrow-left.svg"
 import { Link } from "react-router-dom";
-import data from "../data.json"
 
 
-export default function ViewInvoice() {
+export default function ViewInvoice(data, setData) {
+    
     let invoiceObj
-    let x
 
     for (let i=0; i<data.people.length; i++) {
         if (data.people[i].id == "XM9141"){
@@ -24,7 +23,7 @@ export default function ViewInvoice() {
          <GoBack>
             <img src={arrowLeft} alt="" />
             
-            <p><Link to={"/"}>Go back</Link></p>
+            <p><Link id="styleLink" to={"/"}>Go back</Link></p>
         </GoBack>
 
         <Status>
@@ -148,6 +147,10 @@ const GoBack = styled.div`
     flex-direction: row;
     gap: 2.79rem;
     text-decoration: none;
+
+    #styleLink {
+        text-decoration: none
+    }
     
 
 

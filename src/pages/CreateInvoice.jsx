@@ -8,7 +8,7 @@ import { Link } from "react-router-dom";
 
 
 
-export default function Create() {
+export default function Create(data, setData) {
 
     const [createInvoice, setCreateinvoice] = useState({
 
@@ -31,18 +31,12 @@ export default function Create() {
     "items": [
         {
         "name": "",
-        "quantity": "",
-        "price": "",
-        "total": ""
-        },
-        {
-            "name": "",
-            "quantity": "",
-            "price": "",
-            "total": ""
+        "quantity": 0,
+        "price": 0,
+        "total": 0
         }
       ],
-    "total": 0
+    "total": 1
     })
 
 
@@ -74,9 +68,9 @@ export default function Create() {
         "items": [
             {
             "name": "",
-            "quantity": "",
-            "price": "",
-            "total": ""
+            "quantity": 0,
+            "price": 0,
+            "total": 0
             }
         ],
         "total": 0
@@ -120,10 +114,18 @@ export default function Create() {
                             ...finalObj,
                             [name]: value
                         })
-                
+
+                        
+                        setItems ({
+                            ...items,
+                            [name]: value,
+                            
+                        })
+                        console.log(items)
                     }
                        
-
+                    
+                    
         const errorMessage = (event)=>{ 
             event.preventDefault();
         
@@ -198,23 +200,33 @@ export default function Create() {
         finalObj = Object.assign(finalObj, {id: resultid})
         finalObj = Object.assign(finalObj, {paymentDue: formattedDate})
             
-
         console.log(finalObj) 
-
-    
         }
 
 
+        // let itemsArr = []
 
+        let [items, setItems] = useState({
+          
+                "name": "",
+                "price" : "",
+                "quantity": "",
+                "total": ""
+           
+        })
 
+        function addItems (){
+            console.log("Katrina Zuus")
+        }
 
       
+
 
     return (
         <MainContainer>
            <GoBack>
                 <img src={arrowLeft} alt="" />
-                <p><Link to={"/"}>Go back</Link></p>
+                <p><Link id="styleLink" to={"/"}>Go back</Link></p>
            </GoBack>
            <h1>New Invoice</h1>
 
@@ -399,7 +411,7 @@ export default function Create() {
                             id="Qty"
                             name="quantity"
                             value={createInvoice.items.quantity}
-                            type="text" 
+                            type="number" 
                             onChange={handleChange}/>
                 </Couple>
 
@@ -410,18 +422,20 @@ export default function Create() {
                             id="Price"
                             name="price"
                             value={createInvoice.items.price}
-                            type="text"
+                            type="number"
                             onChange={handleChange}/>
                 </Couple>
 
                 <Couple>
                     <label className="label" htmlFor="Total">Total</label>
+                    
                     <input 
                         id="TotalPrice"
                         name="Total"
-                        value = {`${createInvoice.price}`* `${createInvoice.quantity}`}
-                        type="submit"
-                        onChange={handleChange}/>
+                        value = {`${createInvoice.price}` * `${createInvoice.quantity}`}
+                        type="number"
+                        onChange={handleChange} />
+
                 </Couple>
             </ItemPrice>
             
@@ -430,9 +444,7 @@ export default function Create() {
         </div>
 ))}
                 <button id="add" type="click" 
-                // onClick={itemsArr.push(
-                //     ... itemsArr, itemsObj
-                // )}
+                onClick={addItems}
                 >+ Add New Item</button>
 
 
@@ -474,6 +486,11 @@ const GoBack = styled.div`
     flex-direction: row;
     gap: 2.79rem;
 
+
+    #styleLink {
+        text-decoration: none;
+    }
+
     p {
         font-size: 1.5rem;
         font-weight: bold;
@@ -486,7 +503,6 @@ const GoBack = styled.div`
         height: 0.85rem;
     }
 `
-
 const Bill = styled.div`
     margin-top: 2.2rem;
     display: flex;
@@ -501,8 +517,6 @@ const Bill = styled.div`
         letter-spacing: -0.25px;
     }
 `
-
-
 const SenderAddress=styled.form`
     display: flex;
     flex-direction: column;
@@ -514,7 +528,6 @@ const SenderAddress=styled.form`
         justify-content: space-between;
     }
 `
-
 const DateTerms = styled.div`
     display: flex;
     flex-direction: column; /*tablet, desktop*/
@@ -531,15 +544,12 @@ const CityPostcodeCountry = styled.div`
     /* justify-content: space-between; */
     gap: 2.5rem;
 `
-
 const CityPostCode = styled.div`
     display: flex;
     flex-direction: row;
     justify-content: space-between;
     gap: 2.3rem;
 `
-
-
 const Couple = styled.div`
     display: flex;
     flex-direction: column;
@@ -618,7 +628,6 @@ const ItemPrice = styled.div`
     gap: 1.6rem;
 margin-top: 2rem;
 `
-
 const ItemList = styled.div`
     display: flex;
     flex-direction: column;
@@ -649,7 +658,6 @@ const ItemsPriceDel = styled.div`
         height: 1.24rem
     }
 `
-
 const EmptyContainer = styled.div`
     width: 100%;
     height: 6.4rem;

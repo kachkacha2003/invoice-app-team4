@@ -35,7 +35,7 @@ export default function Invoices({ data, setData, filtered, setFiltered }) {
               <img src={arrowDown} alt="arrow down" />
             </FilterCon>
             <BtnCon>
-              <Btn>New</Btn>
+              <Btn><Link id="styleLink" to={"/createinvoice"}>New</Link></Btn>
               <Circle>
                 <img src={plus} alt="" />
               </Circle>
@@ -240,6 +240,10 @@ const InvoiceContainer = styled.div`
 
 const BtnCon = styled.div`
   position: relative;
+
+  #styleLink {
+        text-decoration: none;
+    }
 `;
 const Circle = styled.div`
   width: 3.2rem;
