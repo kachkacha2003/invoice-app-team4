@@ -2,23 +2,48 @@ import React from "react";
 import styled from "styled-components";
 import check from "/images/icon-check.svg";
 
-export default function FilterContainer({ filtered, setFiltered }) {
+export default function FilterContainer({
+  filtered,
+  setFiltered,
+  show,
+  setShow,
+}) {
+  console.log(filtered);
   return (
     <Parent>
-      <Inside onClick={() => setFiltered("Draft")}>
-        <CheckCon>
+      <Inside
+        onClick={() =>
+          filtered.includes("draft")
+            ? setFiltered(filtered.filter((el) => el !== "draft"))
+            : setFiltered([...filtered, "draft"])
+        }
+      >
+        <CheckCon filtered={filtered}>
           <img src={check} alt="" />
         </CheckCon>
         <span>Draft</span>
       </Inside>
-      <Inside onClick={() => setFiltered("Pending")}>
-        <CheckCon>
+      <Inside
+        onClick={() =>
+          filtered.includes("pending")
+            ? setFiltered(filtered.filter((el) => el !== "pending"))
+            : setFiltered([...filtered, "pending"])
+        }
+      >
+        <CheckCon filtered={filtered}>
           <img src={check} alt="" />
         </CheckCon>
         <span>Pending</span>
       </Inside>
-      <Inside onClick={() => setFiltered("Paid")}>
-        <CheckCon>
+      <Inside
+        filtered={filtered}
+        onClick={() =>
+          filtered.includes("paid")
+            ? setFiltered(filtered.filter((el) => el !== "paid"))
+            : setFiltered([...filtered, "paid"])
+        }
+      >
+        <CheckCon filtered={filtered}>
           <img src={check} alt="" />
         </CheckCon>
         <span>Paid</span>
@@ -34,7 +59,10 @@ const CheckCon = styled.div`
   width: 1.6rem;
   height: 1.6rem;
   border-radius: 2px;
-  background: var(--05, #dfe3fa);
+  background: ${(props) =>
+    props.filtered.includes("draft")
+      ? "var(--01, #7C5DFA)"
+      : "var(--05, #DFE3FA)"};
 `;
 const Inside = styled.div`
   align-items: center;
@@ -52,6 +80,8 @@ const Inside = styled.div`
 `;
 
 const Parent = styled.div`
+  top: 10rem;
+  right: 15rem;
   position: absolute;
   width: 12rem;
   display: flex;
