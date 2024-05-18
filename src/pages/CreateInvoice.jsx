@@ -8,7 +8,7 @@ import { Link } from "react-router-dom";
 
 
 
-export default function CreateInvoice() {
+export default function Create() {
 
     const [createInvoice, setCreateinvoice] = useState({
 
@@ -20,18 +20,14 @@ export default function CreateInvoice() {
     "clientName": "",
     "clientEmail": "",
     "status": "",
-    "senderAddress": {
-        "street": "",
-        "city": "",
-        "postCode": "",
-        "country": ""
-      },
-    "clientAddress": {
-        "street": "",
-        "city": "",
-        "postCode": "",
-        "country": ""
-      },
+    "senderAddressStreet": "",
+    "senderAddressCity": "",
+    "senderAddressPostCode": "",
+    "senderAddressCountry": "",
+    "clientAddressStreet": "",
+    "clientAddressCity": "",
+    "clientAddressPostCode": "",
+    "clientAddressCountry": "",
     "items": [
         {
         "name": "",
@@ -44,69 +40,175 @@ export default function CreateInvoice() {
             "quantity": "",
             "price": "",
             "total": ""
-        },
-        {
-            "name": "",
-            "quantity": "",
-            "price": "",
-            "total": ""
-            }
+        }
       ],
     "total": 0
     })
 
 
+    const [senderAddress, setSenderAddress] = useState({
+        "street": "",
+        "city": "",
+        "postCode": "",
+        "country": ""
+    })
+
+    const [clientAddress, setClientAddress] = useState({
+        "street": "",
+        "city": "",
+        "postCode": "",
+        "country": ""
+    })
+
+    let [finalObj, setFinalObj] = useState({
+        
+        "createdAt": "",
+        "paymentDue": "",
+        "description": "",
+        "paymentTerms": "",
+        "clientName": "",
+        "clientEmail": "",
+        "status": "",
+        "senderAddress": senderAddress,
+        "clientAddress": clientAddress,
+        "items": [
+            {
+            "name": "",
+            "quantity": "",
+            "price": "",
+            "total": ""
+            }
+        ],
+        "total": 0
+    })
    
-
-const [errorMes, setErrorMes] = useState("")
-
- const errorMessage = (event)=>{
-    event.preventDefault();
-
-    if (createInvoice.clientEmail == ""){
-        setErrorMes("can't")
-    }     
- console.log(errorMes)
-
- }
-const handleChange = (event)=>{ 
-    event.preventDefault();
-    const {name, value} = event.target;
-
     
-        let str = `ABCDEFGHIJKLMNOPQRSTUVWXYZ`
+    const [errorMes, setErrorMes]=useState({
+                    
+        "createdAt": "",
+        "description": "",
+        "paymentTerms": "",
+        "clientName": "",
+        "clientEmail": "",
+        "senderAddressStreet": "",
+        "senderAddressCity": "",
+        "senderAddressPostCode": "",
+        "senderAddressCountry": "",
+        "clientAddressStreet": "",
+        "clientAddressCity": "",
+        "clientAddressPostCode": "",
+        "clientAddressCountry": "",
+        "items": [
+            {
+            "name": "",
+            "quantity": "",
+            "price": ""
+            }
+          ]
+        
+})
 
+        const handleChange = (event)=>{ 
+            // event.preventDefault();
+            const {name, value} = event.target
+                setCreateinvoice ({
+                            ...createInvoice,
+                            [name]: value
+                        })
+
+                        setFinalObj ({
+                            ...finalObj,
+                            [name]: value
+                        })
+                
+                    }
+                       
+
+        const errorMessage = (event)=>{ 
+            event.preventDefault();
+        
+            if (createInvoice.createdAt == ""){errorMes.createdAt =  "can't Empty"}
+            if (createInvoice.description == ""){errorMes.description =  "can't Empty"}
+            if (createInvoice.paymentTerms == ""){errorMes.paymentTerms =  "can't Empty"}
+            if (createInvoice.clientName == ""){errorMes.clientName =  "can't Empty"}
+            if (createInvoice.clientEmail == ""){errorMes.clientEmail =  "can't Empty"}
+            if (createInvoice.senderAddressStreet == ""){errorMes.senderAddressStreet =  "can't Empty"}
+            if (createInvoice.senderAddressCity == ""){errorMes.senderAddressCity =  "can't Empty"}
+            if (createInvoice.senderAddressPostCode == ""){errorMes.senderAddressPostCode =  "can't Empty"}
+            if (createInvoice.senderAddressCountry == ""){errorMes.senderAddressCountry =  "can't Empty"}
+            if (createInvoice.clientAddressStreet == ""){errorMes.clientAddressStreet =  "can't Empty"}
+            if (createInvoice.clientAddressCity == ""){errorMes.clientAddressCity =  "can't Empty"}
+            if (createInvoice.clientAddressPostCode == ""){errorMes.clientAddressPostCode =  "can't Empty"}
+            if (createInvoice.clientAddressCountry == ""){errorMes.clientAddressCountry =  "can't Empty"}
+            if (createInvoice.items.name == ""){errorMes.items.name =  "can't Empty"}
+            if (createInvoice.items.quantity == ""){errorMes.items.quantity =  "can't Empty"}
+            if (createInvoice.items.price == ""){errorMes.items.price =  "can't Empty"}
+
+
+            // ID random
+        let str = `ABCDEFGHIJKLMNOPQRSTUVWXYZ`
         let numberrandom = Math.floor(Math.random() * 9000) + 999
         let stringrandom1 = str.charAt(Math.floor(Math.random() * 27))
-        let stringrandom2 = str.charAt(Math.floor(Math.random() * 27))
+        let stringrandom2 = str.charAt(Math.floor(Math.random() * 27))   
+        let resultid = stringrandom1 + stringrandom2 + numberrandom
+        createInvoice.id = resultid
+
+        
+
+        // paymentDue
+
+        let theDate = new Date(createInvoice.createdAt);
+        theDate.setDate(theDate.getDate() + Number(createInvoice.paymentTerms));
+        
+        let date = new Date(theDate);
+        let year = date.getFullYear();
+        let month = (date.getMonth() + 1).toString().padStart(2, '0');
+        let day = date.getDate().toString().padStart(2, '0');
+        let formattedDate = `${year}-${month}-${day}`
+
+
+                //senderAddress and clientAddress objects
+            {Object.keys(createInvoice).forEach(element => {
+                if (element.includes("senderAddressStreet")) {
+                    senderAddress.street = Object.values(createInvoice.senderAddressStreet).join("")
+                    senderAddress.city = Object.values(createInvoice.senderAddressCity).join("")
+                    senderAddress.postCode = Object.values(createInvoice.senderAddressPostCode).join("")
+                    senderAddress.country = Object.values(createInvoice.senderAddressCountry).join("")
+                }
+                if (element.includes("clientAddress")) {
+                    clientAddress.street = Object.values(createInvoice.clientAddressStreet).join("")
+                    clientAddress.city = Object.values(createInvoice.clientAddressCity).join("")
+                    clientAddress.postCode = Object.values(createInvoice.clientAddressPostCode).join("")
+                    clientAddress.country = Object.values(createInvoice.clientAddressCountry).join("")
+                }
+
+            })
+           
+        }
+        
+         // Object for API
+        delete finalObj.clientAddressCity,  
+        delete finalObj.clientAddressCountry, 
+        delete finalObj.clientAddressPostCode, 
+        delete finalObj.clientAddressStreet,
+        delete finalObj.senderAddressCity,
+        delete finalObj.senderAddressCountry,
+        delete finalObj.senderAddressPostCode,
+        delete finalObj.senderAddressStreet,
+        finalObj = Object.assign(finalObj, {id: resultid})
+        finalObj = Object.assign(finalObj, {paymentDue: formattedDate})
             
-        let result = stringrandom1 + stringrandom2 + numberrandom
-        createInvoice.id = result
+
+        console.log(finalObj) 
+
     
+        }
 
-    setCreateinvoice ({
-        ...createInvoice,
-        [name]: value,
-    })
-    
-}
-console.log(createInvoice)
 
-let itemsObj = {
-    "itemname": "Item Name", 
-    "quantity": "Qty.",
-    "price": "Price",
-    "total": "Total"
-}
 
-let itemsArr = [{
-    "itemname": "Item Name", 
-    "quantity": "Qty.",
-    "price": "Price",
-    "total": "Total"
-    }
-    ]
 
+
+      
 
     return (
         <MainContainer>
@@ -121,46 +223,46 @@ let itemsArr = [{
             <SenderAddress onSubmit={errorMessage}  >
                 <Couple>
                 <label className="label" htmlFor="street" >
-                    Street Address <span style={{color: "red"}}>{errorMes}</span></label>
+                    Street Address <span style={{color: "red"}}>{errorMes.senderAddressStreet}</span></label>
                     <input 
                     id="street"
-                    name="street"
-                    value={createInvoice.street}
+                    name="senderAddressStreet"
+                    value={createInvoice.senderAddressStreet}
                     type="text" 
-                    onChange={handleChange}
+                    onChange={handleChange} 
                     />
                 </Couple>
               <CityPostcodeCountry>
                 <CityPostCode>
                 <Couple>
                     <label className="label" htmlFor="City">
-                        City<span style={{color: "red"}}>{errorMes}</span>
+                        City<span style={{color: "red"}}>{errorMes.senderAddressCity}</span>
                         </label>
                         <input 
                         id="City"
-                        name="city"
-                        value={createInvoice.city}
+                        name="senderAddressCity"
+                        value={createInvoice.senderAddressCity}
                         type="text" 
                         onChange={handleChange}/>
                 </Couple>  
                 <Couple>       
                     <label className="label" htmlFor="Post Code">
-                        Post Code<span style={{color: "red"}}>{errorMes}</span></label>
+                        Post Code<span style={{color: "red"}}>{errorMes.senderAddressPostCode}</span></label>
                         <input 
                         id="PostCode"
-                        name="postCode"
-                        value={createInvoice.postCode}
+                        name="senderAddressPostCode"
+                        value={createInvoice.senderAddressPostCode}
                         type="text" 
                         onChange={handleChange}/>
                 </Couple>
                 </CityPostCode>
                 <Couple>
                 <label className="label" htmlFor="Country">
-                        Country<span style={{color: "red"}}>{errorMes}</span></label>
+                        Country<span style={{color: "red"}}>{errorMes.senderAddressCountry}</span></label>
                         <input 
                         id="Country"
-                        name="country"
-                        value={createInvoice.country}
+                        name="senderAddressCountry"
+                        value={createInvoice.senderAddressCountry}
                         type="text" 
                         onChange={handleChange}/>
                 </Couple>
@@ -170,7 +272,7 @@ let itemsArr = [{
 
             <Couple>
                 <label className="label" htmlFor="ClientsName" >
-                Client's Name <span style={{color: "red"}}>{errorMes}</span></label>
+                Client's Name <span style={{color: "red"}}>{errorMes.clientName}</span></label>
                     <input 
                     id="ClientsName"
                     name="clientName"
@@ -181,7 +283,7 @@ let itemsArr = [{
 
                 <Couple>
                 <label className="label" htmlFor="ClientsEmail" >
-                Client's Email <span style={{color: "red"}}>{errorMes}</span></label>
+                Client's Email <span style={{color: "red"}}>{errorMes.clientEmail}</span></label>
                     <input 
                     id="ClientsEmail"
                     name="clientEmail"
@@ -192,11 +294,11 @@ let itemsArr = [{
 
                 <Couple>
                 <label className="label" htmlFor="streetTo" >
-                    Street Address <span style={{color: "red"}}>{errorMes}</span></label>
+                    Street Address <span style={{color: "red"}}>{errorMes.clientAddressStreet}</span></label>
                     <input 
                     id="streetTo"
-                    name="street"
-                    value={createInvoice.street}
+                    name="clientAddressStreet"
+                    value={createInvoice.clientAddressStreet}
                     type="text" 
                     onChange={handleChange}/>
                 </Couple>
@@ -204,33 +306,33 @@ let itemsArr = [{
                 <CityPostCode>
                 <Couple>
                     <label className="label" htmlFor="CityTo">
-                        City<span style={{color: "red"}}>{errorMes}</span>
+                        City<span style={{color: "red"}}>{errorMes.clientAddressCity}</span>
                         </label>
                         <input 
                         id="CityTo"
-                        name="city"
-                        value={createInvoice.city}
+                        name="clientAddressCity"
+                        value={createInvoice.clientAddressCity}
                         type="text" 
                         onChange={handleChange}/>
                 </Couple>  
                 <Couple>       
                     <label className="label" htmlFor="Post Code To">
-                        Post Code<span style={{color: "red"}}>{errorMes}</span></label>
+                        Post Code<span style={{color: "red"}}>{errorMes.clientAddressPostCode}</span></label>
                         <input 
                         id="PostCodeTo"
-                        name="postCode"
-                        value={createInvoice.postCode}
+                        name="clientAddressPostCode"
+                        value={createInvoice.clientAddressPostCode}
                         type="text" 
                         onChange={handleChange}/>
                 </Couple>
                 </CityPostCode>
                 <Couple>
                 <label className="label" htmlFor="CountryTo">
-                        Country<span style={{color: "red"}}>{errorMes}</span></label>
+                        Country<span style={{color: "red"}}>{errorMes.clientAddressCountry}</span></label>
                         <input 
                         id="CountryTo"
-                        name="country"
-                        value={createInvoice.country}
+                        name="clientAddressCountry"
+                        value={createInvoice.clientAddressCountry}
                         type="text" 
                         onChange={handleChange}/>
                 </Couple>
@@ -239,7 +341,7 @@ let itemsArr = [{
                 <DateTerms> 
                  <Couple>
                 <label className="label" htmlFor="InvoiceDate">
-                Invoice Date<span style={{color: "red"}}>{errorMes}</span></label>
+                Invoice Date<span style={{color: "red"}}>{errorMes.createdAt}</span></label>
                         <input 
                         id="InvoiceDate"
                         name="createdAt"
@@ -250,7 +352,7 @@ let itemsArr = [{
 
                 <Couple>
                 <label className="label" htmlFor="PaymentTerms">
-                Payment Terms<span style={{color: "red"}}>{errorMes}</span></label>
+                Payment Terms<span style={{color: "red"}}>{errorMes.paymentTerms}</span></label>
                         <input 
                         id="PaymentTerms"
                         name="paymentTerms"
@@ -262,7 +364,7 @@ let itemsArr = [{
 
                 <Couple>
                 <label className="label" htmlFor="ProjectDescription">
-                Project Description<span style={{color: "red"}}>{errorMes}</span></label>
+                Project Description<span style={{color: "red"}}>{errorMes.description}</span></label>
                         <input 
                         id="ProjectDescription"
                         name="description"
@@ -271,7 +373,7 @@ let itemsArr = [{
                         onChange={handleChange}/>
                 </Couple>
 
-        <ItemList>
+                <ItemList>
                 <p>Item List</p>
                 
          {createInvoice.items.map((item)=>(
@@ -279,7 +381,7 @@ let itemsArr = [{
              <div>
                 <Couple>
                     <label className="label" htmlFor="ItemName">
-                    Item Name<span style={{color: "red"}}>{errorMes}</span></label>
+                    Item Name<span style={{color: "red"}}>{errorMes.items.name}</span></label>
                             <input 
                             id="ItemName"
                             name="name"
@@ -292,7 +394,7 @@ let itemsArr = [{
             <ItemPrice>
                 <Couple>
                     <label className="label" htmlFor="Qty">
-                    QTY.<span style={{color: "red"}}>{errorMes}</span></label>
+                    QTY.<span style={{color: "red"}}>{errorMes.items.quantity}</span></label>
                             <input 
                             id="Qty"
                             name="quantity"
@@ -303,7 +405,7 @@ let itemsArr = [{
 
                 <Couple>
                     <label className="label" htmlFor="Price">
-                    Price<span style={{color: "red"}}>{errorMes}</span></label>
+                    Price<span style={{color: "red"}}>{errorMes.items.price}</span></label>
                             <input 
                             id="Price"
                             name="price"
@@ -313,8 +415,7 @@ let itemsArr = [{
                 </Couple>
 
                 <Couple>
-                    <label className="label" htmlFor="Total">
-                    Total</label>
+                    <label className="label" htmlFor="Total">Total</label>
                     <input 
                         id="TotalPrice"
                         name="Total"
@@ -336,18 +437,20 @@ let itemsArr = [{
 
 
         </ItemList>
+
+
+
+
         
                 <EmptyContainer></EmptyContainer>
                 <Buttons>
                      <button className="discard" type="click" 
-                     onClick={
-                    
-                            createInvoice.clientEmail = ""
-                          
-                     }
+                    //  {onClick=(()=> {
+                    //     createInvoice.clientAddressPostCode = ""
+                    //  })}
                 >Discard</button>
                      <button className="draft" type="submit">Save as Draft</button>
-                     <button className="send" type="submit">Save & Send</button>
+                     <button className="send" type="Submit">Save & Send</button>
                 </Buttons>   
                 </SenderAddress>
             </Bill>

@@ -31,7 +31,6 @@ function App() {
           <Route path="/createinvoice" element={<CreateInvoice />} />
           <Route path="/viewinvoice" element={<ViewInvoice />} />
          
-         
         </Routes>
       </BrowserRouter>
     </>
