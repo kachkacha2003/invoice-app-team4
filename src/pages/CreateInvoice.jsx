@@ -5,7 +5,10 @@ import deleteIcon from "/images/icon-delete.svg";
 import { useState } from "react";
 import { Link } from "react-router-dom";
 
-export default function CreateInvoice() {
+
+export default function Create({ addItemTable, setAddItemTable, darkLight }) {
+  const [selectedValue, setSelectedValue] = useState("");
+
   const [createInvoice, setCreateinvoice] = useState({
     id: "",
     createdAt: "",
@@ -15,289 +18,461 @@ export default function CreateInvoice() {
     clientName: "",
     clientEmail: "",
     status: "",
-    senderAddress: {
-      street: "",
-      city: "",
-      postCode: "",
-      country: "",
-    },
-    clientAddress: {
-      street: "",
-      city: "",
-      postCode: "",
-      country: "",
-    },
-    items: [
-      {
-        name: "",
-        quantity: "",
-        price: "",
-        total: "",
-      },
-      {
-        name: "",
-        quantity: "",
-        price: "",
-        total: "",
-      },
-      {
-        name: "",
-        quantity: "",
-        price: "",
-        total: "",
-      },
-    ],
+
+    senderAddressStreet: "",
+    senderAddressCity: "",
+    senderAddressPostCode: "",
+    senderAddressCountry: "",
+    clientAddressStreet: "",
+    clientAddressCity: "",
+    clientAddressPostCode: "",
+    clientAddressCountry: "",
+    itemName: "",
+    itemQuantity: "",
+    itemPrice: "",
+    itemTotal: "",
+  });
+  const [senderAddress, setSenderAddress] = useState({
+    street: "",
+    city: "",
+    postCode: "",
+    country: "",
+  });
+  const [clientAddress, setClientAddress] = useState({
+    street: "",
+    city: "",
+    postCode: "",
+    country: "",
+  });
+  const [itemObj, setItemObj] = useState({
+    name: "",
+    quantity: 0,
+    price: 0,
     total: 0,
   });
-
-  const [errorMes, setErrorMes] = useState("");
-
-  const errorMessage = (event) => {
-    event.preventDefault();
-
-    if (createInvoice.clientEmail == "") {
-      setErrorMes("can't");
-    }
-    console.log(errorMes);
-  };
+  let itemsArr = [];
+  let [finalObj, setFinalObj] = useState({
+    createdAt: "",
+    paymentDue: "",
+    description: "",
+    paymentTerms: "",
+    clientName: "",
+    clientEmail: "",
+    status: "",
+    senderAddress: senderAddress,
+    clientAddress: clientAddress,
+    items: itemsArr,
+    total: 0,
+  });
+  const [errorMes, setErrorMes] = useState({
+    createdAt: "",
+    description: "",
+    paymentTerms: "",
+    clientName: "",
+    clientEmail: "",
+    senderAddressStreet: "",
+    senderAddressCity: "",
+    senderAddressPostCode: "",
+    senderAddressCountry: "",
+    clientAddressStreet: "",
+    clientAddressCity: "",
+    clientAddressPostCode: "",
+    clientAddressCountry: "",
+    itemName: "",
+    itemQuantity: "",
+    itemPrice: "",
+  });
   const handleChange = (event) => {
     event.preventDefault();
     const { name, value } = event.target;
-
-    let str = `ABCDEFGHIJKLMNOPQRSTUVWXYZ`;
-
-    let numberrandom = Math.floor(Math.random() * 9000) + 999;
-    let stringrandom1 = str.charAt(Math.floor(Math.random() * 27));
-    let stringrandom2 = str.charAt(Math.floor(Math.random() * 27));
-
-    let result = stringrandom1 + stringrandom2 + numberrandom;
-    createInvoice.id = result;
-
     setCreateinvoice({
       ...createInvoice,
       [name]: value,
     });
-  };
-  console.log(createInvoice);
 
-  let itemsObj = {
-    itemname: "Item Name",
-    quantity: "Qty.",
-    price: "Price",
-    total: "Total",
+    setFinalObj({
+      ...finalObj,
+      [name]: value,
+    });
   };
+  const errorMessage = (event) => {
+    event.preventDefault();
 
-  let itemsArr = [
-    {
-      itemname: "Item Name",
-      quantity: "Qty.",
-      price: "Price",
-      total: "Total",
-    },
-  ];
+    if (createInvoice.createdAt == "") {
+      errorMes.createdAt = "can't Empty";
+    }
+    if (createInvoice.description == "") {
+      errorMes.description = "can't Empty";
+    }
+    if (createInvoice.paymentTerms == "") {
+      errorMes.paymentTerms = "can't Empty";
+    }
+    if (createInvoice.clientName == "") {
+      errorMes.clientName = "can't Empty";
+    }
+    if (createInvoice.clientEmail == "") {
+      errorMes.clientEmail = "can't Empty";
+    }
+    if (createInvoice.senderAddressStreet == "") {
+      errorMes.senderAddressStreet = "can't Empty";
+    }
+    if (createInvoice.senderAddressCity == "") {
+      errorMes.senderAddressCity = "can't Empty";
+    }
+    if (createInvoice.senderAddressPostCode == "") {
+      errorMes.senderAddressPostCode = "can't Empty";
+    }
+    if (createInvoice.senderAddressCountry == "") {
+      errorMes.senderAddressCountry = "can't Empty";
+    }
+    if (createInvoice.clientAddressStreet == "") {
+      errorMes.clientAddressStreet = "can't Empty";
+    }
+    if (createInvoice.clientAddressCity == "") {
+      errorMes.clientAddressCity = "can't Empty";
+    }
+    if (createInvoice.clientAddressPostCode == "") {
+      errorMes.clientAddressPostCode = "can't Empty";
+    }
+    if (createInvoice.clientAddressCountry == "") {
+      errorMes.clientAddressCountry = "can't Empty";
+    }
+    if (createInvoice.itemName == "") {
+      errorMes.itemName = "can't Empty";
+    }
+    if (createInvoice.itemQuantity == "") {
+      errorMes.itemQuantity = "can't Empty";
+    }
+    if (createInvoice.itemPrice == "") {
+      errorMes.itemPrice = "can't Empty";
+    }
+
+    // ID random
+
+    let str = `ABCDEFGHIJKLMNOPQRSTUVWXYZ`;
+    let numberrandom = Math.floor(Math.random() * 9000) + 999;
+    let stringrandom1 = str.charAt(Math.floor(Math.random() * 27));
+    let stringrandom2 = str.charAt(Math.floor(Math.random() * 27));
+    let resultid = stringrandom1 + stringrandom2 + numberrandom;
+    createInvoice.id = resultid;
+
+    // paymentDue
+    let theDate = new Date(createInvoice.createdAt);
+    theDate.setDate(theDate.getDate() + Number(createInvoice.paymentTerms));
+    let date = new Date(theDate);
+    let year = date.getFullYear();
+    let month = (date.getMonth() + 1).toString().padStart(2, "0");
+    let day = date.getDate().toString().padStart(2, "0");
+    let formattedDate = `${year}-${month}-${day}`;
+
+    //senderAddress and clientAddress objects
+
+    // Object for API
+    delete finalObj.clientAddressCity,
+      delete finalObj.clientAddressCountry,
+      delete finalObj.clientAddressPostCode,
+      delete finalObj.clientAddressStreet,
+      delete finalObj.senderAddressCity,
+      delete finalObj.senderAddressCountry,
+      delete finalObj.senderAddressPostCode,
+      delete finalObj.senderAddressStreet,
+      delete finalObj.itemName,
+      delete finalObj.itemQuantity,
+      delete finalObj.itemPrice,
+      delete finalObj.itemTotal,
+      (finalObj = Object.assign(finalObj, { id: resultid }));
+    finalObj = Object.assign(finalObj, { paymentDue: formattedDate });
+  };
+  {
+    Object.keys(createInvoice).forEach((element) => {
+      if (element.includes("senderAddress")) {
+        senderAddress.street = Object.values(
+          createInvoice.senderAddressStreet
+        ).join("");
+        senderAddress.city = Object.values(
+          createInvoice.senderAddressCity
+        ).join("");
+        senderAddress.postCode = Object.values(
+          createInvoice.senderAddressPostCode
+        ).join("");
+        senderAddress.country = Object.values(
+          createInvoice.senderAddressCountry
+        ).join("");
+      }
+      if (element.includes("clientAddress")) {
+        clientAddress.street = Object.values(
+          createInvoice.clientAddressStreet
+        ).join("");
+        clientAddress.city = Object.values(
+          createInvoice.clientAddressCity
+        ).join("");
+        clientAddress.postCode = Object.values(
+          createInvoice.clientAddressPostCode
+        ).join("");
+        clientAddress.country = Object.values(
+          createInvoice.clientAddressCountry
+        ).join("");
+      }
+      if (element.includes("item")) {
+        itemObj.name = Object.values(createInvoice.itemName).join("");
+        itemObj.quantity = Object.values(createInvoice.itemQuantity).join("");
+        itemObj.price = Object.values(createInvoice.itemPrice).join("");
+        itemObj.total = Object.values(createInvoice.itemTotal).join("");
+      }
+    });
+  }
+  function addItems() {
+    (itemObj.name = ""),
+      (itemObj.quantity = ""),
+      (itemObj.price = ""),
+      (itemObj.total = "");
+    setAddItemTable(true);
+  }
+  itemsArr.push(...itemsArr, itemObj);
+
+  const onchange = (event) => {
+    setSelectedValue(event.target.value);
+    console.log(selectedValue);
+  };
+  console.log(finalObj, senderAddress);
 
   return (
-    <MainContainer>
-      <GoBack>
-        <img src={arrowLeft} alt="" />
-        <p>
-          <Link to={"/"}>Go back</Link>
-        </p>
-      </GoBack>
-      <h1>New Invoice</h1>
-
-      <Bill>
-        <p>Bill From</p>
-        <SenderAddress onSubmit={errorMessage}>
-          <Couple>
-            <label className="label" htmlFor="street">
-              Street Address <span style={{ color: "red" }}>{errorMes}</span>
-            </label>
-            <input
-              id="street"
-              name="street"
-              value={createInvoice.street}
-              type="text"
-              onChange={handleChange}
-            />
-          </Couple>
-          <CityPostcodeCountry>
-            <CityPostCode>
-              <Couple>
-                <label className="label" htmlFor="City">
-                  City<span style={{ color: "red" }}>{errorMes}</span>
+    <>
+      <MainContainer darkLight={darkLight}>
+        <GoBack>
+          <img src={arrowLeft} alt="" />
+          <p>
+            <Link darkLight={darkLight} id="styleLink" to={"/"}>
+              Go back
+            </Link>
+          </p>
+        </GoBack>
+        <h1>New Invoice</h1>
+        <Bill>
+          <p>Bill From</p>
+          <SenderAddress onSubmit={errorMessage}>
+            <div>
+              <Couple darkLight={darkLight}>
+                <label className="label" htmlFor="street">
+                  Street Address{" "}
+                  <span style={{ color: "red" }}>
+                    {errorMes.senderAddressStreet}
+                  </span>
                 </label>
                 <input
-                  id="City"
-                  name="city"
-                  value={createInvoice.city}
+                  id="street"
+                  name="senderAddressStreet"
+                  value={createInvoice.senderAddressStreet}
                   type="text"
                   onChange={handleChange}
                 />
               </Couple>
-              <Couple>
-                <label className="label" htmlFor="Post Code">
-                  Post Code<span style={{ color: "red" }}>{errorMes}</span>
+              <CityPostcodeCountry>
+                <CityPostCode>
+                  <Couple darkLight={darkLight}>
+                    <label className="label" htmlFor="City">
+                      City
+                      <span style={{ color: "red" }}>
+                        {errorMes.senderAddressCity}
+                      </span>
+                    </label>
+                    <input
+                      id="City"
+                      name="senderAddressCity"
+                      value={createInvoice.senderAddressCity}
+                      type="text"
+                      onChange={handleChange}
+                    />
+                  </Couple>
+                  <Couple darkLight={darkLight}>
+                    <label className="label" htmlFor="Post Code">
+                      Post Code
+                      <span style={{ color: "red" }}>
+                        {errorMes.senderAddressPostCode}
+                      </span>
+                    </label>
+                    <input
+                      id="PostCode"
+                      name="senderAddressPostCode"
+                      value={createInvoice.senderAddressPostCode}
+                      type="text"
+                      onChange={handleChange}
+                    />
+                  </Couple>
+                </CityPostCode>
+                <Couple darkLight={darkLight}>
+                  <label className="label" htmlFor="Country">
+                    Country
+                    <span style={{ color: "red" }}>
+                      {errorMes.senderAddressCountry}
+                    </span>
+                  </label>
+                  <input
+                    id="Country"
+                    name="senderAddressCountry"
+                    value={createInvoice.senderAddressCountry}
+                    type="text"
+                    onChange={handleChange}
+                  />
+                </Couple>
+              </CityPostcodeCountry>
+
+              <p>Bill To</p>
+              <NameEmail>
+                <Couple darkLight={darkLight}>
+                  <label className="label" htmlFor="ClientsName">
+                    Client's Name{" "}
+                    <span style={{ color: "red" }}>{errorMes.clientName}</span>
+                  </label>
+                  <input
+                    id="ClientsName"
+                    name="clientName"
+                    value={createInvoice.clientName}
+                    type="text"
+                    onChange={handleChange}
+                  />
+                </Couple>
+
+                <Couple darkLight={darkLight}>
+                  <label className="label" htmlFor="ClientsEmail">
+                    Client's Email{" "}
+                    <span style={{ color: "red" }}>{errorMes.clientEmail}</span>
+                  </label>
+                  <input
+                    id="ClientsEmail"
+                    name="clientEmail"
+                    value={createInvoice.clientEmail}
+                    type="text"
+                    onChange={handleChange}
+                  />
+                </Couple>
+
+                <Couple darkLight={darkLight}>
+                  <label className="label" htmlFor="streetTo">
+                    Street Address{" "}
+                    <span style={{ color: "red" }}>
+                      {errorMes.clientAddressStreet}
+                    </span>
+                  </label>
+                  <input
+                    id="streetTo"
+                    name="clientAddressStreet"
+                    value={createInvoice.clientAddressStreet}
+                    type="text"
+                    onChange={handleChange}
+                  />
+                </Couple>
+              </NameEmail>
+              <CityPostcodeCountry>
+                <CityPostCode>
+                  <Couple darkLight={darkLight}>
+                    <label className="label" htmlFor="CityTo">
+                      City
+                      <span style={{ color: "red" }}>
+                        {errorMes.clientAddressCity}
+                      </span>
+                    </label>
+                    <input
+                      id="CityTo"
+                      name="clientAddressCity"
+                      value={createInvoice.clientAddressCity}
+                      type="text"
+                      onChange={handleChange}
+                    />
+                  </Couple>
+                  <Couple darkLight={darkLight}>
+                    <label className="label" htmlFor="Post Code To">
+                      Post Code
+                      <span style={{ color: "red" }}>
+                        {errorMes.clientAddressPostCode}
+                      </span>
+                    </label>
+                    <input
+                      id="PostCodeTo"
+                      name="clientAddressPostCode"
+                      value={createInvoice.clientAddressPostCode}
+                      type="text"
+                      onChange={handleChange}
+                    />
+                  </Couple>
+                </CityPostCode>
+                <Couple darkLight={darkLight}>
+                  <label className="label" htmlFor="CountryTo">
+                    Country
+                    <span style={{ color: "red" }}>
+                      {errorMes.clientAddressCountry}
+                    </span>
+                  </label>
+                  <input
+                    id="CountryTo"
+                    name="clientAddressCountry"
+                    value={createInvoice.clientAddressCountry}
+                    type="text"
+                    onChange={handleChange}
+                  />
+                </Couple>
+              </CityPostcodeCountry>
+
+              <DateTerms>
+                <Couple darkLight={darkLight}>
+                  <label className="label" htmlFor="InvoiceDate">
+                    Invoice Date
+                    <span style={{ color: "red" }}>{errorMes.createdAt}</span>
+                  </label>
+                  <input
+                    id="InvoiceDate"
+                    name="createdAt"
+                    value={createInvoice.createdAt}
+                    type="Date"
+                    onChange={handleChange}
+                  />
+                </Couple>
+
+                <Couple darkLight={darkLight}>
+                  <label className="label" htmlFor="PaymentTerms">
+                    Payment Terms
+                    <span style={{ color: "red" }}>
+                      {errorMes.paymentTerms}
+                    </span>
+                  </label>
+                  <select id="PaymentTerms" onchange={onchange}>
+                    <option value="0"></option>
+                    <option value="1">Net 1 Days</option>
+                    <option value="7">Net 7 Days</option>
+                    <option value="14">Net 14 Days</option>
+                    <option value="3">Net 30 Days</option>
+                  </select>
+                </Couple>
+              </DateTerms>
+
+              <Couple darkLight={darkLight}>
+                <label className="label" htmlFor="ProjectDescription">
+                  Project Description
+                  <span style={{ color: "red" }}>{errorMes.description}</span>
                 </label>
                 <input
-                  id="PostCode"
-                  name="postCode"
-                  value={createInvoice.postCode}
+                  id="ProjectDescription"
+                  name="description"
+                  value={createInvoice.description}
                   type="text"
                   onChange={handleChange}
                 />
               </Couple>
-            </CityPostCode>
-            <Couple>
-              <label className="label" htmlFor="Country">
-                Country<span style={{ color: "red" }}>{errorMes}</span>
-              </label>
-              <input
-                id="Country"
-                name="country"
-                value={createInvoice.country}
-                type="text"
-                onChange={handleChange}
-              />
-            </Couple>
-          </CityPostcodeCountry>
+            </div>
+            <ItemList>
+              <p>Item List</p>
 
-          <p>Bill To</p>
-
-          <Couple>
-            <label className="label" htmlFor="ClientsName">
-              Client's Name <span style={{ color: "red" }}>{errorMes}</span>
-            </label>
-            <input
-              id="ClientsName"
-              name="clientName"
-              value={createInvoice.clientName}
-              type="text"
-              onChange={handleChange}
-            />
-          </Couple>
-
-          <Couple>
-            <label className="label" htmlFor="ClientsEmail">
-              Client's Email <span style={{ color: "red" }}>{errorMes}</span>
-            </label>
-            <input
-              id="ClientsEmail"
-              name="clientEmail"
-              value={createInvoice.clientEmail}
-              type="text"
-              onChange={handleChange}
-            />
-          </Couple>
-
-          <Couple>
-            <label className="label" htmlFor="streetTo">
-              Street Address <span style={{ color: "red" }}>{errorMes}</span>
-            </label>
-            <input
-              id="streetTo"
-              name="street"
-              value={createInvoice.street}
-              type="text"
-              onChange={handleChange}
-            />
-          </Couple>
-          <CityPostcodeCountry>
-            <CityPostCode>
-              <Couple>
-                <label className="label" htmlFor="CityTo">
-                  City<span style={{ color: "red" }}>{errorMes}</span>
-                </label>
-                <input
-                  id="CityTo"
-                  name="city"
-                  value={createInvoice.city}
-                  type="text"
-                  onChange={handleChange}
-                />
-              </Couple>
-              <Couple>
-                <label className="label" htmlFor="Post Code To">
-                  Post Code<span style={{ color: "red" }}>{errorMes}</span>
-                </label>
-                <input
-                  id="PostCodeTo"
-                  name="postCode"
-                  value={createInvoice.postCode}
-                  type="text"
-                  onChange={handleChange}
-                />
-              </Couple>
-            </CityPostCode>
-            <Couple>
-              <label className="label" htmlFor="CountryTo">
-                Country<span style={{ color: "red" }}>{errorMes}</span>
-              </label>
-              <input
-                id="CountryTo"
-                name="country"
-                value={createInvoice.country}
-                type="text"
-                onChange={handleChange}
-              />
-            </Couple>
-          </CityPostcodeCountry>
-
-          <DateTerms>
-            <Couple>
-              <label className="label" htmlFor="InvoiceDate">
-                Invoice Date<span style={{ color: "red" }}>{errorMes}</span>
-              </label>
-              <input
-                id="InvoiceDate"
-                name="createdAt"
-                value={createInvoice.createdAt}
-                type="Date"
-                onChange={handleChange}
-              />
-            </Couple>
-
-            <Couple>
-              <label className="label" htmlFor="PaymentTerms">
-                Payment Terms<span style={{ color: "red" }}>{errorMes}</span>
-              </label>
-              <input
-                id="PaymentTerms"
-                name="paymentTerms"
-                value={createInvoice.paymentTerms}
-                type="text"
-                onChange={handleChange}
-              />
-            </Couple>
-          </DateTerms>
-
-          <Couple>
-            <label className="label" htmlFor="ProjectDescription">
-              Project Description
-              <span style={{ color: "red" }}>{errorMes}</span>
-            </label>
-            <input
-              id="ProjectDescription"
-              name="description"
-              value={createInvoice.description}
-              type="text"
-              onChange={handleChange}
-            />
-          </Couple>
-
-          <ItemList>
-            <p>Item List</p>
-
-            {createInvoice.items.map((item) => (
               <div>
-                <Couple>
+                <Couple darkLight={darkLight}>
                   <label className="label" htmlFor="ItemName">
-                    Item Name<span style={{ color: "red" }}>{errorMes}</span>
+                    Item Name
+                    <span style={{ color: "red" }}>{errorMes.itemName}</span>
                   </label>
                   <input
                     id="ItemName"
-                    name="name"
-                    value={createInvoice.items.name}
+                    name="itemName"
+                    value={createInvoice.itemName}
+
                     type="text"
                     onChange={handleChange}
                   />
@@ -305,43 +480,47 @@ export default function CreateInvoice() {
 
                 <ItemsPriceDel>
                   <ItemPrice>
-                    <Couple>
+                    <Couple darkLight={darkLight}>
                       <label className="label" htmlFor="Qty">
-                        QTY.<span style={{ color: "red" }}>{errorMes}</span>
+                        QTY.
+                        <span style={{ color: "red" }}>
+                          {errorMes.itemQuantity}
+                        </span>
                       </label>
                       <input
                         id="Qty"
-                        name="quantity"
-                        value={createInvoice.items.quantity}
-                        type="text"
+                        name="itemQuantity"
+                        value={createInvoice.itemQuantity}
+                        type="number"
                         onChange={handleChange}
                       />
                     </Couple>
-
-                    <Couple>
+                    <Couple darkLight={darkLight}>
                       <label className="label" htmlFor="Price">
-                        Price<span style={{ color: "red" }}>{errorMes}</span>
+                        Price
+                        <span style={{ color: "red" }}>
+                          {errorMes.itemPrice}
+                        </span>
                       </label>
                       <input
                         id="Price"
-                        name="price"
-                        value={createInvoice.items.price}
-                        type="text"
+                        name="itemPrice"
+                        value={createInvoice.itemPrice}
+                        type="number"
                         onChange={handleChange}
                       />
                     </Couple>
+                    <Couple darkLight={darkLight}>
 
-                    <Couple>
                       <label className="label" htmlFor="Total">
                         Total
                       </label>
                       <input
                         id="TotalPrice"
-                        name="Total"
-                        value={
-                          `${createInvoice.price}` * `${createInvoice.quantity}`
-                        }
-                        type="submit"
+
+                        name="itemTotal"
+                        value={createInvoice.itemTotal}
+                        type="number"
                         onChange={handleChange}
                       />
                     </Couple>
@@ -350,49 +529,128 @@ export default function CreateInvoice() {
                   <img src={deleteIcon} alt="" />
                 </ItemsPriceDel>
               </div>
-            ))}
-            <button
-              id="add"
-              type="click"
-              // onClick={itemsArr.push(
-              //     ... itemsArr, itemsObj
-              // )}
-            >
-              + Add New Item
-            </button>
-          </ItemList>
+              {finalObj.items.map((item) => (
+                <div
+                  className="addTable"
+                  style={{ display: addItemTable ? "block" : "none" }}
+                >
+                  <Couple darkLight={darkLight}>
+                    <label className="label" htmlFor="ItemName">
+                      Item Name
+                      <span style={{ color: "red" }}>{errorMes.itemName}</span>
+                    </label>
+                    <input
+                      id="ItemName"
+                      name="name"
+                      value={finalObj.items}
+                      type="text"
+                      onChange={addItems}
+                    />
+                  </Couple>
 
-          <EmptyContainer></EmptyContainer>
-          <Buttons>
-            <button
-              className="discard"
-              type="click"
-              onClick={(createInvoice.clientEmail = "")}
-            >
-              Discard
-            </button>
-            <button className="draft" type="submit">
-              Save as Draft
-            </button>
-            <button className="send" type="submit">
-              Save & Send
-            </button>
-          </Buttons>
-        </SenderAddress>
-      </Bill>
-    </MainContainer>
+                  <ItemsPriceDel>
+                    <ItemPrice>
+                      <Couple darkLight={darkLight}>
+                        <label className="label" htmlFor="Qty">
+                          QTY.
+                          <span style={{ color: "red" }}>
+                            {errorMes.itemQuantity}
+                          </span>
+                        </label>
+                        <input
+                          id="Qty"
+                          name="quantity"
+                          value={finalObj.quantity}
+                          type="number"
+                          onChange={addItems}
+                        />
+                      </Couple>
+                      <Couple darkLight={darkLight}>
+                        <label className="label" htmlFor="Price">
+                          Price
+                          <span style={{ color: "red" }}>
+                            {errorMes.itemPrice}
+                          </span>
+                        </label>
+                        <input
+                          id="Price"
+                          name="price"
+                          value={finalObj.price}
+                          type="number"
+                          onChange={addItems}
+                        />
+                      </Couple>
+
+                      <Couple>
+                        <label className="label" htmlFor="Total">
+                          Total
+                        </label>
+
+                        <input
+                          id="TotalPrice"
+                          name="total"
+                          value={finalObj.total}
+                          type="number"
+                          onChange={addItems}
+                        />
+                      </Couple>
+                    </ItemPrice>
+
+                    <img src={deleteIcon} alt="" />
+                  </ItemsPriceDel>
+                </div>
+              ))}
+
+              <button
+                id="add"
+                type="click"
+                darkLight={darkLight}
+                onClick={addItems}
+              >
+                + Add New Item
+              </button>
+            </ItemList>
+          </SenderAddress>
+        </Bill>
+      </MainContainer>
+      <EmptyContainer darkLight={darkLight}></EmptyContainer>
+      <Buttons darkLight={darkLight}>
+        <button
+          className="discard"
+          type="click"
+        >
+          Discard
+        </button>
+        <button className="draft" type="submit">
+          Save as Draft
+        </button>
+        <button className="send" type="Submit">
+          Save & Send
+        </button>
+      </Buttons>
+    </>
+
   );
 }
 
 const MainContainer = styled.div`
   width: 100%;
-  padding: 3.3rem 2.4rem 2.4rem 2.2rem;
+
+  padding: 3.3rem 2.4rem 0 2.2rem;
+  background-color: ${(props) => (props.darkLight ? "#fff" : "#141625")};
+
 
   h1 {
     margin-top: 2.6rem;
     font-size: 2.4rem;
     font-weight: bold;
-    color: #0c0e16;
+
+    color: ${(props) => (props.darkLight ? "#0c0e16" : "#ffffff")};
+  }
+
+  p {
+    margin-bottom: 2.4rem;
+
   }
 `;
 const GoBack = styled.div`
@@ -400,10 +658,16 @@ const GoBack = styled.div`
   flex-direction: row;
   gap: 2.79rem;
 
+
+  #styleLink {
+    text-decoration: none;
+  }
+
   p {
     font-size: 1.5rem;
     font-weight: bold;
-    color: #0c0e16;
+    color: ${(props) => (props.darkLight ? "#373b53" : "#1e2139")};
+
     letter-spacing: -0.25px;
   }
 
@@ -417,7 +681,7 @@ const Bill = styled.div`
   margin-top: 2.2rem;
   display: flex;
   flex-direction: column;
-  gap: 2.4rem;
+
 
   p {
     font-size: 1.5rem;
@@ -428,22 +692,49 @@ const Bill = styled.div`
   }
 `;
 
+
+const NameEmail = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 2.4rem;
+`;
 const SenderAddress = styled.form`
   display: flex;
   flex-direction: column;
-  gap: 2.5rem;
+
 
   .label {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
+
+    color: ${(props) => (props.darkLight ? "#7e88c3" : "#7e88c3")};
+    font-size: 10px;
   }
+  p {
+    margin-top: 4.1rem;
+    margin-bottom: 2.4rem;
+  }
+
+
+ 
 `;
+
 
 const DateTerms = styled.div`
   display: flex;
   flex-direction: column; /*tablet, desktop*/
   gap: 2.5rem;
+
+  margin-top: 2.5rem;
+`;
+const CityPostcodeCountry = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 2.5rem;
+  margin-top: 2.5rem;
+`;
+
 
   input::-webkit-calendar-picker-indicator {
     position: absolute;
@@ -457,6 +748,7 @@ const CityPostcodeCountry = styled.div`
   gap: 2.5rem;
 `;
 
+
 const CityPostCode = styled.div`
   display: flex;
   flex-direction: row;
@@ -468,6 +760,13 @@ const Couple = styled.div`
   display: flex;
   flex-direction: column;
   gap: 0.9rem;
+
+
+  input[type="date"]::-webkit-calendar-picker-indicator {
+    background-color: ${(props) => (props.darkLight ? "bleck" : "#7e88c3")};
+    cursor: pointer;
+  }
+
 
   #street,
   #City,
@@ -485,14 +784,19 @@ const Couple = styled.div`
   #ItemName {
     height: 4.8rem;
     border-radius: 0.4rem;
-    border: solid 0.1rem #dfe3fa;
+
+    border: solid 0.1rem ${(props) => (props.darkLight ? "#dfe3fa" : "#252945")};
+
     padding: 1.8rem 11.5rem 1.5rem 1.2rem;
     font-size: 1.5rem;
     font-weight: bold;
     letter-spacing: -0.25px;
     text-align: left;
-    color: #0c0e16;
+
+    color: ${(props) => (props.darkLight ? "#0c0e16" : "#ffffff")};
     text-align: left;
+    background-color: ${(props) => (props.darkLight ? "#ffffff" : "#1e2139")};
+
   }
 
   #City,
@@ -502,6 +806,7 @@ const Couple = styled.div`
     width: 15.2rem;
     padding-right: 0;
   }
+
 
   #InvoiceDate {
     display: flex;
@@ -528,7 +833,15 @@ const Couple = styled.div`
     width: 4.7rem;
     height: 4.8rem;
     border: none;
-    background-color: #fff;
+
+    background-color: ${(props) => (props.darkLight ? "#fff" : "#141625")};
+  }
+
+  #Price,
+  #Qty {
+    background-color: ${(props) => (props.darkLight ? "#fff" : "#1e2139")};
+    border: solid 0.1rem ${(props) => (props.darkLight ? "#dfe3fa" : "#252945")};
+
   }
 
   span {
@@ -549,7 +862,10 @@ const ItemList = styled.div`
 
   #add {
     border-radius: 2.4rem;
-    background-color: #f9fafe;
+
+    background-color: ${(props) => (props.darkLight ? "#fff" : "#1e2139")};
+    border: solid 0.1rem ${(props) => (props.darkLight ? "#dfe3fa" : "#252945")};
+
     padding: 1.8rem 10.7rem 1.5rem 10.8rem;
     color: #7e88c3;
     border: none;
@@ -567,6 +883,12 @@ const ItemsPriceDel = styled.div`
   justify-content: space-between;
   align-items: center;
 
+
+  img:hover {
+    cursor: pointer;
+  }
+
+
   img {
     width: 1.07rem;
     height: 1.24rem;
@@ -576,11 +898,11 @@ const ItemsPriceDel = styled.div`
 const EmptyContainer = styled.div`
   width: 100%;
   height: 6.4rem;
-  background-image: linear-gradient(
-    to bottom,
-    rgba(0, 0, 0, 0),
-    rgba(0, 0, 0, 0.1)
-  );
+  background-color: ${(props) =>
+    props.darkLight
+      ? "linear-gradient(to bottom, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.1))"
+      : "#141625"};
+
 `;
 const Buttons = styled.div`
   display: flex;
@@ -588,11 +910,15 @@ const Buttons = styled.div`
   justify-content: space-between;
   gap: 0.7rem;
 
+  padding: 2.1rem 2.4rem 2.2rem 2.4rem;
+  background-color: ${(props) => (props.darkLight ? "#fff" : "#1e2139")};
+
   .discard {
-    background-color: #f9fafe;
+    background-color: ${(props) => (props.darkLight ? "#f9fafef" : "#252945")};
     padding: 1.8rem 1.9rem 1.5rem 1.8rem;
     width: 8.4rem;
-    color: #7e88c3;
+    color: ${(props) => (props.darkLight ? "#dfe3fa" : "#7e88c3")};
+
     border-radius: 2.4rem;
     border: none;
     font-size: 1.2rem;
@@ -604,7 +930,9 @@ const Buttons = styled.div`
     background-color: #373b53;
     padding: 1.8rem 1.39rem 1.5rem 1.61rem;
     width: 11.7rem;
-    color: #888eb0;
+
+    color: ${(props) => (props.darkLight ? "#888eb0" : "#dfe3fa")};
+
     border-radius: 2.4rem;
     border: none;
     font-size: 1.2rem;
@@ -616,11 +944,19 @@ const Buttons = styled.div`
     background-color: #7c5dfa;
     padding: 1.8rem 1.5rem 1.5rem 1.6rem;
     width: 11.2rem;
-    color: #ffffff;
+
+    color: ${(props) => (props.darkLight ? "#dfe3fa" : "#ffffff")};
+
     border-radius: 2.4rem;
     border: none;
     letter-spacing: -0.25px;
     font-size: 1.2rem;
     font-weight: bold;
   }
+
+
+  .send:hover {
+    cursor: pointer;
+  }
+
 `;

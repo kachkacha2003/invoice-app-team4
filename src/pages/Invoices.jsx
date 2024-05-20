@@ -4,10 +4,15 @@ import arrowDown from "/images/icon-arrow-down.svg";
 import plus from "/images/icon-plus.svg";
 import empty from "/images/illustration-empty.svg";
 import { useEffect } from "react";
+
 import { useMediaQuery } from "@uidotdev/usehooks";
+
 import { Link } from "react-router-dom";
 import FilterContainer from "../components/FilterContainer";
 import arrowRight from "/images/icon-arrow-right.svg";
+
+
+
 
 export default function Invoices({
   data,
@@ -16,6 +21,8 @@ export default function Invoices({
   setFiltered,
   show,
   setShow,
+  darkLight,
+  
 }) {
   const tabletText = useMediaQuery("only screen and (min-width : 48rem)");
   const tabletArrow = useMediaQuery("only screen and (min-width : 48rem)");
@@ -48,19 +55,36 @@ export default function Invoices({
       return item.status === "draft";
     }
   });
+
   useEffect(() => {
-    foo();
+    fetchData();
   }, []);
-  async function foo() {
+  async function fetchData() {
     const res = await fetch("http://localhost:3000/people");
     const info = await res.json();
     setData(info);
   }
 
+
+
+
+  function InvoiceId(event){
+    for (let i=0; i<data.length; i++){
+      if (data[i].id === event) {
+        setGetInvoice(event)  
+    }
+  }
+
+console.log(event)
+  }
+
+
   return (
     <>
-      <InvoicesInfoDiv>
+
+      <InvoicesInfoDiv darkLight={darkLight}>
         <InvoicecCounterCon>
+
           <InvoiceCountersDiv>
             <span>Invoices</span>
             <p>7 invoices</p>
@@ -78,7 +102,7 @@ export default function Invoices({
               />
             </FilterCon>
             <BtnCon>
-              <Btn>New</Btn>
+              <Btn><Link id="styleLink" to={"/createinvoice"}>New</Link></Btn>
               <Circle>
                 <img src={plus} alt="" />
               </Circle>
@@ -92,7 +116,8 @@ export default function Invoices({
             />
           ) : null}
         </InvoicecCounterCon>
-        <InvoicesListsCon>
+
+        <InvoicesListsCon darkLight={darkLight}>
           {FilterDataToShow.map((person, index) => {
             return (
               <InvoiceContainer status={person.status} key={index}>
@@ -111,6 +136,7 @@ export default function Invoices({
               </InvoiceContainer>
             );
           })}
+
         </InvoicesListsCon>
       </InvoicesInfoDiv>
       {data.length === 0 ? (
@@ -217,14 +243,38 @@ const SpanCon = styled.div`
   }
 `;
 
+const DateTotalCon = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 0.9rem;
+  & .personTotal {
+    color: ${(props)=>props.darkLight 
+      ? "var(--08, #0c0e16)"
+      : "#ffffff"};
+    font-family: "League Spartan";
+    font-size: 15px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 24px; /* 160% */
+    letter-spacing: -0.25px;
+  }
+`;
+
 const InvoicesListsCon = styled.div`
   display: flex;
   flex-direction: column;
   gap: 1.6rem;
-  background: var(--11, #f8f8fb);
+
+  background: ${(props)=> 
+      props.darkLight 
+      ? "var(--11, #f8f8fb)" 
+      : "#141625"};
+
+
   :hover {
     cursor: pointer;
   }
+
 `;
 
 const InvoiceContainer = styled.div`
@@ -234,8 +284,16 @@ const InvoiceContainer = styled.div`
   grid-template-rows: repeat(3, 1fr);
   grid-column-gap: 20%;
   border-radius: 8px;
-  background: #fff;
-  box-shadow: 0px 10px 10px -10px rgba(72, 84, 159, 0.1);
+
+  box-shadow: ${(props)=> 
+      props.darkLight 
+      ? "0px 10px 10px -10px rgba(72, 84, 159, 0.1)": 
+      "0 10px 10px -10px rgba(72, 84, 159, 0.1);"};
+  background: ${(props)=> 
+      props.darkLight 
+      ? "#fff": 
+      "#1e2139"};
+
   &:hover {
     cursor: pointer;
   }
@@ -246,6 +304,7 @@ const InvoiceContainer = styled.div`
     grid-column-gap: 0;
     align-items: center;
   }
+
   & .symbol {
     color: var(--07, #7e88c3);
     font-family: "League Spartan";
@@ -254,7 +313,10 @@ const InvoiceContainer = styled.div`
     font-weight: 700;
     line-height: 15px; /* 100% */
     letter-spacing: -0.25px;
+    
+    
   }
+  .in
   & .personId {
     color: var(--08, #0c0e16);
     font-family: "League Spartan";
@@ -263,7 +325,13 @@ const InvoiceContainer = styled.div`
     font-weight: 700;
     line-height: 15px;
     letter-spacing: -0.25px;
+
+    color:  ${(props)=>props.darkLight 
+      ? "var(--08, #0c0e16)"
+      : "#ffffff"};
+
     order: -9;
+
   }
   & .personName {
     color: #858bb2;
@@ -274,10 +342,16 @@ const InvoiceContainer = styled.div`
     font-weight: 500;
     line-height: 15px; /* 115.385% */
     letter-spacing: -0.1px;
+    color:  ${(props)=>props.darkLight 
+      ? "#858bb2"
+      : "#ffffff"};
   }
   & .personPayDate {
     text-align: right;
     color: var(--07, #7e88c3);
+    color:  ${(props)=>props.darkLight 
+      ? "var(--07, #7e88c3)"
+      : "#dfe3fa"};
     font-family: "League Spartan";
     font-size: 13px;
     font-style: normal;
@@ -297,8 +371,13 @@ const InvoiceContainer = styled.div`
   }
 `;
 
+
 const BtnCon = styled.div`
   position: relative;
+
+  #styleLink {
+        text-decoration: none;
+    }
 `;
 const Circle = styled.div`
   width: 3.2rem;
@@ -331,6 +410,7 @@ const InvoicecCounterCon = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
+  
 `;
 const FilterCon = styled.div`
   display: flex;
@@ -379,8 +459,15 @@ const InvoicesInfoDiv = styled.div`
   display: flex;
   flex-direction: column;
   gap: 3.2rem;
-  background: var(--11, #f8f8fb);
   padding: 3.6rem 2.4rem 2.5rem 2.4rem;
+
+  background: ${(props)=> 
+      props.darkLight 
+      ? "var(--11, #f8f8fb)": 
+      "#141625"};
+  
+
+
   @media (min-width: 48rem) {
     padding: 6.2rem 4.8rem 4rem 4.8rem;
     gap: 5.5rem;
