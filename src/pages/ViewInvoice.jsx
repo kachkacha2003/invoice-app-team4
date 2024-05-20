@@ -15,7 +15,7 @@ export default function ViewInvoice({darkLight}) {
         if (data.people[i].id == "XM9141"){
          invoiceObj = data.people[i]
         }
-       console.log(darkLight)
+       
     }
 
 

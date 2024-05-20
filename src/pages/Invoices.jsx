@@ -8,15 +8,29 @@ import { Link } from "react-router-dom";
 import FilterContainer from "../components/FilterContainer";
 
 
-export default function Invoices({ data, setData, filtered, setFiltered, darkLight}) {
+export default function Invoices({ data, setData, filtered, setFiltered, darkLight, getInvoice, setGetInvoice}) {
   useEffect(() => {
     foo();
   }, []);
   async function foo() {
     const res = await fetch("http://localhost:3000/people");
-    const info = await res.json();
+    const info = await res.json();console.log()
     setData(info);
   }
+
+
+
+
+  function InvoiceId(event){
+    for (let i=0; i<data.length; i++){
+      if (data[i].id === event) {
+        setGetInvoice(event)  
+    }
+  }
+
+console.log(event)
+  }
+
 
   return (
     <>
@@ -56,7 +70,7 @@ export default function Invoices({ data, setData, filtered, setFiltered, darkLig
             })
             .map((person) => {
               return (
-                <InvoiceContainer darkLight={darkLight} status={person.status}>
+                <InvoiceContainer onClick={InvoiceId} darkLight={darkLight} status={person.status} >
                   <span className="personId">
                     <span className="symbol">#</span>
                     {person.id}
@@ -221,7 +235,7 @@ const InvoiceContainer = styled.div`
   }
   .in
   & .personId {
-    /* color: var(--08, #0c0e16); */
+    color: var(--08, #0c0e16);
     font-family: "League Spartan";
     font-size: 15px;
     font-style: normal;
@@ -229,7 +243,7 @@ const InvoiceContainer = styled.div`
     line-height: 15px;
     letter-spacing: -0.25px;
     color:  ${(props)=>props.darkLight 
-      ? "#0c0e16"
+      ? "var(--08, #0c0e16)"
       : "#ffffff"};
   }
   & .personName {
@@ -346,7 +360,7 @@ const InvoicesInfoDiv = styled.div`
   display: flex;
   flex-direction: column;
   gap: 3.2rem;
-  /* background: var(--11, #f8f8fb); */
+  background: var(--11, #f8f8fb);
   padding: 3.6rem 2.4rem 2.5rem 2.4rem;
   background: ${(props)=> 
       props.darkLight 

@@ -12,7 +12,8 @@ function App() {
   const [data, setData] = useState([]);
   const [filtered, setFiltered] = useState("");
   const [addItemTable, setAddItemTable] = useState(false);
-  const [darkLight, setDarkLight] = useState(true)
+  const [darkLight, setDarkLight] = useState(true);
+  const [getInvoice, setGetInvoice] = useState(0)
 
   return (
     <>
@@ -32,6 +33,8 @@ function App() {
                 setFiltered={setFiltered}
                 darkLight={darkLight}
                 setDarkLight={setDarkLight}
+                getInvoice={getInvoice} 
+                setGetInvoice={setGetInvoice}
               />
             }
           />
@@ -42,7 +45,7 @@ function App() {
                   setDarkLight={setDarkLight}
                 
           />} />
-          <Route path="/viewinvoice" element={<ViewInvoice
+          <Route path="/viewinvoice/" element={<ViewInvoice
             darkLight={darkLight}
               setDarkLight={setDarkLight}
            />
