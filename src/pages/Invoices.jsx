@@ -9,8 +9,43 @@ import { Link } from "react-router-dom";
 
 import FilterContainer from "../components/FilterContainer";
 
-
-export default function Invoices({ data, setData, filtered, setFiltered }) {
+export default function Invoices({
+  data,
+  setData,
+  filtered,
+  setFiltered,
+  show,
+  setShow,
+}) {
+  const FilterDataToShow = data.filter((item) => {
+    if (
+      filtered.includes("paid") &&
+      filtered.includes("pending") &&
+      filtered.includes("draft")
+    )
+      return true;
+    if (filtered.includes("paid") && filtered.includes("pending")) {
+      return item.status === "paid" || item.status === "pending";
+    }
+    if (filtered.includes("paid") && filtered.includes("draft")) {
+      return item.status === "paid" || item.status === "draft";
+    }
+    if (filtered.includes("pending") && filtered.includes("draft")) {
+      return item.status === "pending" || item.status === "draft";
+    }
+    if (filtered.includes("pending") && filtered.includes("paid")) {
+      return item.status === "pending" || item.status === "paid";
+    }
+    if (filtered.includes("paid")) {
+      return item.status === "paid";
+    }
+    if (filtered.includes("pending")) {
+      return item.status === "pending";
+    }
+    if (filtered.includes("draft")) {
+      return item.status === "draft";
+    }
+  });
   useEffect(() => {
     foo();
   }, []);
@@ -23,16 +58,20 @@ export default function Invoices({ data, setData, filtered, setFiltered }) {
   return (
     <>
       <InvoicesInfoDiv>
-        <FilterContainer filtered={filtered} setFiltered={setFiltered} />
         <InvoicecCounterCon>
           <InvoiceCountersDiv>
             <span>Invoices</span>
             <p>7 invoices</p>
           </InvoiceCountersDiv>
           <FilterAndNew>
-            <FilterCon>
-              <span>Filter</span>
-              <img src={arrowDown} alt="arrow down" />
+            <FilterCon show={show} setShow={setShow}>
+              <span onClick={() => setShow(!show)}>Filter</span>
+              <ArrowImg
+                src={arrowDown}
+                alt="arrow down"
+                onClick={() => setShow(!show)}
+                show={show}
+              />
             </FilterCon>
             <BtnCon>
               <Btn>New</Btn>
@@ -41,40 +80,34 @@ export default function Invoices({ data, setData, filtered, setFiltered }) {
               </Circle>
             </BtnCon>
           </FilterAndNew>
+          {show ? (
+            <FilterContainer
+              filtered={filtered}
+              setFiltered={setFiltered}
+              show={show}
+            />
+          ) : null}
         </InvoicecCounterCon>
         <InvoicesListsCon>
-          {data
-            .filter((item) => {
-              if (filtered === "Paid") {
-                return item.status === "paid";
-              }
-              if (filtered === "Pending") {
-                return item.status === "pending";
-              }
-              if (filtered === "Draft") {
-                return item.status === "draft";
-              }
-              if (filtered === "") return true;
-            })
-            .map((person) => {
-              return (
-                <InvoiceContainer status={person.status}>
-                  <span className="personId">
-                    <span className="symbol">#</span>
-                    {person.id}
-                  </span>
-                  <span className="personName">{person.clientName}</span>
-                  <DateTotalCon>
-                    <span className="personPayDate">{person.paymentDue}</span>
-                    <span className="personTotal"> £ {person.total}</span>
-                  </DateTotalCon>
-                  <SpanCon status={person.status}>
-                    <Circletwo status={person.status}></Circletwo>
-                    <span className="personStatus">{person.status}</span>
-                  </SpanCon>
-                </InvoiceContainer>
-              );
-            })}
+          {FilterDataToShow.map((person, index) => {
+            return (
+              <InvoiceContainer status={person.status} key={index}>
+                <span className="personId">
+                  <span className="symbol">#</span>
+                  {person.id}
+                </span>
+                <span className="personName">{person.clientName}</span>
+                <DateTotalCon>
+                  <span className="personPayDate">{person.paymentDue}</span>
+                  <span className="personTotal"> £ {person.total}</span>
+                </DateTotalCon>
+                <SpanCon status={person.status}>
+                  <Circletwo status={person.status}></Circletwo>
+                  <span className="personStatus">{person.status}</span>
+                </SpanCon>
+              </InvoiceContainer>
+            );
+          })}
         </InvoicesListsCon>
       </InvoicesInfoDiv>
       {data.length === 0 ? (
@@ -90,6 +123,10 @@ export default function Invoices({ data, setData, filtered, setFiltered }) {
     </>
   );
 }
+
+const ArrowImg = styled.img`
+  transform: ${(props) => (props.show ? "rotate(180deg)" : "rotate( 0 deg)")};
+`;
 const EmptyCon = styled.div`
   background: var(--11, #f8f8fb);
   padding: 9rem;
@@ -289,6 +326,7 @@ const FilterCon = styled.div`
   }
 `;
 const FilterAndNew = styled.div`
+  position: relative;
   display: flex;
   gap: 1.8rem;
   align-items: center;
