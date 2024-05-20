@@ -98,7 +98,7 @@ export default function Invoices({
                 </span>
                 <span className="personName">{person.clientName}</span>
                 <DateTotalCon>
-                  <span className="personPayDate">{person.paymentDue}</span>
+                  <span className="personPayDate">Due {person.paymentDue}</span>
                   <span className="personTotal"> £ {person.total}</span>
                 </DateTotalCon>
                 <SpanCon status={person.status}>
@@ -211,6 +211,12 @@ const DateTotalCon = styled.div`
   display: flex;
   flex-direction: column;
   gap: 0.9rem;
+  @media (min-width: 48rem) {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 8rem;
+  }
   & .personTotal {
     color: var(--08, #0c0e16);
     font-family: "League Spartan";
@@ -219,6 +225,7 @@ const DateTotalCon = styled.div`
     font-weight: 700;
     line-height: 24px; /* 160% */
     letter-spacing: -0.25px;
+    order: 2;
   }
 `;
 const InvoicesListsCon = styled.div`
@@ -226,6 +233,9 @@ const InvoicesListsCon = styled.div`
   flex-direction: column;
   gap: 1.6rem;
   background: var(--11, #f8f8fb);
+  :hover {
+    cursor: pointer;
+  }
 `;
 
 const InvoiceContainer = styled.div`
@@ -236,6 +246,15 @@ const InvoiceContainer = styled.div`
   border-radius: 8px;
   background: #fff;
   box-shadow: 0px 10px 10px -10px rgba(72, 84, 159, 0.1);
+  &:hover {
+    cursor: pointer;
+  }
+
+  @media (min-width: 48rem) {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
   & .symbol {
     color: var(--07, #7e88c3);
     font-family: "League Spartan";
@@ -359,4 +378,8 @@ const InvoicesInfoDiv = styled.div`
   gap: 3.2rem;
   background: var(--11, #f8f8fb);
   padding: 3.6rem 2.4rem 2.5rem 2.4rem;
+  @media (min-width: 48rem) {
+    padding: 6.2rem 4.8rem 4rem 4.8rem;
+    gap: 5.5rem;
+  }
 `;
