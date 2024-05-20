@@ -11,11 +11,16 @@ import ViewInvoice from "./pages/ViewInvoice";
 function App() {
   const [data, setData] = useState([]);
   const [filtered, setFiltered] = useState("");
+  const [addItemTable, setAddItemTable] = useState(false);
+  const [darkLight, setDarkLight] = useState(true)
 
   return (
     <>
       <BrowserRouter>
-        <Header />
+        <Header 
+        darkLight={darkLight}
+        setDarkLight={setDarkLight}
+        />
         <Routes>
           <Route
             path="/"
@@ -25,13 +30,24 @@ function App() {
                 setData={setData}
                 filtered={filtered}
                 setFiltered={setFiltered}
+                darkLight={darkLight}
+                setDarkLight={setDarkLight}
               />
             }
           />
-          <Route path="/createinvoice" element={<CreateInvoice />} />
-          <Route path="/viewinvoice" element={<ViewInvoice 
-          data={data}
-            setData={setData}/>} />
+          <Route path="/createinvoice" element={<CreateInvoice 
+           addItemTable={addItemTable}
+              setAddItemTable={setAddItemTable}
+                darkLight={darkLight}
+                  setDarkLight={setDarkLight}
+                
+          />} />
+          <Route path="/viewinvoice" element={<ViewInvoice
+            darkLight={darkLight}
+              setDarkLight={setDarkLight}
+           />
+          }
+        />
          
         </Routes>
       </BrowserRouter>

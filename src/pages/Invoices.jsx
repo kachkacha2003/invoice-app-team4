@@ -4,13 +4,11 @@ import arrowDown from "/images/icon-arrow-down.svg";
 import plus from "/images/icon-plus.svg";
 import empty from "/images/illustration-empty.svg";
 import { useEffect } from "react";
-
 import { Link } from "react-router-dom";
-
 import FilterContainer from "../components/FilterContainer";
 
 
-export default function Invoices({ data, setData, filtered, setFiltered }) {
+export default function Invoices({ data, setData, filtered, setFiltered, darkLight}) {
   useEffect(() => {
     foo();
   }, []);
@@ -22,9 +20,9 @@ export default function Invoices({ data, setData, filtered, setFiltered }) {
 
   return (
     <>
-      <InvoicesInfoDiv>
-        <FilterContainer filtered={filtered} setFiltered={setFiltered} />
-        <InvoicecCounterCon>
+      <InvoicesInfoDiv darkLight={darkLight}>
+        <FilterContainer filtered={filtered} setFiltered={setFiltered}  />
+        <InvoicecCounterCon >
           <InvoiceCountersDiv>
             <span>Invoices</span>
             <p>7 invoices</p>
@@ -42,7 +40,7 @@ export default function Invoices({ data, setData, filtered, setFiltered }) {
             </BtnCon>
           </FilterAndNew>
         </InvoicecCounterCon>
-        <InvoicesListsCon>
+        <InvoicesListsCon darkLight={darkLight}>
           {data
             .filter((item) => {
               if (filtered === "Paid") {
@@ -58,7 +56,7 @@ export default function Invoices({ data, setData, filtered, setFiltered }) {
             })
             .map((person) => {
               return (
-                <InvoiceContainer status={person.status}>
+                <InvoiceContainer darkLight={darkLight} status={person.status}>
                   <span className="personId">
                     <span className="symbol">#</span>
                     {person.id}
@@ -175,7 +173,9 @@ const DateTotalCon = styled.div`
   flex-direction: column;
   gap: 0.9rem;
   & .personTotal {
-    color: var(--08, #0c0e16);
+    color: ${(props)=>props.darkLight 
+      ? "var(--08, #0c0e16)"
+      : "#ffffff"};
     font-family: "League Spartan";
     font-size: 15px;
     font-style: normal;
@@ -188,7 +188,10 @@ const InvoicesListsCon = styled.div`
   display: flex;
   flex-direction: column;
   gap: 1.6rem;
-  background: var(--11, #f8f8fb);
+  background: ${(props)=> 
+      props.darkLight 
+      ? "var(--11, #f8f8fb)" 
+      : "#141625"};
 `;
 
 const InvoiceContainer = styled.div`
@@ -197,8 +200,14 @@ const InvoiceContainer = styled.div`
   grid-template-columns: repeat(2, 1fr);
   grid-template-rows: repeat(2, 1fr);
   border-radius: 8px;
-  background: #fff;
-  box-shadow: 0px 10px 10px -10px rgba(72, 84, 159, 0.1);
+  box-shadow: ${(props)=> 
+      props.darkLight 
+      ? "0px 10px 10px -10px rgba(72, 84, 159, 0.1)": 
+      "0 10px 10px -10px rgba(72, 84, 159, 0.1);"};
+  background: ${(props)=> 
+      props.darkLight 
+      ? "#fff": 
+      "#1e2139"};
   & .symbol {
     color: var(--07, #7e88c3);
     font-family: "League Spartan";
@@ -207,15 +216,21 @@ const InvoiceContainer = styled.div`
     font-weight: 700;
     line-height: 15px; /* 100% */
     letter-spacing: -0.25px;
+    
+    
   }
+  .in
   & .personId {
-    color: var(--08, #0c0e16);
+    /* color: var(--08, #0c0e16); */
     font-family: "League Spartan";
     font-size: 15px;
     font-style: normal;
     font-weight: 700;
     line-height: 15px;
     letter-spacing: -0.25px;
+    color:  ${(props)=>props.darkLight 
+      ? "#0c0e16"
+      : "#ffffff"};
   }
   & .personName {
     color: #858bb2;
@@ -226,9 +241,15 @@ const InvoiceContainer = styled.div`
     font-weight: 500;
     line-height: 15px; /* 115.385% */
     letter-spacing: -0.1px;
+    color:  ${(props)=>props.darkLight 
+      ? "#858bb2"
+      : "#ffffff"};
   }
   & .personPayDate {
     color: var(--07, #7e88c3);
+    color:  ${(props)=>props.darkLight 
+      ? "var(--07, #7e88c3)"
+      : "#dfe3fa"};
     font-family: "League Spartan";
     font-size: 13px;
     font-style: normal;
@@ -237,6 +258,7 @@ const InvoiceContainer = styled.div`
     letter-spacing: -0.1px;
   }
 `;
+
 
 const BtnCon = styled.div`
   position: relative;
@@ -276,6 +298,7 @@ const InvoicecCounterCon = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
+  
 `;
 const FilterCon = styled.div`
   display: flex;
@@ -323,6 +346,11 @@ const InvoicesInfoDiv = styled.div`
   display: flex;
   flex-direction: column;
   gap: 3.2rem;
-  background: var(--11, #f8f8fb);
+  /* background: var(--11, #f8f8fb); */
   padding: 3.6rem 2.4rem 2.5rem 2.4rem;
-`;
+  background: ${(props)=> 
+      props.darkLight 
+      ? "var(--11, #f8f8fb)": 
+      "#141625"};
+  
+`

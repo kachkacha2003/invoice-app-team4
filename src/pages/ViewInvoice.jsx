@@ -1,32 +1,34 @@
-import React, { useState } from "react";
+
+import React from "react"
 import styled from "styled-components";
-import arrowLeft from "/images/icon-arrow-left.svg"
+import arrowLeft from "/images/icon-arrow-left.svg";
 import { Link } from "react-router-dom";
+import data from "../data.json/";
 
 
-export default function ViewInvoice(data, setData) {
+
+export default function ViewInvoice({darkLight}) {
     
     let invoiceObj
 
     for (let i=0; i<data.people.length; i++) {
         if (data.people[i].id == "XM9141"){
          invoiceObj = data.people[i]
-
         }
-       console.log(data.people)
+       console.log(darkLight)
     }
 
 
     return (
         <>
-    <MainContainer>
-         <GoBack>
+    <MainContainer darkLight={darkLight}>
+         <GoBack >
             <img src={arrowLeft} alt="" />
             
             <p><Link id="styleLink" to={"/"}>Go back</Link></p>
         </GoBack>
 
-        <Status>
+        <Status darkLight={darkLight}>
             <p>Status</p>
             <SpanCon>
                 <Circletwo></Circletwo>
@@ -34,9 +36,9 @@ export default function ViewInvoice(data, setData) {
               </SpanCon>
         </Status>
 
-        <InvoiceContainer >
+        <InvoiceContainer darkLight={darkLight}>
            
-                <MainInformation>
+                <MainInformation darkLight={darkLight}>
                     <NumberDesc>
                         <div className="id"><span>#</span>{invoiceObj.id}</div>
                         <div className="samestyle">{invoiceObj.description}</div>
@@ -78,7 +80,7 @@ export default function ViewInvoice(data, setData) {
                         </div>
                     </InvoiceInfo>
 
-                    <PriceInfo>
+                    <PriceInfo darkLight={darkLight}>
                         <div  className="priceTitle">
                             <div className="samestyle">Item Name</div>
                             <div className="samestyle">QTY.</div>
@@ -86,7 +88,7 @@ export default function ViewInvoice(data, setData) {
                             <div className="samestyle">Total</div>
                         </div>
                     {invoiceObj.items.map((item)=>(
-                        <Prices>
+                        <Prices darkLight={darkLight}>
                                 <ProductInfo>
                                     <div className="id">{item.name}</div>
                                     <div className="quantity" >
@@ -98,14 +100,14 @@ export default function ViewInvoice(data, setData) {
                         </Prices>
                     ))}                    
                     </PriceInfo>
-                    <GrandTotal>
+                    <GrandTotal darkLight={darkLight}>
                             <p>Grand Total</p>
                             <h2>£ {invoiceObj.total.toFixed(2)}</h2>
-                        </GrandTotal>
+                    </GrandTotal>
                 </MainInformation>  
         </InvoiceContainer>
     </MainContainer>
-<Buttons>
+<Buttons darkLight={darkLight}>
     <button className="edit" >Edit</button>
     <button className="delete">Delete</button>
     <button className="mark">Mark as Paid</button>
@@ -118,18 +120,28 @@ export default function ViewInvoice(data, setData) {
 const MainContainer = styled.div`
     width: 100%;
     padding: 3.3rem 2.4rem 2rem 2.2rem;
-    background-color: #f8f8fb;
+    background-color: ${(props)=> 
+      props.darkLight 
+      ? "#fff": 
+      "#141625"};
     font-family: "League Spartan";
+    overflow-y: auto;
     
     .samestyle {
         font-size: 1.3rem;
         font-weight: 500;
-        color: #7e88c3;
-    }
+        color: ${(props)=>props.darkLight 
+      ? "#858bb2"
+      : "#888eb0"};
+        }
+    
+    
 
     
     .id {
-        color: #0c0e16;
+        color:  ${(props)=>props.darkLight 
+      ? "#0c0e16"
+      : "#ffffff"};
         font-size: 1.5rem;
         font-weight: bold;
         letter-spacing: -0.25px;
@@ -177,14 +189,21 @@ const Status = styled.div`
     display: flex;
     justify-content: space-between;
     align-items: center;
-    background-color: #ffffff;
+    background-color: ${(props)=> 
+            props.darkLight 
+            ? "#ffffff" 
+            : "#1e2139"};
     margin-top: 3.1rem;
     padding: 2.4rem 2.4rem 2.7rem;
     border-radius: 0.8rem;
     
     & p {
         font-size: 1.3rem;
-        color: #858bb2;
+        color: ${(props)=> 
+      props.darkLight 
+      ? "#858bb2": 
+      "#dfe3fa"};
+      
         font-weight: 500;
     }
 `
@@ -217,12 +236,16 @@ const Circletwo = styled.div`
 `
 const InvoiceContainer = styled.div`
     width: 100%;
-    background-color: #fff;
+    background-color: ${(props)=> 
+            props.darkLight 
+            ? "#ffffff" 
+            : "#1e2139"};
     margin-top: 1.6rem;
     padding: 2.5rem 2.4rem 2.4rem;
 `
 const MainInformation=styled.div`
     width: 100%;
+    
 `
 const NumberDesc = styled.div`
     display: flex;
@@ -285,16 +308,17 @@ const Bill = styled.div`
 `
 const PriceInfo = styled.div`
     width: 100%;
-    background-color: #f9fafe;
     margin-top: 3.8rem;
     display: flex;
     flex-direction: column;
     padding: 2.5rem 2.4rem 2.2rem;
     gap: 3.2rem;
+    border-radius: 0.8rem 0.8rem 0 0;
+    background-color: ${(props)=> 
+      props.darkLight 
+      ? "#f9fafe" 
+      : "#252945"};
     
-    
-    border-radius: 0.8rem;
-
     .priceTitle {
         display: none;
     }
@@ -305,12 +329,20 @@ const Prices = styled.div`
     flex-direction: row;
     justify-content: space-between;
     gap: 8.3rem;
+    background-color: ${(props)=> 
+      props.darkLight 
+      ? "#f9fafe" 
+      : "#252945"};
+    
 `
 
 const ProductInfo = styled.div`
     display: flex;
     flex-direction: column;
     gap: 0.8rem;
+    
+    
+    
 
     .quantity {
         display: flex;
@@ -321,14 +353,16 @@ const ProductInfo = styled.div`
 const GrandTotal = styled.div`
     width: 100%;
     height: 8rem;
-    background-color: #373b53;
     padding: 2.6rem 2.4rem 2.2rem;
     display: flex;
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
     border-radius: 0 0 0.8rem 0.8rem;
-    margin-top: 2.1rem;
+    background-color: ${(props)=> 
+      props.darkLight 
+      ? "#373b53" 
+      : "#0c0e16"};
 
     p {
         color: #fff;
@@ -352,6 +386,10 @@ const Buttons=styled.div`
     justify-content: space-around;
     align-items: center;
     padding: 0 2.4rem;
+    background-color: ${(props)=> 
+            props.darkLight 
+            ? "#ffffff" 
+            : "#1e2139"};
 
     .edit,
     .delete,
@@ -368,8 +406,14 @@ const Buttons=styled.div`
 
     .edit {
         width: 7.3rem;
-        background-color: #f9fafe;
-        color: #7e88c3;
+        background-color: ${(props)=> 
+      props.darkLight 
+      ? "#f9fafe" 
+      : "#252945"};
+        color: ${(props)=> 
+      props.darkLight 
+      ? "#7e88c3" 
+      : "#dfe3fa"};
     }
 
     .delete {
