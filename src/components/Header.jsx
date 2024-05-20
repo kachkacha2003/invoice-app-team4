@@ -14,6 +14,7 @@ export default function Header({darkLight, setDarkLight}) {
         
         <div className="dark"></div>
         <div className="light"></div>
+
         <img className="logo" src={logo} alt="" />
         
         <MoonSum darkLight={darkLight}>
@@ -21,6 +22,7 @@ export default function Header({darkLight, setDarkLight}) {
           <img className="moon"  src={moon} alt="" />
         </MoonSum>
         
+
       </LogoMoon>
       <img className="avatar" src={avatar} alt="logo-icon" />
     </HeaderContainer>
@@ -28,6 +30,7 @@ export default function Header({darkLight, setDarkLight}) {
 }
 
 const HeaderContainer = styled.div`
+
 
     width: 100%;
     background-color: ${(props)=> 
@@ -38,6 +41,7 @@ const HeaderContainer = styled.div`
     align-items: center;
     justify-content: space-between;
     padding: 0 2.4rem 0 0;
+
 
 
   .avatar {

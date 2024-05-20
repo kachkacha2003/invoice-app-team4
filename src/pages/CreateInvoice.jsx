@@ -5,8 +5,10 @@ import deleteIcon from "/images/icon-delete.svg";
 import { useState } from "react";
 import { Link } from "react-router-dom";
 
+
 export default function Create({ addItemTable, setAddItemTable, darkLight }) {
   const [selectedValue, setSelectedValue] = useState("");
+
   const [createInvoice, setCreateinvoice] = useState({
     id: "",
     createdAt: "",
@@ -16,6 +18,7 @@ export default function Create({ addItemTable, setAddItemTable, darkLight }) {
     clientName: "",
     clientEmail: "",
     status: "",
+
     senderAddressStreet: "",
     senderAddressCity: "",
     senderAddressPostCode: "",
@@ -469,10 +472,12 @@ export default function Create({ addItemTable, setAddItemTable, darkLight }) {
                     id="ItemName"
                     name="itemName"
                     value={createInvoice.itemName}
+
                     type="text"
                     onChange={handleChange}
                   />
                 </Couple>
+
                 <ItemsPriceDel>
                   <ItemPrice>
                     <Couple darkLight={darkLight}>
@@ -506,11 +511,13 @@ export default function Create({ addItemTable, setAddItemTable, darkLight }) {
                       />
                     </Couple>
                     <Couple darkLight={darkLight}>
+
                       <label className="label" htmlFor="Total">
                         Total
                       </label>
                       <input
                         id="TotalPrice"
+
                         name="itemTotal"
                         value={createInvoice.itemTotal}
                         type="number"
@@ -518,6 +525,7 @@ export default function Create({ addItemTable, setAddItemTable, darkLight }) {
                       />
                     </Couple>
                   </ItemPrice>
+
                   <img src={deleteIcon} alt="" />
                 </ItemsPriceDel>
               </div>
@@ -621,29 +629,35 @@ export default function Create({ addItemTable, setAddItemTable, darkLight }) {
         </button>
       </Buttons>
     </>
+
   );
 }
 
 const MainContainer = styled.div`
   width: 100%;
+
   padding: 3.3rem 2.4rem 0 2.2rem;
   background-color: ${(props) => (props.darkLight ? "#fff" : "#141625")};
+
 
   h1 {
     margin-top: 2.6rem;
     font-size: 2.4rem;
     font-weight: bold;
+
     color: ${(props) => (props.darkLight ? "#0c0e16" : "#ffffff")};
   }
 
   p {
     margin-bottom: 2.4rem;
+
   }
 `;
 const GoBack = styled.div`
   display: flex;
   flex-direction: row;
   gap: 2.79rem;
+
 
   #styleLink {
     text-decoration: none;
@@ -653,6 +667,7 @@ const GoBack = styled.div`
     font-size: 1.5rem;
     font-weight: bold;
     color: ${(props) => (props.darkLight ? "#373b53" : "#1e2139")};
+
     letter-spacing: -0.25px;
   }
 
@@ -661,11 +676,12 @@ const GoBack = styled.div`
     height: 0.85rem;
   }
 `;
+
 const Bill = styled.div`
   margin-top: 2.2rem;
   display: flex;
   flex-direction: column;
-  /* gap: 2.4rem; */
+
 
   p {
     font-size: 1.5rem;
@@ -676,6 +692,7 @@ const Bill = styled.div`
   }
 `;
 
+
 const NameEmail = styled.div`
   display: flex;
   flex-direction: column;
@@ -685,10 +702,12 @@ const SenderAddress = styled.form`
   display: flex;
   flex-direction: column;
 
+
   .label {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
+
     color: ${(props) => (props.darkLight ? "#7e88c3" : "#7e88c3")};
     font-size: 10px;
   }
@@ -696,11 +715,17 @@ const SenderAddress = styled.form`
     margin-top: 4.1rem;
     margin-bottom: 2.4rem;
   }
+
+
+ 
 `;
+
+
 const DateTerms = styled.div`
   display: flex;
   flex-direction: column; /*tablet, desktop*/
   gap: 2.5rem;
+
   margin-top: 2.5rem;
 `;
 const CityPostcodeCountry = styled.div`
@@ -709,21 +734,39 @@ const CityPostcodeCountry = styled.div`
   gap: 2.5rem;
   margin-top: 2.5rem;
 `;
+
+
+  input::-webkit-calendar-picker-indicator {
+    position: absolute;
+    right: 10%;
+  }
+`;
+const CityPostcodeCountry = styled.div`
+  display: flex;
+  flex-direction: column; /* media შეიცვლება row-Ti*/
+  /* justify-content: space-between; */
+  gap: 2.5rem;
+`;
+
+
 const CityPostCode = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: space-between;
   gap: 2.3rem;
 `;
+
 const Couple = styled.div`
   display: flex;
   flex-direction: column;
   gap: 0.9rem;
 
+
   input[type="date"]::-webkit-calendar-picker-indicator {
     background-color: ${(props) => (props.darkLight ? "bleck" : "#7e88c3")};
     cursor: pointer;
   }
+
 
   #street,
   #City,
@@ -741,15 +784,19 @@ const Couple = styled.div`
   #ItemName {
     height: 4.8rem;
     border-radius: 0.4rem;
+
     border: solid 0.1rem ${(props) => (props.darkLight ? "#dfe3fa" : "#252945")};
+
     padding: 1.8rem 11.5rem 1.5rem 1.2rem;
     font-size: 1.5rem;
     font-weight: bold;
     letter-spacing: -0.25px;
     text-align: left;
+
     color: ${(props) => (props.darkLight ? "#0c0e16" : "#ffffff")};
     text-align: left;
     background-color: ${(props) => (props.darkLight ? "#ffffff" : "#1e2139")};
+
   }
 
   #City,
@@ -758,6 +805,14 @@ const Couple = styled.div`
   #PostCodeTo {
     width: 15.2rem;
     padding-right: 0;
+  }
+
+
+  #InvoiceDate {
+    display: flex;
+    justify-content: space-between;
+    padding: 1rem 1rem 1rem 1rem;
+    width: 100%;
   }
 
   #Qty {
@@ -778,6 +833,7 @@ const Couple = styled.div`
     width: 4.7rem;
     height: 4.8rem;
     border: none;
+
     background-color: ${(props) => (props.darkLight ? "#fff" : "#141625")};
   }
 
@@ -785,6 +841,7 @@ const Couple = styled.div`
   #Qty {
     background-color: ${(props) => (props.darkLight ? "#fff" : "#1e2139")};
     border: solid 0.1rem ${(props) => (props.darkLight ? "#dfe3fa" : "#252945")};
+
   }
 
   span {
@@ -797,6 +854,7 @@ const ItemPrice = styled.div`
   gap: 1.6rem;
   margin-top: 2rem;
 `;
+
 const ItemList = styled.div`
   display: flex;
   flex-direction: column;
@@ -804,8 +862,10 @@ const ItemList = styled.div`
 
   #add {
     border-radius: 2.4rem;
+
     background-color: ${(props) => (props.darkLight ? "#fff" : "#1e2139")};
     border: solid 0.1rem ${(props) => (props.darkLight ? "#dfe3fa" : "#252945")};
+
     padding: 1.8rem 10.7rem 1.5rem 10.8rem;
     color: #7e88c3;
     border: none;
@@ -823,15 +883,18 @@ const ItemsPriceDel = styled.div`
   justify-content: space-between;
   align-items: center;
 
+
   img:hover {
     cursor: pointer;
   }
+
 
   img {
     width: 1.07rem;
     height: 1.24rem;
   }
 `;
+
 const EmptyContainer = styled.div`
   width: 100%;
   height: 6.4rem;
@@ -839,12 +902,14 @@ const EmptyContainer = styled.div`
     props.darkLight
       ? "linear-gradient(to bottom, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.1))"
       : "#141625"};
+
 `;
 const Buttons = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: space-between;
   gap: 0.7rem;
+
   padding: 2.1rem 2.4rem 2.2rem 2.4rem;
   background-color: ${(props) => (props.darkLight ? "#fff" : "#1e2139")};
 
@@ -853,6 +918,7 @@ const Buttons = styled.div`
     padding: 1.8rem 1.9rem 1.5rem 1.8rem;
     width: 8.4rem;
     color: ${(props) => (props.darkLight ? "#dfe3fa" : "#7e88c3")};
+
     border-radius: 2.4rem;
     border: none;
     font-size: 1.2rem;
@@ -864,7 +930,9 @@ const Buttons = styled.div`
     background-color: #373b53;
     padding: 1.8rem 1.39rem 1.5rem 1.61rem;
     width: 11.7rem;
+
     color: ${(props) => (props.darkLight ? "#888eb0" : "#dfe3fa")};
+
     border-radius: 2.4rem;
     border: none;
     font-size: 1.2rem;
@@ -876,7 +944,9 @@ const Buttons = styled.div`
     background-color: #7c5dfa;
     padding: 1.8rem 1.5rem 1.5rem 1.6rem;
     width: 11.2rem;
+
     color: ${(props) => (props.darkLight ? "#dfe3fa" : "#ffffff")};
+
     border-radius: 2.4rem;
     border: none;
     letter-spacing: -0.25px;
@@ -884,7 +954,9 @@ const Buttons = styled.div`
     font-weight: bold;
   }
 
+
   .send:hover {
     cursor: pointer;
   }
+
 `;

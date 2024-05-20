@@ -6,14 +6,15 @@ import Invoices from "./pages/Invoices";
 import CreateInvoice from "./pages/CreateInvoice";
 import ViewInvoice from "./pages/ViewInvoice";
 
-
-
 function App() {
   const [data, setData] = useState([]);
-  const [filtered, setFiltered] = useState("");
+
+   const [filtered, setFiltered] = useState(["draft", "pending", "paid"]);
+  const [show, setShow] = useState(false);
   const [addItemTable, setAddItemTable] = useState(false);
   const [darkLight, setDarkLight] = useState(true);
   const [getInvoice, setGetInvoice] = useState(0)
+
 
   return (
     <>
@@ -31,6 +32,8 @@ function App() {
                 setData={setData}
                 filtered={filtered}
                 setFiltered={setFiltered}
+                show={show}
+                setShow={setShow}
                 darkLight={darkLight}
                 setDarkLight={setDarkLight}
                 getInvoice={getInvoice} 
@@ -51,7 +54,7 @@ function App() {
            />
           }
         />
-         
+
         </Routes>
       </BrowserRouter>
     </>

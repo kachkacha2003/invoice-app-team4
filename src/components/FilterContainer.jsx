@@ -2,31 +2,80 @@ import React from "react";
 import styled from "styled-components";
 import check from "/images/icon-check.svg";
 
-export default function FilterContainer({ filtered, setFiltered }) {
+export default function FilterContainer({
+  filtered,
+  setFiltered,
+  show,
+  setShow,
+}) {
   return (
     <Parent>
-      <Inside onClick={() => setFiltered("Draft")}>
-        <CheckCon>
-          <img src={check} alt="" />
+      <Inside
+        onClick={() =>
+          filtered.includes("draft")
+            ? setFiltered(filtered.filter((el) => el !== "draft"))
+            : setFiltered([...filtered, "draft"])
+        }
+      >
+        <CheckCon filtered={filtered}>
+          {filtered.includes("draft") ? <img src={check} alt="" /> : null}
         </CheckCon>
         <span>Draft</span>
       </Inside>
-      <Inside onClick={() => setFiltered("Pending")}>
-        <CheckCon>
-          <img src={check} alt="" />
-        </CheckCon>
+      <Inside
+        onClick={() =>
+          filtered.includes("pending")
+            ? setFiltered(filtered.filter((el) => el !== "pending"))
+            : setFiltered([...filtered, "pending"])
+        }
+      >
+        <CheckConTwo filtered={filtered}>
+          {filtered.includes("pending") ? <img src={check} alt="" /> : null}
+        </CheckConTwo>
         <span>Pending</span>
       </Inside>
-      <Inside onClick={() => setFiltered("Paid")}>
-        <CheckCon>
-          <img src={check} alt="" />
-        </CheckCon>
+      <Inside
+        filtered={filtered}
+        onClick={() =>
+          filtered.includes("paid")
+            ? setFiltered(filtered.filter((el) => el !== "paid"))
+            : setFiltered([...filtered, "paid"])
+        }
+      >
+        <CheckConThree filtered={filtered}>
+          {filtered.includes("paid") ? <img src={check} alt="" /> : null}
+        </CheckConThree>
         <span>Paid</span>
       </Inside>
     </Parent>
   );
 }
 
+const CheckConThree = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.6rem;
+  height: 1.6rem;
+  border-radius: 2px;
+  background: ${(props) =>
+    props.filtered.includes("paid")
+      ? "var(--01, #7C5DFA)"
+      : "var(--05, #DFE3FA)"};
+`;
+
+const CheckConTwo = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.6rem;
+  height: 1.6rem;
+  border-radius: 2px;
+  background: ${(props) =>
+    props.filtered.includes("pending")
+      ? "var(--01, #7C5DFA)"
+      : "var(--05, #DFE3FA)"};
+`;
 const CheckCon = styled.div`
   display: flex;
   align-items: center;
@@ -34,7 +83,10 @@ const CheckCon = styled.div`
   width: 1.6rem;
   height: 1.6rem;
   border-radius: 2px;
-  background: var(--05, #dfe3fa);
+  background: ${(props) =>
+    props.filtered.includes("draft")
+      ? "var(--01, #7C5DFA)"
+      : "var(--05, #DFE3FA)"};
 `;
 const Inside = styled.div`
   align-items: center;
@@ -49,9 +101,14 @@ const Inside = styled.div`
     line-height: 15px;
     letter-spacing: -0.25px;
   }
+  :hover {
+    cursor: pointer;
+  }
 `;
 
 const Parent = styled.div`
+  top: 10rem;
+  right: 15rem;
   position: absolute;
   width: 12rem;
   display: flex;
@@ -61,4 +118,8 @@ const Parent = styled.div`
   border-radius: 8px;
   background: #fff;
   box-shadow: 0px 10px 20px 0px rgba(72, 84, 159, 0.25);
+  @media (min-width: 48rem) {
+    right: 17.5rem;
+    top: 12rem;
+  }
 `;
