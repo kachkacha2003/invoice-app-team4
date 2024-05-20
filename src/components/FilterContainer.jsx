@@ -118,4 +118,8 @@ const Parent = styled.div`
   border-radius: 8px;
   background: #fff;
   box-shadow: 0px 10px 20px 0px rgba(72, 84, 159, 0.25);
+  @media (min-width: 48rem) {
+    right: 17.5rem;
+    top: 12rem;
+  }
 `;
