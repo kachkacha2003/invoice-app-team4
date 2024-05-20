@@ -8,7 +8,6 @@ export default function FilterContainer({
   show,
   setShow,
 }) {
-  console.log(filtered);
   return (
     <Parent>
       <Inside
@@ -19,7 +18,7 @@ export default function FilterContainer({
         }
       >
         <CheckCon filtered={filtered}>
-          <img src={check} alt="" />
+          {filtered.includes("draft") ? <img src={check} alt="" /> : null}
         </CheckCon>
         <span>Draft</span>
       </Inside>
@@ -30,9 +29,9 @@ export default function FilterContainer({
             : setFiltered([...filtered, "pending"])
         }
       >
-        <CheckCon filtered={filtered}>
-          <img src={check} alt="" />
-        </CheckCon>
+        <CheckConTwo filtered={filtered}>
+          {filtered.includes("pending") ? <img src={check} alt="" /> : null}
+        </CheckConTwo>
         <span>Pending</span>
       </Inside>
       <Inside
@@ -43,15 +42,40 @@ export default function FilterContainer({
             : setFiltered([...filtered, "paid"])
         }
       >
-        <CheckCon filtered={filtered}>
-          <img src={check} alt="" />
-        </CheckCon>
+        <CheckConThree filtered={filtered}>
+          {filtered.includes("paid") ? <img src={check} alt="" /> : null}
+        </CheckConThree>
         <span>Paid</span>
       </Inside>
     </Parent>
   );
 }
 
+const CheckConThree = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.6rem;
+  height: 1.6rem;
+  border-radius: 2px;
+  background: ${(props) =>
+    props.filtered.includes("paid")
+      ? "var(--01, #7C5DFA)"
+      : "var(--05, #DFE3FA)"};
+`;
+
+const CheckConTwo = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.6rem;
+  height: 1.6rem;
+  border-radius: 2px;
+  background: ${(props) =>
+    props.filtered.includes("pending")
+      ? "var(--01, #7C5DFA)"
+      : "var(--05, #DFE3FA)"};
+`;
 const CheckCon = styled.div`
   display: flex;
   align-items: center;
@@ -77,6 +101,9 @@ const Inside = styled.div`
     line-height: 15px;
     letter-spacing: -0.25px;
   }
+  :hover {
+    cursor: pointer;
+  }
 `;
 
 const Parent = styled.div`
@@ -91,4 +118,8 @@ const Parent = styled.div`
   border-radius: 8px;
   background: #fff;
   box-shadow: 0px 10px 20px 0px rgba(72, 84, 159, 0.25);
+  @media (min-width: 48rem) {
+    right: 17.5rem;
+    top: 12rem;
+  }
 `;

@@ -4,10 +4,10 @@ import arrowDown from "/images/icon-arrow-down.svg";
 import plus from "/images/icon-plus.svg";
 import empty from "/images/illustration-empty.svg";
 import { useEffect } from "react";
-
+import { useMediaQuery } from "@uidotdev/usehooks";
 import { Link } from "react-router-dom";
-
 import FilterContainer from "../components/FilterContainer";
+import arrowRight from "/images/icon-arrow-right.svg";
 
 export default function Invoices({
   data,
@@ -17,6 +17,8 @@ export default function Invoices({
   show,
   setShow,
 }) {
+  const tabletText = useMediaQuery("only screen and (min-width : 48rem)");
+  const tabletArrow = useMediaQuery("only screen and (min-width : 48rem)");
   const FilterDataToShow = data.filter((item) => {
     if (
       filtered.includes("paid") &&
@@ -65,7 +67,9 @@ export default function Invoices({
           </InvoiceCountersDiv>
           <FilterAndNew>
             <FilterCon show={show} setShow={setShow}>
-              <span onClick={() => setShow(!show)}>Filter</span>
+              <span onClick={() => setShow(!show)}>
+                Filter {tabletText ? "by status" : null}
+              </span>
               <ArrowImg
                 src={arrowDown}
                 alt="arrow down"
@@ -97,14 +101,13 @@ export default function Invoices({
                   {person.id}
                 </span>
                 <span className="personName">{person.clientName}</span>
-                <DateTotalCon>
-                  <span className="personPayDate">{person.paymentDue}</span>
-                  <span className="personTotal"> £ {person.total}</span>
-                </DateTotalCon>
+                <span className="personPayDate">Due {person.paymentDue}</span>
+                <span className="personTotal"> £ {person.total}</span>
                 <SpanCon status={person.status}>
                   <Circletwo status={person.status}></Circletwo>
                   <span className="personStatus">{person.status}</span>
                 </SpanCon>
+                {tabletArrow ? <img src={arrowRight} alt="" /> : null}
               </InvoiceContainer>
             );
           })}
@@ -179,6 +182,8 @@ const Circletwo = styled.div`
   border-radius: 50%;
 `;
 const SpanCon = styled.div`
+  grid-column: 2/3;
+  grid-row: 2/4;
   border-radius: 6px;
   background-color: ${(props) =>
     props.status === "paid"
@@ -190,6 +195,10 @@ const SpanCon = styled.div`
   align-items: center;
   justify-content: center;
   gap: 0.8rem;
+  @media (min-width: 48rem) {
+    width: 10rem;
+    height: 4rem;
+  }
   & .personStatus {
     text-align: center;
     color: ${(props) =>
@@ -207,35 +216,36 @@ const SpanCon = styled.div`
     border-radius: 6px;
   }
 `;
-const DateTotalCon = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: 0.9rem;
-  & .personTotal {
-    color: var(--08, #0c0e16);
-    font-family: "League Spartan";
-    font-size: 15px;
-    font-style: normal;
-    font-weight: 700;
-    line-height: 24px; /* 160% */
-    letter-spacing: -0.25px;
-  }
-`;
+
 const InvoicesListsCon = styled.div`
   display: flex;
   flex-direction: column;
   gap: 1.6rem;
   background: var(--11, #f8f8fb);
+  :hover {
+    cursor: pointer;
+  }
 `;
 
 const InvoiceContainer = styled.div`
   padding: 2.5rem 2.4rem 2.2rem 2.4rem;
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  grid-template-rows: repeat(2, 1fr);
+  grid-template-rows: repeat(3, 1fr);
+  grid-column-gap: 20%;
   border-radius: 8px;
   background: #fff;
   box-shadow: 0px 10px 10px -10px rgba(72, 84, 159, 0.1);
+  &:hover {
+    cursor: pointer;
+  }
+  @media (min-width: 48rem) {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    grid-column-gap: 0;
+    align-items: center;
+  }
   & .symbol {
     color: var(--07, #7e88c3);
     font-family: "League Spartan";
@@ -253,10 +263,11 @@ const InvoiceContainer = styled.div`
     font-weight: 700;
     line-height: 15px;
     letter-spacing: -0.25px;
+    order: -9;
   }
   & .personName {
     color: #858bb2;
-    text-align: right;
+    text-align: left;
     font-family: "League Spartan";
     font-size: 13px;
     font-style: normal;
@@ -265,6 +276,7 @@ const InvoiceContainer = styled.div`
     letter-spacing: -0.1px;
   }
   & .personPayDate {
+    text-align: right;
     color: var(--07, #7e88c3);
     font-family: "League Spartan";
     font-size: 13px;
@@ -272,6 +284,16 @@ const InvoiceContainer = styled.div`
     font-weight: 500;
     line-height: 15px;
     letter-spacing: -0.1px;
+    order: -8;
+  }
+  & .personTotal {
+    color: var(--08, #0c0e16);
+    font-family: "League Spartan";
+    font-size: 15px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 24px; /* 160% */
+    letter-spacing: -0.25px;
   }
 `;
 
@@ -359,4 +381,8 @@ const InvoicesInfoDiv = styled.div`
   gap: 3.2rem;
   background: var(--11, #f8f8fb);
   padding: 3.6rem 2.4rem 2.5rem 2.4rem;
+  @media (min-width: 48rem) {
+    padding: 6.2rem 4.8rem 4rem 4.8rem;
+    gap: 5.5rem;
+  }
 `;
