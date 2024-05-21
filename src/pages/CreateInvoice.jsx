@@ -238,9 +238,9 @@ export default function Create({ addItemTable, darkLight, list, setList }) {
       maxItem.push(...maxItem, maxItem);
     
     firstObj = {
-      name: Object.values(createInvoice.itemName).join(""),
-      quantity: Object.values(createInvoice.itemQuantity).join(""),
-      price: Object.values(createInvoice.itemPrice).join(""),
+      name: Object.values(itemObj.name).join(""),
+      quantity: Object.values(itemObj.uantity).join(""),
+      price: Object.values(itemObj.price).join(""),
       total: Object.values(itemObj.total).join(""),
     };
   
