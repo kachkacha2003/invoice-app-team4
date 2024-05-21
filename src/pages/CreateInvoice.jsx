@@ -4,11 +4,21 @@ import arrowLeft from "/images/icon-arrow-left.svg";
 import deleteIcon from "/images/icon-delete.svg";
 import { useState } from "react";
 import { Link } from "react-router-dom";
+
 import { useMediaQuery } from "@uidotdev/usehooks";
 
 export default function Create({ addItemTable, setAddItemTable, darkLight }) {
   const [selectedValue, setSelectedValue] = useState("");
   const mobileText = useMediaQuery("only screen and (max-width : 48rem)");
+
+
+
+  let maxItem = [];
+  let secondObj = {};
+  let firstObj = {};
+  let itemsArr = []
+  let finalitemsArr = []
+
   const [createInvoice, setCreateinvoice] = useState({
     id: "",
     createdAt: "",
@@ -18,7 +28,6 @@ export default function Create({ addItemTable, setAddItemTable, darkLight }) {
     clientName: "",
     clientEmail: "",
     status: "",
-
     senderAddressStreet: "",
     senderAddressCity: "",
     senderAddressPostCode: "",
@@ -50,7 +59,7 @@ export default function Create({ addItemTable, setAddItemTable, darkLight }) {
     price: 0,
     total: 0,
   });
-  let itemsArr = [];
+  
   let [finalObj, setFinalObj] = useState({
     createdAt: "",
     paymentDue: "",
@@ -61,7 +70,6 @@ export default function Create({ addItemTable, setAddItemTable, darkLight }) {
     status: "",
     senderAddress: senderAddress,
     clientAddress: clientAddress,
-    items: itemsArr,
     total: 0,
   });
   const [errorMes, setErrorMes] = useState({
@@ -168,7 +176,7 @@ export default function Create({ addItemTable, setAddItemTable, darkLight }) {
     //senderAddress and clientAddress objects
 
     // Object for API
-    delete finalObj.clientAddressCity,
+      delete finalObj.clientAddressCity,
       delete finalObj.clientAddressCountry,
       delete finalObj.clientAddressPostCode,
       delete finalObj.clientAddressStreet,
@@ -176,13 +184,10 @@ export default function Create({ addItemTable, setAddItemTable, darkLight }) {
       delete finalObj.senderAddressCountry,
       delete finalObj.senderAddressPostCode,
       delete finalObj.senderAddressStreet,
-      delete finalObj.itemName,
-      delete finalObj.itemQuantity,
-      delete finalObj.itemPrice,
-      delete finalObj.itemTotal,
-      (finalObj = Object.assign(finalObj, { id: resultid }));
-    finalObj = Object.assign(finalObj, { paymentDue: formattedDate });
-  };
+      finalObj = Object.assign(finalObj, { id: resultid });
+      finalObj = Object.assign(finalObj, { paymentDue: formattedDate });
+      
+    };
   {
     Object.keys(createInvoice).forEach((element) => {
       if (element.includes("senderAddress")) {
@@ -213,29 +218,82 @@ export default function Create({ addItemTable, setAddItemTable, darkLight }) {
           createInvoice.clientAddressCountry
         ).join("");
       }
-      if (element.includes("item")) {
-        itemObj.name = Object.values(createInvoice.itemName).join("");
-        itemObj.quantity = Object.values(createInvoice.itemQuantity).join("");
-        itemObj.price = Object.values(createInvoice.itemPrice).join("");
-        itemObj.total = Object.values(createInvoice.itemTotal).join("");
-      }
     });
   }
-  function addItems() {
-    (itemObj.name = ""),
-      (itemObj.quantity = ""),
-      (itemObj.price = ""),
-      (itemObj.total = "");
-    setAddItemTable(true);
+
+  const [disabled, setDisabled] = useState(true);
+ 
+     function addItems() {
+    setItemObj({
+      name: createInvoice.itemName,
+      quantity: createInvoice.itemQuantity,
+      price: createInvoice.itemPrice,
+      total: `${createInvoice.itemQuantity * createInvoice.itemPrice}`,
+    });
+    
   }
-  itemsArr.push(...itemsArr, itemObj);
-
-  const onchange = (event) => {
-    setSelectedValue(event.target.value);
-    console.log(selectedValue);
+ 
+    maxItem.push(...maxItem, maxItem);
+  
+  firstObj = {
+    name: createInvoice.itemName,
+    quantity: createInvoice.itemQuantity,
+    price: createInvoice.itemPrice,
+    total: `${createInvoice.itemQuantity * createInvoice.itemPrice}`,
   };
-  console.log(finalObj, senderAddress);
+  secondObj = {
+    name: Object.values(itemObj.name).join(""),
+    quantity: Object.values(itemObj.quantity).join(""),
+    price: Object.values(itemObj.price).join(""),
+    total: Object.values(itemObj.total).join(""),
+  };
 
+
+  itemsArr.push(...itemsArr, firstObj, secondObj);
+   finalitemsArr = Object.values(itemsArr)
+   finalObj = Object.assign(finalObj, { items: finalitemsArr })
+   delete finalObj.itemName,
+   delete finalObj.itemQuantity,
+   delete finalObj.itemPrice,
+   delete finalObj.itemTotal,
+
+   
+   console.log(finalObj)
+
+  function send() {
+    finalObj.status="panding"
+    finalObj.total= Number(`${firstObj.total + secondObj.total}`)
+    console.log(finalObj)
+  }
+  function draft() {
+    finalObj.status="draft"
+    finalObj.total= `${firstObj.total}` + `${secondObj.total}`
+    console.log(finalObj)
+  }
+  function discard(){
+    createInvoice.idcreatedAt.value = "",
+    createInvoice.description.value = "",
+    createInvoice.paymentTerms = "",
+    createInvoice.clientName = "",
+    createInvoice.clientEmail = "",
+    createInvoice.senderAddressStreet.target.value = "",
+    createInvoice.senderAddressCity = "",
+    createInvoice.senderAddressPostCode = "",
+    createInvoice.senderAddressCountry = "",
+    createInvoice.clientAddressStreet = "",
+    createInvoice.clientAddressCity = "",
+    createInvoice.clientAddressPostCode = "",
+    createInvoice.clientAddressCountry = "",
+    createInvoice.itemName = "",
+    createInvoice.itemQuantity = "",
+    createInvoice.itemPrice = "",
+    createInvoice.itemTotal = ""
+    console.log(createInvoice.senderAddressStreet)
+  }
+  console.log(createInvoice.senderAddressStreet)
+
+    console.log(finalObj)
+  
   return (
     <>
       <MainContainer darkLight={darkLight}>
@@ -412,7 +470,6 @@ export default function Create({ addItemTable, setAddItemTable, darkLight }) {
                   />
                 </Couple>
               </CityPostcodeCountry>
-
               <DateTerms>
                 <Couple darkLight={darkLight}>
                   <label className="label" htmlFor="InvoiceDate">
@@ -427,7 +484,6 @@ export default function Create({ addItemTable, setAddItemTable, darkLight }) {
                     onChange={handleChange}
                   />
                 </Couple>
-
                 <Couple darkLight={darkLight}>
                   <label className="label" htmlFor="PaymentTerms">
                     Payment Terms
@@ -435,13 +491,14 @@ export default function Create({ addItemTable, setAddItemTable, darkLight }) {
                       {errorMes.paymentTerms}
                     </span>
                   </label>
-                  <select id="PaymentTerms" onchange={onchange}>
-                    <option value="0"></option>
-                    <option value="1">Net 1 Days</option>
-                    <option value="7">Net 7 Days</option>
-                    <option value="14">Net 14 Days</option>
-                    <option value="3">Net 30 Days</option>
-                  </select>
+                  <div style={{backgroundColor: "red"}}> </div>
+                    <input
+                    id="PaymentTerms"
+                    name="paymentTerms"
+                    value={createInvoice.paymentTerms}
+                    type="number"
+                    onChange={handleChange}
+                  />
                 </Couple>
               </DateTerms>
 
@@ -461,7 +518,6 @@ export default function Create({ addItemTable, setAddItemTable, darkLight }) {
             </div>
             <ItemList>
               <p>Item List</p>
-
               <div>
                 <Couple darkLight={darkLight}>
                   <label className="label" htmlFor="ItemName">
@@ -516,7 +572,9 @@ export default function Create({ addItemTable, setAddItemTable, darkLight }) {
                       <input
                         id="TotalPrice"
                         name="itemTotal"
-                        value={createInvoice.itemTotal}
+                        value={`${
+                          createInvoice.itemQuantity * createInvoice.itemPrice
+                        }`}
                         type="number"
                         onChange={handleChange}
                       />
@@ -526,10 +584,11 @@ export default function Create({ addItemTable, setAddItemTable, darkLight }) {
                   <img src={deleteIcon} alt="" />
                 </ItemsPriceDel>
               </div>
-              {finalObj.items.map((item) => (
+              {maxItem.map((item, index) => (
                 <div
+                  key={index}
+                  style={{ display: addItemTable < 10 ? "block" : "none" }}
                   className="addTable"
-                  style={{ display: addItemTable ? "block" : "none" }}
                 >
                   <Couple darkLight={darkLight}>
                     <label className="label" htmlFor="ItemName">
@@ -538,10 +597,11 @@ export default function Create({ addItemTable, setAddItemTable, darkLight }) {
                     </label>
                     <input
                       id="ItemName"
-                      name="name"
-                      value={finalObj.items}
+                      name="itemName"
+                      value={secondObj.name}
                       type="text"
-                      onChange={addItems}
+                      disabled={disabled}
+                      onChange={handleChange}
                     />
                   </Couple>
 
@@ -556,10 +616,11 @@ export default function Create({ addItemTable, setAddItemTable, darkLight }) {
                         </label>
                         <input
                           id="Qty"
-                          name="quantity"
-                          value={finalObj.quantity}
+                          name="itemQuantity"
+                          value={secondObj.quantity}
                           type="number"
-                          onChange={addItems}
+                          disabled={disabled}
+                          onChange={handleChange}
                         />
                       </Couple>
                       <Couple darkLight={darkLight}>
@@ -571,24 +632,24 @@ export default function Create({ addItemTable, setAddItemTable, darkLight }) {
                         </label>
                         <input
                           id="Price"
-                          name="price"
-                          value={finalObj.price}
+                          name="itemPrice"
+                          value={secondObj.price}
                           type="number"
-                          onChange={addItems}
+                          disabled={disabled}
+                          onChange={handleChange}
                         />
                       </Couple>
-
-                      <Couple>
+                      <Couple darkLight={darkLight}>
                         <label className="label" htmlFor="Total">
                           Total
                         </label>
-
                         <input
                           id="TotalPrice"
-                          name="total"
-                          value={finalObj.total}
+                          name="itemTotal"
+                          value={secondObj.total}
                           type="number"
-                          onChange={addItems}
+                          disabled={disabled}
+                          onChange={handleChange}
                         />
                       </Couple>
                     </ItemPrice>
@@ -612,13 +673,15 @@ export default function Create({ addItemTable, setAddItemTable, darkLight }) {
       </MainContainer>
       <EmptyContainer darkLight={darkLight}></EmptyContainer>
       <Buttons darkLight={darkLight}>
-        <button className="discard" type="click">
+
+        <button className="discard" type="click"  onClick={discard}>
+
           Discard
         </button>
-        <button className="draft" type="submit">
+        <button className="draft" type="onSubmit" onClick={draft} onSubmit={errorMessage}>
           Save as Draft
         </button>
-        <button className="send" type="Submit">
+        <button className="send" type="onClick" onClick={send} onSubmit={errorMessage}>
           Save & Send
         </button>
       </Buttons>
@@ -648,7 +711,9 @@ const GoBack = styled.div`
   display: flex;
   flex-direction: row;
   gap: 2.79rem;
+
   align-items: center;
+
 
   #styleLink {
     text-decoration: none;
@@ -695,6 +760,7 @@ const SenderAddress = styled.form`
     display: flex;
     flex-direction: row;
     justify-content: space-between;
+
     color: var(--07, #7e88c3);
     font-family: "League Spartan";
     font-size: 13px;
@@ -725,10 +791,12 @@ const CityPostcodeCountry = styled.div`
   gap: 2.5rem;
   margin-top: 2.5rem;
 
+
   input::-webkit-calendar-picker-indicator {
     position: absolute;
     right: 10%;
   }
+
 `;
 
 const CityPostCode = styled.div`
@@ -743,10 +811,17 @@ const Couple = styled.div`
   flex-direction: column;
   gap: 0.9rem;
 
+  justify-content: center;
+
+
   input[type="date"]::-webkit-calendar-picker-indicator {
     background-color: ${(props) => (props.darkLight ? "bleck" : "#7e88c3")};
     cursor: pointer;
+    right: 80%;
+    transform: translateX(5000%);
+    
   }
+
 
   #street,
   #City,
