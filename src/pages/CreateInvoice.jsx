@@ -4,11 +4,11 @@ import arrowLeft from "/images/icon-arrow-left.svg";
 import deleteIcon from "/images/icon-delete.svg";
 import { useState } from "react";
 import { Link } from "react-router-dom";
-
+import { useMediaQuery } from "@uidotdev/usehooks";
 
 export default function Create({ addItemTable, setAddItemTable, darkLight }) {
   const [selectedValue, setSelectedValue] = useState("");
-
+  const mobileText = useMediaQuery("only screen and (max-width : 48rem)");
   const [createInvoice, setCreateinvoice] = useState({
     id: "",
     createdAt: "",
@@ -243,7 +243,7 @@ export default function Create({ addItemTable, setAddItemTable, darkLight }) {
           <img src={arrowLeft} alt="" />
           <p>
             <Link darkLight={darkLight} id="styleLink" to={"/"}>
-              Go back
+              {mobileText ? "Go back" : null}
             </Link>
           </p>
         </GoBack>
@@ -472,7 +472,6 @@ export default function Create({ addItemTable, setAddItemTable, darkLight }) {
                     id="ItemName"
                     name="itemName"
                     value={createInvoice.itemName}
-
                     type="text"
                     onChange={handleChange}
                   />
@@ -511,13 +510,11 @@ export default function Create({ addItemTable, setAddItemTable, darkLight }) {
                       />
                     </Couple>
                     <Couple darkLight={darkLight}>
-
                       <label className="label" htmlFor="Total">
                         Total
                       </label>
                       <input
                         id="TotalPrice"
-
                         name="itemTotal"
                         value={createInvoice.itemTotal}
                         type="number"
@@ -615,10 +612,7 @@ export default function Create({ addItemTable, setAddItemTable, darkLight }) {
       </MainContainer>
       <EmptyContainer darkLight={darkLight}></EmptyContainer>
       <Buttons darkLight={darkLight}>
-        <button
-          className="discard"
-          type="click"
-        >
+        <button className="discard" type="click">
           Discard
         </button>
         <button className="draft" type="submit">
@@ -629,7 +623,6 @@ export default function Create({ addItemTable, setAddItemTable, darkLight }) {
         </button>
       </Buttons>
     </>
-
   );
 }
 
@@ -638,7 +631,6 @@ const MainContainer = styled.div`
 
   padding: 3.3rem 2.4rem 0 2.2rem;
   background-color: ${(props) => (props.darkLight ? "#fff" : "#141625")};
-
 
   h1 {
     margin-top: 2.6rem;
@@ -650,14 +642,13 @@ const MainContainer = styled.div`
 
   p {
     margin-bottom: 2.4rem;
-
   }
 `;
 const GoBack = styled.div`
   display: flex;
   flex-direction: row;
   gap: 2.79rem;
-
+  align-items: center;
 
   #styleLink {
     text-decoration: none;
@@ -682,7 +673,6 @@ const Bill = styled.div`
   display: flex;
   flex-direction: column;
 
-
   p {
     font-size: 1.5rem;
     font-weight: bold;
@@ -691,7 +681,6 @@ const Bill = styled.div`
     letter-spacing: -0.25px;
   }
 `;
-
 
 const NameEmail = styled.div`
   display: flex;
@@ -702,11 +691,17 @@ const SenderAddress = styled.form`
   display: flex;
   flex-direction: column;
 
-
   .label {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
+    color: var(--07, #7e88c3);
+    font-family: "League Spartan";
+    font-size: 13px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 15px; /* 115.385% */
+    letter-spacing: -0.1px;
 
     color: ${(props) => (props.darkLight ? "#7e88c3" : "#7e88c3")};
     font-size: 10px;
@@ -715,11 +710,7 @@ const SenderAddress = styled.form`
     margin-top: 4.1rem;
     margin-bottom: 2.4rem;
   }
-
-
- 
 `;
-
 
 const DateTerms = styled.div`
   display: flex;
@@ -733,21 +724,12 @@ const CityPostcodeCountry = styled.div`
   flex-direction: column;
   gap: 2.5rem;
   margin-top: 2.5rem;
-`;
-
 
   input::-webkit-calendar-picker-indicator {
     position: absolute;
     right: 10%;
   }
 `;
-const CityPostcodeCountry = styled.div`
-  display: flex;
-  flex-direction: column; /* media შეიცვლება row-Ti*/
-  /* justify-content: space-between; */
-  gap: 2.5rem;
-`;
-
 
 const CityPostCode = styled.div`
   display: flex;
@@ -761,12 +743,10 @@ const Couple = styled.div`
   flex-direction: column;
   gap: 0.9rem;
 
-
   input[type="date"]::-webkit-calendar-picker-indicator {
     background-color: ${(props) => (props.darkLight ? "bleck" : "#7e88c3")};
     cursor: pointer;
   }
-
 
   #street,
   #City,
@@ -796,7 +776,6 @@ const Couple = styled.div`
     color: ${(props) => (props.darkLight ? "#0c0e16" : "#ffffff")};
     text-align: left;
     background-color: ${(props) => (props.darkLight ? "#ffffff" : "#1e2139")};
-
   }
 
   #City,
@@ -806,7 +785,6 @@ const Couple = styled.div`
     width: 15.2rem;
     padding-right: 0;
   }
-
 
   #InvoiceDate {
     display: flex;
@@ -841,7 +819,6 @@ const Couple = styled.div`
   #Qty {
     background-color: ${(props) => (props.darkLight ? "#fff" : "#1e2139")};
     border: solid 0.1rem ${(props) => (props.darkLight ? "#dfe3fa" : "#252945")};
-
   }
 
   span {
@@ -883,11 +860,9 @@ const ItemsPriceDel = styled.div`
   justify-content: space-between;
   align-items: center;
 
-
   img:hover {
     cursor: pointer;
   }
-
 
   img {
     width: 1.07rem;
@@ -902,7 +877,6 @@ const EmptyContainer = styled.div`
     props.darkLight
       ? "linear-gradient(to bottom, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.1))"
       : "#141625"};
-
 `;
 const Buttons = styled.div`
   display: flex;
@@ -954,9 +928,7 @@ const Buttons = styled.div`
     font-weight: bold;
   }
 
-
   .send:hover {
     cursor: pointer;
   }
-
 `;

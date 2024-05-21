@@ -12,38 +12,38 @@ export default function FilterContainer({
     <Parent>
       <Inside
         onClick={() =>
-          filtered.includes("draft")
-            ? setFiltered(filtered.filter((el) => el !== "draft"))
-            : setFiltered([...filtered, "draft"])
+          filtered.includes("Draft")
+            ? setFiltered(filtered.filter((el) => el !== "Draft"))
+            : setFiltered([...filtered, "Draft"])
         }
       >
         <CheckCon filtered={filtered}>
-          {filtered.includes("draft") ? <img src={check} alt="" /> : null}
+          {filtered.includes("Draft") ? <img src={check} alt="" /> : null}
         </CheckCon>
         <span>Draft</span>
       </Inside>
       <Inside
         onClick={() =>
-          filtered.includes("pending")
-            ? setFiltered(filtered.filter((el) => el !== "pending"))
-            : setFiltered([...filtered, "pending"])
+          filtered.includes("Pending")
+            ? setFiltered(filtered.filter((el) => el !== "Pending"))
+            : setFiltered([...filtered, "Pending"])
         }
       >
         <CheckConTwo filtered={filtered}>
-          {filtered.includes("pending") ? <img src={check} alt="" /> : null}
+          {filtered.includes("Pending") ? <img src={check} alt="" /> : null}
         </CheckConTwo>
         <span>Pending</span>
       </Inside>
       <Inside
         filtered={filtered}
         onClick={() =>
-          filtered.includes("paid")
-            ? setFiltered(filtered.filter((el) => el !== "paid"))
-            : setFiltered([...filtered, "paid"])
+          filtered.includes("Paid")
+            ? setFiltered(filtered.filter((el) => el !== "Paid"))
+            : setFiltered([...filtered, "Paid"])
         }
       >
         <CheckConThree filtered={filtered}>
-          {filtered.includes("paid") ? <img src={check} alt="" /> : null}
+          {filtered.includes("Paid") ? <img src={check} alt="" /> : null}
         </CheckConThree>
         <span>Paid</span>
       </Inside>
@@ -59,7 +59,7 @@ const CheckConThree = styled.div`
   height: 1.6rem;
   border-radius: 2px;
   background: ${(props) =>
-    props.filtered.includes("paid")
+    props.filtered.includes("Paid")
       ? "var(--01, #7C5DFA)"
       : "var(--05, #DFE3FA)"};
 `;
@@ -72,7 +72,7 @@ const CheckConTwo = styled.div`
   height: 1.6rem;
   border-radius: 2px;
   background: ${(props) =>
-    props.filtered.includes("pending")
+    props.filtered.includes("Pending")
       ? "var(--01, #7C5DFA)"
       : "var(--05, #DFE3FA)"};
 `;
@@ -84,7 +84,7 @@ const CheckCon = styled.div`
   height: 1.6rem;
   border-radius: 2px;
   background: ${(props) =>
-    props.filtered.includes("draft")
+    props.filtered.includes("Draft")
       ? "var(--01, #7C5DFA)"
       : "var(--05, #DFE3FA)"};
 `;
@@ -119,7 +119,7 @@ const Parent = styled.div`
   background: #fff;
   box-shadow: 0px 10px 20px 0px rgba(72, 84, 159, 0.25);
   @media (min-width: 48rem) {
-    right: 17.5rem;
+    right: 23.5rem;
     top: 12rem;
   }
 `;

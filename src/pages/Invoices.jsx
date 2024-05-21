@@ -11,9 +11,6 @@ import { Link } from "react-router-dom";
 import FilterContainer from "../components/FilterContainer";
 import arrowRight from "/images/icon-arrow-right.svg";
 
-
-
-
 export default function Invoices({
   data,
   setData,
@@ -22,37 +19,36 @@ export default function Invoices({
   show,
   setShow,
   darkLight,
-  
 }) {
   const tabletText = useMediaQuery("only screen and (min-width : 48rem)");
   const tabletArrow = useMediaQuery("only screen and (min-width : 48rem)");
   const FilterDataToShow = data.filter((item) => {
     if (
-      filtered.includes("paid") &&
-      filtered.includes("pending") &&
-      filtered.includes("draft")
+      filtered.includes("Paid") &&
+      filtered.includes("Pending") &&
+      filtered.includes("Draft")
     )
       return true;
-    if (filtered.includes("paid") && filtered.includes("pending")) {
-      return item.status === "paid" || item.status === "pending";
+    if (filtered.includes("Paid") && filtered.includes("Pending")) {
+      return item.status.name === "Paid" || item.status.name === "Pending";
     }
-    if (filtered.includes("paid") && filtered.includes("draft")) {
-      return item.status === "paid" || item.status === "draft";
+    if (filtered.includes("Paid") && filtered.includes("Draft")) {
+      return item.status.name === "Paid" || item.status.name === "Draft";
     }
-    if (filtered.includes("pending") && filtered.includes("draft")) {
-      return item.status === "pending" || item.status === "draft";
+    if (filtered.includes("Pending") && filtered.includes("Draft")) {
+      return item.status.name === "Pending" || item.status.name === "Draft";
     }
-    if (filtered.includes("pending") && filtered.includes("paid")) {
-      return item.status === "pending" || item.status === "paid";
+    if (filtered.includes("Pending") && filtered.includes("Paid")) {
+      return item.status.name === "Pending" || item.status.name === "Paid";
     }
-    if (filtered.includes("paid")) {
-      return item.status === "paid";
+    if (filtered.includes("Paid")) {
+      return item.status.name === "Paid";
     }
-    if (filtered.includes("pending")) {
-      return item.status === "pending";
+    if (filtered.includes("Pending")) {
+      return item.status.name === "Pending";
     }
-    if (filtered.includes("draft")) {
-      return item.status === "draft";
+    if (filtered.includes("Draft")) {
+      return item.status.name === "Draft";
     }
   });
 
@@ -60,34 +56,34 @@ export default function Invoices({
     fetchData();
   }, []);
   async function fetchData() {
-    const res = await fetch("http://localhost:3000/people");
+    const res = await fetch(
+      "https://invoice-api-bcbr.onrender.com/api/invoice/"
+    );
     const info = await res.json();
     setData(info);
   }
 
-
-
-
-  function InvoiceId(event){
-    for (let i=0; i<data.length; i++){
+  function InvoiceId(event) {
+    for (let i = 0; i < data.length; i++) {
       if (data[i].id === event) {
-        setGetInvoice(event)  
+        setGetInvoice(event);
+      }
     }
-  }
 
-console.log(event)
+    console.log(event);
   }
-
 
   return (
     <>
-
       <InvoicesInfoDiv darkLight={darkLight}>
         <InvoicecCounterCon>
-
           <InvoiceCountersDiv>
             <span>Invoices</span>
-            <p>7 invoices</p>
+            <p>
+              {tabletText ? "There are  " : null} 7
+              {tabletText ? " total  " : null}
+              invoices
+            </p>
           </InvoiceCountersDiv>
           <FilterAndNew>
             <FilterCon show={show} setShow={setShow}>
@@ -102,7 +98,11 @@ console.log(event)
               />
             </FilterCon>
             <BtnCon>
-              <Btn><Link id="styleLink" to={"/createinvoice"}>New</Link></Btn>
+              <Btn>
+                <Link id="styleLink" to={"/createinvoice"}>
+                  New{tabletText ? " Invoice" : null}
+                </Link>
+              </Btn>
               <Circle>
                 <img src={plus} alt="" />
               </Circle>
@@ -120,7 +120,11 @@ console.log(event)
         <InvoicesListsCon darkLight={darkLight}>
           {FilterDataToShow.map((person, index) => {
             return (
-              <InvoiceContainer status={person.status} key={index}>
+              <InvoiceContainer
+                status={person.status.name}
+                key={index}
+                darkLight={darkLight}
+              >
                 <span className="personId">
                   <span className="symbol">#</span>
                   {person.id}
@@ -128,15 +132,17 @@ console.log(event)
                 <span className="personName">{person.clientName}</span>
                 <span className="personPayDate">Due {person.paymentDue}</span>
                 <span className="personTotal"> £ {person.total}</span>
-                <SpanCon status={person.status}>
-                  <Circletwo status={person.status}></Circletwo>
-                  <span className="personStatus">{person.status}</span>
+                <SpanCon status={person.status.name} darkLight={darkLight}>
+                  <Circletwo
+                    status={person.status.name}
+                    darkLight={darkLight}
+                  ></Circletwo>
+                  <span className="personStatus">{person.status.name}</span>
                 </SpanCon>
                 {tabletArrow ? <img src={arrowRight} alt="" /> : null}
               </InvoiceContainer>
             );
           })}
-
         </InvoicesListsCon>
       </InvoicesInfoDiv>
       {data.length === 0 ? (
@@ -198,10 +204,12 @@ const EmptyCon = styled.div`
 `;
 const Circletwo = styled.div`
   background: ${(props) =>
-    props.status === "paid"
+    props.status === "Paid"
       ? "#33D69F"
-      : props.status === "pending"
+      : props.status === "Pending"
       ? "#FF8F00"
+      : !props.darkLight
+      ? "#fff"
       : "#373B53"};
   width: 0.8rem;
   height: 0.8rem;
@@ -212,10 +220,12 @@ const SpanCon = styled.div`
   grid-row: 2/4;
   border-radius: 6px;
   background-color: ${(props) =>
-    props.status === "paid"
+    props.status === "Paid"
       ? "rgba(51, 214, 159, 0.0571)"
-      : props.status === "pending"
+      : props.status === "Pending"
       ? "rgba(255, 143, 0, 0.0571)"
+      : !props.darkLight
+      ? "rgba(223, 227, 250, 0.0571)"
       : "rgba(55, 59, 83, 0.0571)"};
   display: flex;
   align-items: center;
@@ -228,10 +238,12 @@ const SpanCon = styled.div`
   & .personStatus {
     text-align: center;
     color: ${(props) =>
-      props.status === "paid"
+      props.status === "Paid"
         ? "#33D69F"
-        : props.status === "pending"
+        : props.status === "Pending"
         ? "#FF8F00"
+        : !props.darkLight
+        ? "#fff"
         : "#373B53"};
     font-family: "League Spartan";
     font-size: 15px;
@@ -243,38 +255,17 @@ const SpanCon = styled.div`
   }
 `;
 
-const DateTotalCon = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: 0.9rem;
-  & .personTotal {
-    color: ${(props)=>props.darkLight 
-      ? "var(--08, #0c0e16)"
-      : "#ffffff"};
-    font-family: "League Spartan";
-    font-size: 15px;
-    font-style: normal;
-    font-weight: 700;
-    line-height: 24px; /* 160% */
-    letter-spacing: -0.25px;
-  }
-`;
-
 const InvoicesListsCon = styled.div`
   display: flex;
   flex-direction: column;
   gap: 1.6rem;
 
-  background: ${(props)=> 
-      props.darkLight 
-      ? "var(--11, #f8f8fb)" 
-      : "#141625"};
-
+  background: ${(props) =>
+    props.darkLight ? "var(--11, #f8f8fb)" : "#141625"};
 
   :hover {
     cursor: pointer;
   }
-
 `;
 
 const InvoiceContainer = styled.div`
@@ -285,14 +276,11 @@ const InvoiceContainer = styled.div`
   grid-column-gap: 20%;
   border-radius: 8px;
 
-  box-shadow: ${(props)=> 
-      props.darkLight 
-      ? "0px 10px 10px -10px rgba(72, 84, 159, 0.1)": 
-      "0 10px 10px -10px rgba(72, 84, 159, 0.1);"};
-  background: ${(props)=> 
-      props.darkLight 
-      ? "#fff": 
-      "#1e2139"};
+  box-shadow: ${(props) =>
+    props.darkLight
+      ? "0px 10px 10px -10px rgba(72, 84, 159, 0.1)"
+      : "0 10px 10px -10px rgba(72, 84, 159, 0.1);"};
+  background: ${(props) => (props.darkLight ? "#fff" : "#1e2139")};
 
   &:hover {
     cursor: pointer;
@@ -313,10 +301,16 @@ const InvoiceContainer = styled.div`
     font-weight: 700;
     line-height: 15px; /* 100% */
     letter-spacing: -0.25px;
-    
-    
   }
-  .in
+  .personTotal {
+    color: ${(props) => (props.darkLight ? "var(--08, #0c0e16)" : "#fff")};
+    font-family: "League Spartan";
+    font-size: 15px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 24px; /* 160% */
+    letter-spacing: -0.25px;
+  }
   & .personId {
     color: var(--08, #0c0e16);
     font-family: "League Spartan";
@@ -326,58 +320,37 @@ const InvoiceContainer = styled.div`
     line-height: 15px;
     letter-spacing: -0.25px;
 
-    color:  ${(props)=>props.darkLight 
-      ? "var(--08, #0c0e16)"
-      : "#ffffff"};
-
-    order: -9;
-
+    color: ${(props) => (props.darkLight ? "var(--08, #0c0e16)" : "#fff")};
   }
   & .personName {
     color: #858bb2;
-    text-align: left;
+    text-align: right;
     font-family: "League Spartan";
     font-size: 13px;
     font-style: normal;
     font-weight: 500;
     line-height: 15px; /* 115.385% */
     letter-spacing: -0.1px;
-    color:  ${(props)=>props.darkLight 
-      ? "#858bb2"
-      : "#ffffff"};
+    color: ${(props) => (props.darkLight ? "#858bb2" : "#ffffff")};
   }
   & .personPayDate {
-    text-align: right;
     color: var(--07, #7e88c3);
-    color:  ${(props)=>props.darkLight 
-      ? "var(--07, #7e88c3)"
-      : "#dfe3fa"};
+    color: ${(props) => (props.darkLight ? "var(--07, #7e88c3)" : "#dfe3fa")};
     font-family: "League Spartan";
     font-size: 13px;
     font-style: normal;
     font-weight: 500;
     line-height: 15px;
     letter-spacing: -0.1px;
-    order: -8;
-  }
-  & .personTotal {
-    color: var(--08, #0c0e16);
-    font-family: "League Spartan";
-    font-size: 15px;
-    font-style: normal;
-    font-weight: 700;
-    line-height: 24px; /* 160% */
-    letter-spacing: -0.25px;
   }
 `;
-
 
 const BtnCon = styled.div`
   position: relative;
 
   #styleLink {
-        text-decoration: none;
-    }
+    text-decoration: none;
+  }
 `;
 const Circle = styled.div`
   width: 3.2rem;
@@ -405,12 +378,14 @@ const Btn = styled.button`
   border: none;
   padding: 1.5rem;
   width: 9rem;
+  @media (min-width: 48rem) {
+    width: 15rem;
+  }
 `;
 const InvoicecCounterCon = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  
 `;
 const FilterCon = styled.div`
   display: flex;
@@ -461,12 +436,8 @@ const InvoicesInfoDiv = styled.div`
   gap: 3.2rem;
   padding: 3.6rem 2.4rem 2.5rem 2.4rem;
 
-  background: ${(props)=> 
-      props.darkLight 
-      ? "var(--11, #f8f8fb)": 
-      "#141625"};
-  
-
+  background: ${(props) =>
+    props.darkLight ? "var(--11, #f8f8fb)" : "#141625"};
 
   @media (min-width: 48rem) {
     padding: 6.2rem 4.8rem 4rem 4.8rem;
