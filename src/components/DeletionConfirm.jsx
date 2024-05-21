@@ -69,11 +69,14 @@ const Hone = styled.h5`
   margin-bottom: 0.8rem;
 `;
 const Cover = styled.div`
+  justify-content: center;
+  top: 50%;
+  left: 10%;
   position: absolute;
   border-radius: 8px;
   background: #fff;
   box-shadow: 0px 10px 10px -10px rgba(72, 84, 159, 0.1);
-  width: 90%;
+  width: 32.7rem;
   padding: 3.2rem;
   top: 41%;
 `;

@@ -4,8 +4,11 @@ import arrowLeft from "/images/icon-arrow-left.svg";
 import { Link } from "react-router-dom";
 import { useMediaQuery } from "@uidotdev/usehooks";
 import data from "../data.json/";
+import DeletionConfirm from "../components/DeletionConfirm";
+import { useState } from "react";
 
 export default function ViewInvoice({ darkLight }) {
+  const [deleteSpanShow, setDeleteSpanShow] = useState(false);
   const DivToShow = useMediaQuery("only screen and (min-width:48rem)");
   const TabletTextToHide = useMediaQuery("only screen and (max-width : 767px)");
   let invoiceObj;
@@ -19,6 +22,7 @@ export default function ViewInvoice({ darkLight }) {
   return (
     <>
       <MainContainer darkLight={darkLight}>
+        {deleteSpanShow ? <DeletionConfirm /> : null}
         <GoBack>
           <img src={arrowLeft} alt="" />
 
@@ -54,24 +58,28 @@ export default function ViewInvoice({ darkLight }) {
 
         <InvoiceContainer darkLight={darkLight}>
           <MainInformation darkLight={darkLight}>
-            <NumberDesc>
-              <div className="id">
-                <span>#</span>
-                {invoiceObj.id}
-              </div>
-              <div className="samestyle">{invoiceObj.description}</div>
-            </NumberDesc>
+            <IdAndAdresComoCon>
+              <NumberDesc>
+                <div className="id">
+                  <span>#</span>
+                  {invoiceObj.id}
+                </div>
+                <div className="samestyle">{invoiceObj.description}</div>
+              </NumberDesc>
 
-            <Address>
-              <div className="samestyle">{invoiceObj.senderAddress.street}</div>
-              <div className="samestyle">{invoiceObj.senderAddress.city}</div>
-              <div className="samestyle">
-                {invoiceObj.senderAddress.postCode}
-              </div>
-              <div className="samestyle">
-                {invoiceObj.senderAddress.country}
-              </div>
-            </Address>
+              <Address>
+                <div className="samestyle">
+                  {invoiceObj.senderAddress.street}
+                </div>
+                <div className="samestyle">{invoiceObj.senderAddress.city}</div>
+                <div className="samestyle">
+                  {invoiceObj.senderAddress.postCode}
+                </div>
+                <div className="samestyle">
+                  {invoiceObj.senderAddress.country}
+                </div>
+              </Address>
+            </IdAndAdresComoCon>
 
             <InvoiceInfo>
               <ClientInfo>
@@ -97,7 +105,7 @@ export default function ViewInvoice({ darkLight }) {
                     {invoiceObj.clientAddress.city}
                   </div>
                   <div className="samestyle">
-                    {invoiceObj.clientAddress.postcode}
+                    {invoiceObj.clientAddress.postCode}
                   </div>
                   <div className="samestyle">
                     {invoiceObj.clientAddress.country}
@@ -111,20 +119,24 @@ export default function ViewInvoice({ darkLight }) {
             </InvoiceInfo>
 
             <PriceInfo darkLight={darkLight}>
-              <div className="priceTitle">
-                <div className="samestyle">Item Name</div>
-                <div className="samestyle">QTY.</div>
-                <div className="samestyle">Price</div>
-                <div className="samestyle">Total</div>
-              </div>
+              {DivToShow ? (
+                <div className="priceTitle">
+                  <p className="samestyle">Item Name</p>
+                  <p className="samestyle">QTY.</p>
+                  <p className="samestyle">Price</p>
+                  <p className="samestyle">Total</p>
+                </div>
+              ) : null}
               {invoiceObj.items.map((item) => (
                 <Prices darkLight={darkLight}>
                   <ProductInfo>
-                    <div className="id">{item.name}</div>
+                    <p className="id">{item.name}</p>
                     <div className="quantity">
-                      <div className="samestyle">{item.quantity}</div>
-                      <span className="samestyle">x</span>
-                      <div className="samestyle">£ {item.price.toFixed(2)}</div>
+                      <p className="samestyle">{item.quantity}</p>
+                      {TabletTextToHide ? (
+                        <span className="samestyle">x</span>
+                      ) : null}
+                      <p className="samestyle">£ {item.price.toFixed(2)}</p>
                     </div>
                   </ProductInfo>
                   <div className="id">£ {item.total.toFixed(2)}</div>
@@ -132,7 +144,7 @@ export default function ViewInvoice({ darkLight }) {
               ))}
             </PriceInfo>
             <GrandTotal darkLight={darkLight}>
-              <p>Grand Total</p>
+              <p>Amount Due</p>
               <h2>£ {invoiceObj.total.toFixed(2)}</h2>
             </GrandTotal>
           </MainInformation>
@@ -141,7 +153,12 @@ export default function ViewInvoice({ darkLight }) {
       {TabletTextToHide ? (
         <Buttons darkLight={darkLight}>
           <button className="edit">Edit</button>
-          <button className="delete">Delete</button>
+          <button
+            className="delete"
+            onClick={() => setDeleteSpanShow(!deleteSpanShow)}
+          >
+            Delete
+          </button>
           <button className="mark">Mark as Paid</button>
         </Buttons>
       ) : null}
@@ -149,6 +166,13 @@ export default function ViewInvoice({ darkLight }) {
   );
 }
 
+const IdAndAdresComoCon = styled.div`
+  @media (min-width: 48rem) {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+`;
 const ThreeConParent = styled.div`
   width: 100%;
   display: flex;
@@ -205,9 +229,10 @@ const ThreeConParent = styled.div`
 `;
 
 const MainContainer = styled.div`
+  position: relative;
   width: 100%;
   padding: 3.3rem 2.4rem 2rem 2.2rem;
-  background-color: ${(props) => (props.darkLight ? "#fff" : "#141625")};
+  background-color: ${(props) => (props.darkLight ? "#F8F8FB" : "#141625")};
   font-family: "League Spartan";
   overflow-y: auto;
 
@@ -327,6 +352,9 @@ const NumberDesc = styled.div`
   display: flex;
   flex-direction: column;
   gap: 0.4rem;
+  @media (min-width: 48rem) {
+    gap: 2rem;
+  }
 
   span {
     color: #7e88c3;
@@ -345,6 +373,10 @@ const InvoiceInfo = styled.div`
   flex-direction: column;
   gap: 3.5rem;
   margin-top: 3.1rem;
+  @media (min-width: 48rem) {
+    flex-direction: row;
+    gap: 11.7rem;
+  }
 
   .clientMail {
     display: flex;
@@ -356,6 +388,9 @@ const ClientInfo = styled.div`
   display: flex;
   flex-direction: row;
   gap: 6.2rem;
+  @media (min-width: 48rem) {
+    gap: 12rem;
+  }
 `;
 const Dates = styled.div`
   display: flex;
@@ -390,9 +425,9 @@ const PriceInfo = styled.div`
   gap: 3.2rem;
   border-radius: 0.8rem 0.8rem 0 0;
   background-color: ${(props) => (props.darkLight ? "#f9fafe" : "#252945")};
-
-  .priceTitle {
-    display: none;
+  & .priceTitle {
+    display: flex;
+    justify-content: space-between;
   }
 `;
 
@@ -408,11 +443,20 @@ const ProductInfo = styled.div`
   display: flex;
   flex-direction: column;
   gap: 0.8rem;
+  @media (min-width: 48rem) {
+    flex-direction: row;
+    justify-content: space-between;
+    gap: 14rem;
+  }
 
   .quantity {
     display: flex;
     flex-direction: row;
     gap: 0.5rem;
+    @media (min-width: 48rem) {
+      justify-content: space-between;
+      gap: 17.5rem;
+    }
   }
 `;
 const GrandTotal = styled.div`
