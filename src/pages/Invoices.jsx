@@ -4,9 +4,8 @@ import arrowDown from "/images/icon-arrow-down.svg";
 import plus from "/images/icon-plus.svg";
 import empty from "/images/illustration-empty.svg";
 import { useEffect } from "react";
-
+import { useNavigate } from "react-router-dom";
 import { useMediaQuery } from "@uidotdev/usehooks";
-
 import { Link } from "react-router-dom";
 import FilterContainer from "../components/FilterContainer";
 import arrowRight from "/images/icon-arrow-right.svg";
@@ -20,6 +19,7 @@ export default function Invoices({
   setShow,
   darkLight,
 }) {
+  const navigate = useNavigate();
   const tabletText = useMediaQuery("only screen and (min-width : 48rem)");
   const tabletArrow = useMediaQuery("only screen and (min-width : 48rem)");
   const FilterDataToShow = data.filter((item) => {
@@ -62,7 +62,6 @@ export default function Invoices({
     const info = await res.json();
     setData(info);
   }
-
 
   return (
     <>
@@ -115,6 +114,7 @@ export default function Invoices({
                 status={person.status.name}
                 key={index}
                 darkLight={darkLight}
+                onClick={() => navigate(`/viewinvoice/${person.id}`)}
               >
                 <span className="personId">
                   <span className="symbol">#</span>
