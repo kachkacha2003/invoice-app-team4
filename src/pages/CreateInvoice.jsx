@@ -4,10 +4,16 @@ import arrowLeft from "/images/icon-arrow-left.svg";
 import deleteIcon from "/images/icon-delete.svg";
 import { useState } from "react";
 import { Link } from "react-router-dom";
+import { jsxs } from "react/jsx-runtime";
 
+export default function Create({ darkLight }) {
+  let maxItem = [];
+  let secondObj = {};
+  let firstObj = {};
+  let itemsArr = []
+  let finalitemsArr = []
 
-export default function Create({ addItemTable, setAddItemTable, darkLight }) {
-  const [selectedValue, setSelectedValue] = useState("");
+  const [addItemTable, setaddItemTable] = useState(0);
 
   const [createInvoice, setCreateinvoice] = useState({
     id: "",
@@ -18,7 +24,6 @@ export default function Create({ addItemTable, setAddItemTable, darkLight }) {
     clientName: "",
     clientEmail: "",
     status: "",
-
     senderAddressStreet: "",
     senderAddressCity: "",
     senderAddressPostCode: "",
@@ -50,7 +55,7 @@ export default function Create({ addItemTable, setAddItemTable, darkLight }) {
     price: 0,
     total: 0,
   });
-  let itemsArr = [];
+  
   let [finalObj, setFinalObj] = useState({
     createdAt: "",
     paymentDue: "",
@@ -61,7 +66,6 @@ export default function Create({ addItemTable, setAddItemTable, darkLight }) {
     status: "",
     senderAddress: senderAddress,
     clientAddress: clientAddress,
-    items: itemsArr,
     total: 0,
   });
   const [errorMes, setErrorMes] = useState({
@@ -168,7 +172,7 @@ export default function Create({ addItemTable, setAddItemTable, darkLight }) {
     //senderAddress and clientAddress objects
 
     // Object for API
-    delete finalObj.clientAddressCity,
+      delete finalObj.clientAddressCity,
       delete finalObj.clientAddressCountry,
       delete finalObj.clientAddressPostCode,
       delete finalObj.clientAddressStreet,
@@ -176,13 +180,10 @@ export default function Create({ addItemTable, setAddItemTable, darkLight }) {
       delete finalObj.senderAddressCountry,
       delete finalObj.senderAddressPostCode,
       delete finalObj.senderAddressStreet,
-      delete finalObj.itemName,
-      delete finalObj.itemQuantity,
-      delete finalObj.itemPrice,
-      delete finalObj.itemTotal,
-      (finalObj = Object.assign(finalObj, { id: resultid }));
-    finalObj = Object.assign(finalObj, { paymentDue: formattedDate });
-  };
+      finalObj = Object.assign(finalObj, { id: resultid });
+      finalObj = Object.assign(finalObj, { paymentDue: formattedDate });
+      
+    };
   {
     Object.keys(createInvoice).forEach((element) => {
       if (element.includes("senderAddress")) {
@@ -213,29 +214,82 @@ export default function Create({ addItemTable, setAddItemTable, darkLight }) {
           createInvoice.clientAddressCountry
         ).join("");
       }
-      if (element.includes("item")) {
-        itemObj.name = Object.values(createInvoice.itemName).join("");
-        itemObj.quantity = Object.values(createInvoice.itemQuantity).join("");
-        itemObj.price = Object.values(createInvoice.itemPrice).join("");
-        itemObj.total = Object.values(createInvoice.itemTotal).join("");
-      }
     });
   }
-  function addItems() {
-    (itemObj.name = ""),
-      (itemObj.quantity = ""),
-      (itemObj.price = ""),
-      (itemObj.total = "");
-    setAddItemTable(true);
+
+  const [disabled, setDisabled] = useState(true);
+ 
+     function addItems() {
+    setItemObj({
+      name: createInvoice.itemName,
+      quantity: createInvoice.itemQuantity,
+      price: createInvoice.itemPrice,
+      total: `${createInvoice.itemQuantity * createInvoice.itemPrice}`,
+    });
+    
   }
-  itemsArr.push(...itemsArr, itemObj);
-
-  const onchange = (event) => {
-    setSelectedValue(event.target.value);
-    console.log(selectedValue);
+ 
+    maxItem.push(...maxItem, maxItem);
+  
+  firstObj = {
+    name: createInvoice.itemName,
+    quantity: createInvoice.itemQuantity,
+    price: createInvoice.itemPrice,
+    total: `${createInvoice.itemQuantity * createInvoice.itemPrice}`,
   };
-  console.log(finalObj, senderAddress);
+  secondObj = {
+    name: Object.values(itemObj.name).join(""),
+    quantity: Object.values(itemObj.quantity).join(""),
+    price: Object.values(itemObj.price).join(""),
+    total: Object.values(itemObj.total).join(""),
+  };
 
+
+  itemsArr.push(...itemsArr, firstObj, secondObj);
+   finalitemsArr = Object.values(itemsArr)
+   finalObj = Object.assign(finalObj, { items: finalitemsArr })
+   delete finalObj.itemName,
+   delete finalObj.itemQuantity,
+   delete finalObj.itemPrice,
+   delete finalObj.itemTotal,
+
+   
+   console.log(finalObj)
+
+  function send() {
+    finalObj.status="panding"
+    finalObj.total= Number(`${firstObj.total + secondObj.total}`)
+    console.log(finalObj)
+  }
+  function draft() {
+    finalObj.status="draft"
+    finalObj.total= `${firstObj.total}` + `${secondObj.total}`
+    console.log(finalObj)
+  }
+  function discard(){
+    createInvoice.idcreatedAt.value = "",
+    createInvoice.description.value = "",
+    createInvoice.paymentTerms = "",
+    createInvoice.clientName = "",
+    createInvoice.clientEmail = "",
+    createInvoice.senderAddressStreet.target.value = "",
+    createInvoice.senderAddressCity = "",
+    createInvoice.senderAddressPostCode = "",
+    createInvoice.senderAddressCountry = "",
+    createInvoice.clientAddressStreet = "",
+    createInvoice.clientAddressCity = "",
+    createInvoice.clientAddressPostCode = "",
+    createInvoice.clientAddressCountry = "",
+    createInvoice.itemName = "",
+    createInvoice.itemQuantity = "",
+    createInvoice.itemPrice = "",
+    createInvoice.itemTotal = ""
+    console.log(createInvoice.senderAddressStreet)
+  }
+  console.log(createInvoice.senderAddressStreet)
+
+    console.log(finalObj)
+  
   return (
     <>
       <MainContainer darkLight={darkLight}>
@@ -412,7 +466,6 @@ export default function Create({ addItemTable, setAddItemTable, darkLight }) {
                   />
                 </Couple>
               </CityPostcodeCountry>
-
               <DateTerms>
                 <Couple darkLight={darkLight}>
                   <label className="label" htmlFor="InvoiceDate">
@@ -427,7 +480,6 @@ export default function Create({ addItemTable, setAddItemTable, darkLight }) {
                     onChange={handleChange}
                   />
                 </Couple>
-
                 <Couple darkLight={darkLight}>
                   <label className="label" htmlFor="PaymentTerms">
                     Payment Terms
@@ -435,13 +487,14 @@ export default function Create({ addItemTable, setAddItemTable, darkLight }) {
                       {errorMes.paymentTerms}
                     </span>
                   </label>
-                  <select id="PaymentTerms" onchange={onchange}>
-                    <option value="0"></option>
-                    <option value="1">Net 1 Days</option>
-                    <option value="7">Net 7 Days</option>
-                    <option value="14">Net 14 Days</option>
-                    <option value="3">Net 30 Days</option>
-                  </select>
+                  <div style={{backgroundColor: "red"}}> </div>
+                    <input
+                    id="PaymentTerms"
+                    name="paymentTerms"
+                    value={createInvoice.paymentTerms}
+                    type="number"
+                    onChange={handleChange}
+                  />
                 </Couple>
               </DateTerms>
 
@@ -461,7 +514,6 @@ export default function Create({ addItemTable, setAddItemTable, darkLight }) {
             </div>
             <ItemList>
               <p>Item List</p>
-
               <div>
                 <Couple darkLight={darkLight}>
                   <label className="label" htmlFor="ItemName">
@@ -472,7 +524,6 @@ export default function Create({ addItemTable, setAddItemTable, darkLight }) {
                     id="ItemName"
                     name="itemName"
                     value={createInvoice.itemName}
-
                     type="text"
                     onChange={handleChange}
                   />
@@ -511,15 +562,15 @@ export default function Create({ addItemTable, setAddItemTable, darkLight }) {
                       />
                     </Couple>
                     <Couple darkLight={darkLight}>
-
                       <label className="label" htmlFor="Total">
                         Total
                       </label>
                       <input
                         id="TotalPrice"
-
                         name="itemTotal"
-                        value={createInvoice.itemTotal}
+                        value={`${
+                          createInvoice.itemQuantity * createInvoice.itemPrice
+                        }`}
                         type="number"
                         onChange={handleChange}
                       />
@@ -529,10 +580,11 @@ export default function Create({ addItemTable, setAddItemTable, darkLight }) {
                   <img src={deleteIcon} alt="" />
                 </ItemsPriceDel>
               </div>
-              {finalObj.items.map((item) => (
+              {maxItem.map((item, index) => (
                 <div
+                  key={index}
+                  style={{ display: addItemTable < 10 ? "block" : "none" }}
                   className="addTable"
-                  style={{ display: addItemTable ? "block" : "none" }}
                 >
                   <Couple darkLight={darkLight}>
                     <label className="label" htmlFor="ItemName">
@@ -541,10 +593,11 @@ export default function Create({ addItemTable, setAddItemTable, darkLight }) {
                     </label>
                     <input
                       id="ItemName"
-                      name="name"
-                      value={finalObj.items}
+                      name="itemName"
+                      value={secondObj.name}
                       type="text"
-                      onChange={addItems}
+                      disabled={disabled}
+                      onChange={handleChange}
                     />
                   </Couple>
 
@@ -559,10 +612,11 @@ export default function Create({ addItemTable, setAddItemTable, darkLight }) {
                         </label>
                         <input
                           id="Qty"
-                          name="quantity"
-                          value={finalObj.quantity}
+                          name="itemQuantity"
+                          value={secondObj.quantity}
                           type="number"
-                          onChange={addItems}
+                          disabled={disabled}
+                          onChange={handleChange}
                         />
                       </Couple>
                       <Couple darkLight={darkLight}>
@@ -574,24 +628,24 @@ export default function Create({ addItemTable, setAddItemTable, darkLight }) {
                         </label>
                         <input
                           id="Price"
-                          name="price"
-                          value={finalObj.price}
+                          name="itemPrice"
+                          value={secondObj.price}
                           type="number"
-                          onChange={addItems}
+                          disabled={disabled}
+                          onChange={handleChange}
                         />
                       </Couple>
-
-                      <Couple>
+                      <Couple darkLight={darkLight}>
                         <label className="label" htmlFor="Total">
                           Total
                         </label>
-
                         <input
                           id="TotalPrice"
-                          name="total"
-                          value={finalObj.total}
+                          name="itemTotal"
+                          value={secondObj.total}
                           type="number"
-                          onChange={addItems}
+                          disabled={disabled}
+                          onChange={handleChange}
                         />
                       </Couple>
                     </ItemPrice>
@@ -615,21 +669,17 @@ export default function Create({ addItemTable, setAddItemTable, darkLight }) {
       </MainContainer>
       <EmptyContainer darkLight={darkLight}></EmptyContainer>
       <Buttons darkLight={darkLight}>
-        <button
-          className="discard"
-          type="click"
-        >
+        <button className="discard" type="click"  onClick={discard}>
           Discard
         </button>
-        <button className="draft" type="submit">
+        <button className="draft" type="onSubmit" onClick={draft} onSubmit={errorMessage}>
           Save as Draft
         </button>
-        <button className="send" type="Submit">
+        <button className="send" type="onClick" onClick={send} onSubmit={errorMessage}>
           Save & Send
         </button>
       </Buttons>
     </>
-
   );
 }
 
@@ -638,7 +688,6 @@ const MainContainer = styled.div`
 
   padding: 3.3rem 2.4rem 0 2.2rem;
   background-color: ${(props) => (props.darkLight ? "#fff" : "#141625")};
-
 
   h1 {
     margin-top: 2.6rem;
@@ -650,14 +699,12 @@ const MainContainer = styled.div`
 
   p {
     margin-bottom: 2.4rem;
-
   }
 `;
 const GoBack = styled.div`
   display: flex;
   flex-direction: row;
   gap: 2.79rem;
-
 
   #styleLink {
     text-decoration: none;
@@ -682,7 +729,6 @@ const Bill = styled.div`
   display: flex;
   flex-direction: column;
 
-
   p {
     font-size: 1.5rem;
     font-weight: bold;
@@ -691,7 +737,6 @@ const Bill = styled.div`
     letter-spacing: -0.25px;
   }
 `;
-
 
 const NameEmail = styled.div`
   display: flex;
@@ -702,12 +747,16 @@ const SenderAddress = styled.form`
   display: flex;
   flex-direction: column;
 
-
   .label {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
-
+    font-size: 13px;
+    font-weight: 500;
+    line-height: 1.15;
+    letter-spacing: -0.1px;
+    text-align: left;
+    color: #7e88c3;
     color: ${(props) => (props.darkLight ? "#7e88c3" : "#7e88c3")};
     font-size: 10px;
   }
@@ -715,11 +764,7 @@ const SenderAddress = styled.form`
     margin-top: 4.1rem;
     margin-bottom: 2.4rem;
   }
-
-
- 
 `;
-
 
 const DateTerms = styled.div`
   display: flex;
@@ -735,20 +780,6 @@ const CityPostcodeCountry = styled.div`
   margin-top: 2.5rem;
 `;
 
-
-  input::-webkit-calendar-picker-indicator {
-    position: absolute;
-    right: 10%;
-  }
-`;
-const CityPostcodeCountry = styled.div`
-  display: flex;
-  flex-direction: column; /* media შეიცვლება row-Ti*/
-  /* justify-content: space-between; */
-  gap: 2.5rem;
-`;
-
-
 const CityPostCode = styled.div`
   display: flex;
   flex-direction: row;
@@ -760,13 +791,18 @@ const Couple = styled.div`
   display: flex;
   flex-direction: column;
   gap: 0.9rem;
-
+  justify-content: center;
 
   input[type="date"]::-webkit-calendar-picker-indicator {
     background-color: ${(props) => (props.darkLight ? "bleck" : "#7e88c3")};
     cursor: pointer;
+    right: 80%;
+    transform: translateX(5000%);
+    
   }
-
+  
+  
+  
 
   #street,
   #City,
@@ -796,7 +832,6 @@ const Couple = styled.div`
     color: ${(props) => (props.darkLight ? "#0c0e16" : "#ffffff")};
     text-align: left;
     background-color: ${(props) => (props.darkLight ? "#ffffff" : "#1e2139")};
-
   }
 
   #City,
@@ -806,7 +841,6 @@ const Couple = styled.div`
     width: 15.2rem;
     padding-right: 0;
   }
-
 
   #InvoiceDate {
     display: flex;
@@ -841,7 +875,6 @@ const Couple = styled.div`
   #Qty {
     background-color: ${(props) => (props.darkLight ? "#fff" : "#1e2139")};
     border: solid 0.1rem ${(props) => (props.darkLight ? "#dfe3fa" : "#252945")};
-
   }
 
   span {
@@ -883,11 +916,9 @@ const ItemsPriceDel = styled.div`
   justify-content: space-between;
   align-items: center;
 
-
   img:hover {
     cursor: pointer;
   }
-
 
   img {
     width: 1.07rem;
@@ -902,7 +933,6 @@ const EmptyContainer = styled.div`
     props.darkLight
       ? "linear-gradient(to bottom, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.1))"
       : "#141625"};
-
 `;
 const Buttons = styled.div`
   display: flex;
@@ -954,9 +984,7 @@ const Buttons = styled.div`
     font-weight: bold;
   }
 
-
   .send:hover {
     cursor: pointer;
   }
-
 `;
