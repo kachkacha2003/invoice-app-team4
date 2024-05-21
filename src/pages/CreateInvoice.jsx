@@ -4,16 +4,20 @@ import arrowLeft from "/images/icon-arrow-left.svg";
 import deleteIcon from "/images/icon-delete.svg";
 import { useState } from "react";
 import { Link } from "react-router-dom";
-import { jsxs } from "react/jsx-runtime";
 
-export default function Create({ darkLight }) {
+import { useMediaQuery } from "@uidotdev/usehooks";
+
+export default function Create({ addItemTable, setAddItemTable, darkLight }) {
+  const [selectedValue, setSelectedValue] = useState("");
+  const mobileText = useMediaQuery("only screen and (max-width : 48rem)");
+
+
+
   let maxItem = [];
   let secondObj = {};
   let firstObj = {};
   let itemsArr = []
   let finalitemsArr = []
-
-  const [addItemTable, setaddItemTable] = useState(0);
 
   const [createInvoice, setCreateinvoice] = useState({
     id: "",
@@ -297,7 +301,7 @@ export default function Create({ darkLight }) {
           <img src={arrowLeft} alt="" />
           <p>
             <Link darkLight={darkLight} id="styleLink" to={"/"}>
-              Go back
+              {mobileText ? "Go back" : null}
             </Link>
           </p>
         </GoBack>
@@ -669,7 +673,9 @@ export default function Create({ darkLight }) {
       </MainContainer>
       <EmptyContainer darkLight={darkLight}></EmptyContainer>
       <Buttons darkLight={darkLight}>
+
         <button className="discard" type="click"  onClick={discard}>
+
           Discard
         </button>
         <button className="draft" type="onSubmit" onClick={draft} onSubmit={errorMessage}>
@@ -705,6 +711,9 @@ const GoBack = styled.div`
   display: flex;
   flex-direction: row;
   gap: 2.79rem;
+
+  align-items: center;
+
 
   #styleLink {
     text-decoration: none;
@@ -751,12 +760,15 @@ const SenderAddress = styled.form`
     display: flex;
     flex-direction: row;
     justify-content: space-between;
+
+    color: var(--07, #7e88c3);
+    font-family: "League Spartan";
     font-size: 13px;
+    font-style: normal;
     font-weight: 500;
-    line-height: 1.15;
+    line-height: 15px; /* 115.385% */
     letter-spacing: -0.1px;
-    text-align: left;
-    color: #7e88c3;
+
     color: ${(props) => (props.darkLight ? "#7e88c3" : "#7e88c3")};
     font-size: 10px;
   }
@@ -778,6 +790,13 @@ const CityPostcodeCountry = styled.div`
   flex-direction: column;
   gap: 2.5rem;
   margin-top: 2.5rem;
+
+
+  input::-webkit-calendar-picker-indicator {
+    position: absolute;
+    right: 10%;
+  }
+
 `;
 
 const CityPostCode = styled.div`
@@ -791,7 +810,9 @@ const Couple = styled.div`
   display: flex;
   flex-direction: column;
   gap: 0.9rem;
+
   justify-content: center;
+
 
   input[type="date"]::-webkit-calendar-picker-indicator {
     background-color: ${(props) => (props.darkLight ? "bleck" : "#7e88c3")};
@@ -800,9 +821,7 @@ const Couple = styled.div`
     transform: translateX(5000%);
     
   }
-  
-  
-  
+
 
   #street,
   #City,
