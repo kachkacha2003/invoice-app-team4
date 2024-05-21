@@ -11,13 +11,11 @@ export default function Create({ addItemTable, setAddItemTable, darkLight }) {
   const [selectedValue, setSelectedValue] = useState("");
   const mobileText = useMediaQuery("only screen and (max-width : 48rem)");
 
-
-
   let maxItem = [];
   let secondObj = {};
   let firstObj = {};
-  let itemsArr = []
-  let finalitemsArr = []
+  let itemsArr = [];
+  let finalitemsArr = [];
 
   const [createInvoice, setCreateinvoice] = useState({
     id: "",
@@ -59,7 +57,7 @@ export default function Create({ addItemTable, setAddItemTable, darkLight }) {
     price: 0,
     total: 0,
   });
-  
+
   let [finalObj, setFinalObj] = useState({
     createdAt: "",
     paymentDue: "",
@@ -176,7 +174,7 @@ export default function Create({ addItemTable, setAddItemTable, darkLight }) {
     //senderAddress and clientAddress objects
 
     // Object for API
-      delete finalObj.clientAddressCity,
+    delete finalObj.clientAddressCity,
       delete finalObj.clientAddressCountry,
       delete finalObj.clientAddressPostCode,
       delete finalObj.clientAddressStreet,
@@ -184,10 +182,9 @@ export default function Create({ addItemTable, setAddItemTable, darkLight }) {
       delete finalObj.senderAddressCountry,
       delete finalObj.senderAddressPostCode,
       delete finalObj.senderAddressStreet,
-      finalObj = Object.assign(finalObj, { id: resultid });
-      finalObj = Object.assign(finalObj, { paymentDue: formattedDate });
-      
-    };
+      (finalObj = Object.assign(finalObj, { id: resultid }));
+    finalObj = Object.assign(finalObj, { paymentDue: formattedDate });
+  };
   {
     Object.keys(createInvoice).forEach((element) => {
       if (element.includes("senderAddress")) {
@@ -222,19 +219,18 @@ export default function Create({ addItemTable, setAddItemTable, darkLight }) {
   }
 
   const [disabled, setDisabled] = useState(true);
- 
-     function addItems() {
+
+  function addItems() {
     setItemObj({
       name: createInvoice.itemName,
       quantity: createInvoice.itemQuantity,
       price: createInvoice.itemPrice,
       total: `${createInvoice.itemQuantity * createInvoice.itemPrice}`,
     });
-    
   }
- 
-    maxItem.push(...maxItem, maxItem);
-  
+
+  maxItem.push(...maxItem, maxItem);
+
   firstObj = {
     name: createInvoice.itemName,
     quantity: createInvoice.itemQuantity,
@@ -248,52 +244,49 @@ export default function Create({ addItemTable, setAddItemTable, darkLight }) {
     total: Object.values(itemObj.total).join(""),
   };
 
-
   itemsArr.push(...itemsArr, firstObj, secondObj);
-   finalitemsArr = Object.values(itemsArr)
-   finalObj = Object.assign(finalObj, { items: finalitemsArr })
-   delete finalObj.itemName,
-   delete finalObj.itemQuantity,
-   delete finalObj.itemPrice,
-   delete finalObj.itemTotal,
-
-   
-   console.log(finalObj)
+  finalitemsArr = Object.values(itemsArr);
+  finalObj = Object.assign(finalObj, { items: finalitemsArr });
+  delete finalObj.itemName,
+    delete finalObj.itemQuantity,
+    delete finalObj.itemPrice,
+    delete finalObj.itemTotal,
+    console.log(finalObj);
 
   function send() {
-    finalObj.status="panding"
-    finalObj.total= Number(`${firstObj.total + secondObj.total}`)
-    console.log(finalObj)
+    finalObj.status = "panding";
+    finalObj.total = Number(`${firstObj.total + secondObj.total}`);
+    console.log(finalObj);
   }
   function draft() {
-    finalObj.status="draft"
-    finalObj.total= `${firstObj.total}` + `${secondObj.total}`
-    console.log(finalObj)
+    finalObj.status = "draft";
+    finalObj.total = `${firstObj.total}` + `${secondObj.total}`;
+    console.log(finalObj);
   }
-  function discard(){
-    createInvoice.idcreatedAt.value = "",
-    createInvoice.description.value = "",
-    createInvoice.paymentTerms = "",
-    createInvoice.clientName = "",
-    createInvoice.clientEmail = "",
-    createInvoice.senderAddressStreet.target.value = "",
-    createInvoice.senderAddressCity = "",
-    createInvoice.senderAddressPostCode = "",
-    createInvoice.senderAddressCountry = "",
-    createInvoice.clientAddressStreet = "",
-    createInvoice.clientAddressCity = "",
-    createInvoice.clientAddressPostCode = "",
-    createInvoice.clientAddressCountry = "",
-    createInvoice.itemName = "",
-    createInvoice.itemQuantity = "",
-    createInvoice.itemPrice = "",
-    createInvoice.itemTotal = ""
-    console.log(createInvoice.senderAddressStreet)
+  function discard() {
+    (createInvoice.idcreatedAt.value = ""),
+      (createInvoice.description.value = ""),
+      (createInvoice.paymentTerms = ""),
+      (createInvoice.clientName = ""),
+      (createInvoice.clientEmail = ""),
+      (createInvoice.senderAddressStreet.target.value = ""),
+      (createInvoice.senderAddressCity = ""),
+      (createInvoice.senderAddressPostCode = ""),
+      (createInvoice.senderAddressCountry = ""),
+      (createInvoice.clientAddressStreet = ""),
+      (createInvoice.clientAddressCity = ""),
+      (createInvoice.clientAddressPostCode = ""),
+      (createInvoice.clientAddressCountry = ""),
+      (createInvoice.itemName = ""),
+      (createInvoice.itemQuantity = ""),
+      (createInvoice.itemPrice = ""),
+      (createInvoice.itemTotal = "");
+    console.log(createInvoice.senderAddressStreet);
   }
-  console.log(createInvoice.senderAddressStreet)
+  console.log(createInvoice.senderAddressStreet);
 
-    console.log(finalObj)
-  
+  console.log(finalObj);
+
   return (
     <>
       <MainContainer darkLight={darkLight}>
@@ -491,8 +484,8 @@ export default function Create({ addItemTable, setAddItemTable, darkLight }) {
                       {errorMes.paymentTerms}
                     </span>
                   </label>
-                  <div style={{backgroundColor: "red"}}> </div>
-                    <input
+                  <div style={{ backgroundColor: "red" }}> </div>
+                  <input
                     id="PaymentTerms"
                     name="paymentTerms"
                     value={createInvoice.paymentTerms}
@@ -673,15 +666,23 @@ export default function Create({ addItemTable, setAddItemTable, darkLight }) {
       </MainContainer>
       <EmptyContainer darkLight={darkLight}></EmptyContainer>
       <Buttons darkLight={darkLight}>
-
-        <button className="discard" type="click"  onClick={discard}>
-
+        <button className="discard" type="click" onClick={discard}>
           Discard
         </button>
-        <button className="draft" type="onSubmit" onClick={draft} onSubmit={errorMessage}>
+        <button
+          className="draft"
+          type="onSubmit"
+          onClick={draft}
+          onSubmit={errorMessage}
+        >
           Save as Draft
         </button>
-        <button className="send" type="onClick" onClick={send} onSubmit={errorMessage}>
+        <button
+          className="send"
+          type="onClick"
+          onClick={send}
+          onSubmit={errorMessage}
+        >
           Save & Send
         </button>
       </Buttons>
@@ -694,11 +695,18 @@ const MainContainer = styled.div`
 
   padding: 3.3rem 2.4rem 0 2.2rem;
   background-color: ${(props) => (props.darkLight ? "#fff" : "#141625")};
+  @media (min-width: 48rem) {
+    width: 61.6rem;
+    padding: 5.9rem 5.6rem 0;
+  }
 
   h1 {
     margin-top: 2.6rem;
     font-size: 2.4rem;
     font-weight: bold;
+    @media (min-width: 48rem) {
+      margin-top: 4.6rem;
+    }
 
     color: ${(props) => (props.darkLight ? "#0c0e16" : "#ffffff")};
   }
@@ -711,10 +719,7 @@ const GoBack = styled.div`
   display: flex;
   flex-direction: row;
   gap: 2.79rem;
-
   align-items: center;
-
-
   #styleLink {
     text-decoration: none;
   }
@@ -760,7 +765,6 @@ const SenderAddress = styled.form`
     display: flex;
     flex-direction: row;
     justify-content: space-between;
-
     color: var(--07, #7e88c3);
     font-family: "League Spartan";
     font-size: 13px;
@@ -768,9 +772,7 @@ const SenderAddress = styled.form`
     font-weight: 500;
     line-height: 15px; /* 115.385% */
     letter-spacing: -0.1px;
-
     color: ${(props) => (props.darkLight ? "#7e88c3" : "#7e88c3")};
-    font-size: 10px;
   }
   p {
     margin-top: 4.1rem;
@@ -780,30 +782,41 @@ const SenderAddress = styled.form`
 
 const DateTerms = styled.div`
   display: flex;
-  flex-direction: column; /*tablet, desktop*/
+  flex-direction: column;
   gap: 2.5rem;
+  width: 100%;
 
   margin-top: 2.5rem;
+  @media (min-width: 48rem) {
+    flex-direction: row;
+    width: 100%;
+    gap: 6%;
+    align-items: center;
+    margin-bottom: 2.5rem;
+  }
 `;
 const CityPostcodeCountry = styled.div`
   display: flex;
   flex-direction: column;
   gap: 2.5rem;
   margin-top: 2.5rem;
-
+  @media (min-width: 48rem) {
+    flex-direction: row;
+    gap: 3rem;
+    justify-content: space-between;
+  }
 
   input::-webkit-calendar-picker-indicator {
     position: absolute;
     right: 10%;
   }
-
 `;
 
 const CityPostCode = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-  gap: 2.3rem;
+  gap: 2rem;
 `;
 
 const Couple = styled.div`
@@ -813,15 +826,12 @@ const Couple = styled.div`
 
   justify-content: center;
 
-
   input[type="date"]::-webkit-calendar-picker-indicator {
     background-color: ${(props) => (props.darkLight ? "bleck" : "#7e88c3")};
     cursor: pointer;
     right: 80%;
     transform: translateX(5000%);
-    
   }
-
 
   #street,
   #City,
@@ -842,7 +852,7 @@ const Couple = styled.div`
 
     border: solid 0.1rem ${(props) => (props.darkLight ? "#dfe3fa" : "#252945")};
 
-    padding: 1.8rem 11.5rem 1.5rem 1.2rem;
+    padding: 1.8rem 0.5rem 1.5rem 1rem;
     font-size: 1.5rem;
     font-weight: bold;
     letter-spacing: -0.25px;
@@ -852,7 +862,19 @@ const Couple = styled.div`
     text-align: left;
     background-color: ${(props) => (props.darkLight ? "#ffffff" : "#1e2139")};
   }
-
+  #PaymentTerms {
+    width: 23.6rem;
+  }
+  @media (min-width: 48rem) {
+    #CountryTo {
+      width: 15rem;
+    }
+  }
+  @media (min-width: 48rem) {
+    #Country {
+      width: 15.2rem;
+    }
+  }
   #City,
   #PostCode,
   #CityTo,
@@ -866,6 +888,9 @@ const Couple = styled.div`
     justify-content: space-between;
     padding: 1rem 1rem 1rem 1rem;
     width: 100%;
+    @media (min-width: 48rem) {
+      width: 23.6rem;
+    }
   }
 
   #Qty {
@@ -961,6 +986,11 @@ const Buttons = styled.div`
 
   padding: 2.1rem 2.4rem 2.2rem 2.4rem;
   background-color: ${(props) => (props.darkLight ? "#fff" : "#1e2139")};
+  @media (min-width: 48rem) {
+    width: 52.4rem;
+    margin-left: 3.7rem;
+    padding-right: 0;
+  }
 
   .discard {
     background-color: ${(props) => (props.darkLight ? "#f9fafef" : "#252945")};
@@ -973,6 +1003,9 @@ const Buttons = styled.div`
     font-size: 1.2rem;
     font-weight: bold;
     letter-spacing: -0.25px;
+    @media (min-width: 48rem) {
+      width: 12.8rem;
+    }
   }
 
   .draft {
@@ -987,6 +1020,9 @@ const Buttons = styled.div`
     font-size: 1.2rem;
     font-weight: bold;
     letter-spacing: -0.25px;
+    @media (min-width: 48rem) {
+      width: 12.8rem;
+    }
   }
 
   .send {
