@@ -66,19 +66,6 @@ export default function Invoices({
   }
 
 
-
-
-  function InvoiceId(event){
-    for (let i=0; i<data.length; i++){
-      if (data[i].id === event) {
-        setGetInvoice(event)  
-    }
-  }
-
-console.log(event)
-  }
-
-
   return (
     <>
 
