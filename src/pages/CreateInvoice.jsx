@@ -986,6 +986,11 @@ const Buttons = styled.div`
 
   padding: 2.1rem 2.4rem 2.2rem 2.4rem;
   background-color: ${(props) => (props.darkLight ? "#fff" : "#1e2139")};
+  @media (min-width: 48rem) {
+    width: 52.4rem;
+    margin-left: 3.7rem;
+    padding-right: 0;
+  }
 
   .discard {
     background-color: ${(props) => (props.darkLight ? "#f9fafef" : "#252945")};
@@ -998,6 +1003,9 @@ const Buttons = styled.div`
     font-size: 1.2rem;
     font-weight: bold;
     letter-spacing: -0.25px;
+    @media (min-width: 48rem) {
+      width: 12.8rem;
+    }
   }
 
   .draft {
@@ -1012,6 +1020,9 @@ const Buttons = styled.div`
     font-size: 1.2rem;
     font-weight: bold;
     letter-spacing: -0.25px;
+    @media (min-width: 48rem) {
+      width: 12.8rem;
+    }
   }
 
   .send {
