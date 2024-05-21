@@ -266,6 +266,27 @@ export default function Create({ darkLight }) {
     finalObj.total= `${firstObj.total}` + `${secondObj.total}`
     console.log(finalObj)
   }
+  function discard(){
+    createInvoice.idcreatedAt.value = "",
+    createInvoice.description.value = "",
+    createInvoice.paymentTerms = "",
+    createInvoice.clientName = "",
+    createInvoice.clientEmail = "",
+    createInvoice.senderAddressStreet.target.value = "",
+    createInvoice.senderAddressCity = "",
+    createInvoice.senderAddressPostCode = "",
+    createInvoice.senderAddressCountry = "",
+    createInvoice.clientAddressStreet = "",
+    createInvoice.clientAddressCity = "",
+    createInvoice.clientAddressPostCode = "",
+    createInvoice.clientAddressCountry = "",
+    createInvoice.itemName = "",
+    createInvoice.itemQuantity = "",
+    createInvoice.itemPrice = "",
+    createInvoice.itemTotal = ""
+    console.log(createInvoice.senderAddressStreet)
+  }
+  console.log(createInvoice.senderAddressStreet)
 
     console.log(finalObj)
   
@@ -466,13 +487,14 @@ export default function Create({ darkLight }) {
                       {errorMes.paymentTerms}
                     </span>
                   </label>
-                  <select id="PaymentTerms">
-                    <option value="5">kk</option>
-                    <option value="0">Net 1 Days</option>
-                    <option value="7">Net 7 Days</option>
-                    <option value="14">Net 14 Days</option>
-                    <option value="3">Net 30 Days</option>
-                  </select>
+                  <div style={{backgroundColor: "red"}}> </div>
+                    <input
+                    id="PaymentTerms"
+                    name="paymentTerms"
+                    value={createInvoice.paymentTerms}
+                    type="number"
+                    onChange={handleChange}
+                  />
                 </Couple>
               </DateTerms>
 
@@ -647,13 +669,13 @@ export default function Create({ darkLight }) {
       </MainContainer>
       <EmptyContainer darkLight={darkLight}></EmptyContainer>
       <Buttons darkLight={darkLight}>
-        <button className="discard" type="click">
+        <button className="discard" type="click"  onClick={discard}>
           Discard
         </button>
         <button className="draft" type="onSubmit" onClick={draft} onSubmit={errorMessage}>
           Save as Draft
         </button>
-        <button className="send" type="onClick" onClick={send} >
+        <button className="send" type="onClick" onClick={send} onSubmit={errorMessage}>
           Save & Send
         </button>
       </Buttons>
@@ -756,10 +778,6 @@ const CityPostcodeCountry = styled.div`
   flex-direction: column;
   gap: 2.5rem;
   margin-top: 2.5rem;
-  input::-webkit-calendar-picker-indicator {
-    position: absolute;
-    right: 10%;
-  }
 `;
 
 const CityPostCode = styled.div`
@@ -773,11 +791,18 @@ const Couple = styled.div`
   display: flex;
   flex-direction: column;
   gap: 0.9rem;
+  justify-content: center;
 
   input[type="date"]::-webkit-calendar-picker-indicator {
     background-color: ${(props) => (props.darkLight ? "bleck" : "#7e88c3")};
     cursor: pointer;
+    right: 80%;
+    transform: translateX(5000%);
+    
   }
+  
+  
+  
 
   #street,
   #City,
@@ -850,13 +875,6 @@ const Couple = styled.div`
   #Qty {
     background-color: ${(props) => (props.darkLight ? "#fff" : "#1e2139")};
     border: solid 0.1rem ${(props) => (props.darkLight ? "#dfe3fa" : "#252945")};
-  }
-
-  #PaymentTerms {
-    padding: none;
-    height: 6rem;
-    display: flex;
-    align-items: first baseline;
   }
 
   span {
