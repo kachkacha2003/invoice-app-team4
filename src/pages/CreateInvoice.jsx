@@ -6,9 +6,10 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 
 import { useMediaQuery } from "@uidotdev/usehooks";
+import arrowDownicon from "/images/icon-arrow-down.svg";
 
-export default function Create({ addItemTable, setAddItemTable, darkLight }) {
-  const [selectedValue, setSelectedValue] = useState("");
+export default function Create({ addItemTable, darkLight, list, setList }) {
+
   const mobileText = useMediaQuery("only screen and (max-width : 48rem)");
 
 
@@ -18,6 +19,7 @@ export default function Create({ addItemTable, setAddItemTable, darkLight }) {
   let firstObj = {};
   let itemsArr = []
   let finalitemsArr = []
+  let arr = [1, 7, 14, 30]
 
   const [createInvoice, setCreateinvoice] = useState({
     id: "",
@@ -221,78 +223,168 @@ export default function Create({ addItemTable, setAddItemTable, darkLight }) {
     });
   }
 
-  const [disabled, setDisabled] = useState(true);
- 
-     function addItems() {
-    setItemObj({
-      name: createInvoice.itemName,
-      quantity: createInvoice.itemQuantity,
-      price: createInvoice.itemPrice,
-      total: `${createInvoice.itemQuantity * createInvoice.itemPrice}`,
-    });
+  function addItems() {
+
     
-  }
- 
-    maxItem.push(...maxItem, maxItem);
+      setItemObj({
+        name: createInvoice.itemName,
+        quantity: createInvoice.itemQuantity,
+        price: createInvoice.itemPrice,
+        total: `${createInvoice.itemQuantity * createInvoice.itemPrice}`,
+      });
+      
+    }
+   
+      maxItem.push(...maxItem, maxItem);
+    
+    firstObj = {
+      name: Object.values(createInvoice.itemName).join(""),
+      quantity: Object.values(createInvoice.itemQuantity).join(""),
+      price: Object.values(createInvoice.itemPrice).join(""),
+      total: Object.values(itemObj.total).join(""),
+    };
   
-  firstObj = {
-    name: createInvoice.itemName,
-    quantity: createInvoice.itemQuantity,
-    price: createInvoice.itemPrice,
-    total: `${createInvoice.itemQuantity * createInvoice.itemPrice}`,
-  };
-  secondObj = {
-    name: Object.values(itemObj.name).join(""),
-    quantity: Object.values(itemObj.quantity).join(""),
-    price: Object.values(itemObj.price).join(""),
-    total: Object.values(itemObj.total).join(""),
-  };
+    itemsArr.push(...itemsArr, firstObj);
+
+     
+     finalObj = Object.assign(finalObj, { items: itemsArr })
+     delete finalObj.itemName,
+     delete finalObj.itemQuantity,
+     delete finalObj.itemPrice,
+     delete finalObj.itemTotal,
+  
+     
+     console.log(finalObj)
+  
+    // function send() {
+    //   finalObj.status="panding"
+    //   finalObj.total= Number(`${firstObj.total}`)
+    //   console.log(finalObj)
+    // }
+    // function draft() {
+    //   finalObj.status="draft"
+    //   finalObj.total= `${firstObj.total}`
+    //   console.log(finalObj)
+    // }
+    // function discard(){
+    //   createInvoice.idcreatedAt.value = "",
+    //   createInvoice.description.value = "",
+    //   createInvoice.paymentTerms = "",
+    //   createInvoice.clientName = "",
+    //   createInvoice.clientEmail = "",
+    //   createInvoice.senderAddressStreet.target.value = "",
+    //   createInvoice.senderAddressCity = "",
+    //   createInvoice.senderAddressPostCode = "",
+    //   createInvoice.senderAddressCountry = "",
+    //   createInvoice.clientAddressStreet = "",
+    //   createInvoice.clientAddressCity = "",
+    //   createInvoice.clientAddressPostCode = "",
+    //   createInvoice.clientAddressCountry = "",
+    //   createInvoice.itemName = "",
+    //   createInvoice.itemQuantity = "",
+    //   createInvoice.itemPrice = "",
+    //   createInvoice.itemTotal = ""
+    //   console.log(createInvoice.senderAddressStreet)
+    // }
+
+  const [disabled, setDisabled] = useState(true);
 
 
-  itemsArr.push(...itemsArr, firstObj, secondObj);
-   finalitemsArr = Object.values(itemsArr)
-   finalObj = Object.assign(finalObj, { items: finalitemsArr })
-   delete finalObj.itemName,
-   delete finalObj.itemQuantity,
-   delete finalObj.itemPrice,
-   delete finalObj.itemTotal,
+
+
+ 
+  //    function addItems() {
+  //   setItemObj({
+  //     name: createInvoice.itemName,
+  //     quantity: createInvoice.itemQuantity,
+  //     price: createInvoice.itemPrice,
+  //     total: `${createInvoice.itemQuantity * createInvoice.itemPrice}`,
+  //   });
+    
+  // }
+ 
+  //   maxItem.push(...maxItem, maxItem);
+  
+  // firstObj = {
+  //   name: createInvoice.itemName,
+  //   quantity: createInvoice.itemQuantity,
+  //   price: createInvoice.itemPrice,
+  //   total: `${createInvoice.itemQuantity * createInvoice.itemPrice}`,
+  // };
+  // secondObj = {
+  //   name: Object.values(itemObj.name).join(""),
+  //   quantity: Object.values(itemObj.quantity).join(""),
+  //   price: Object.values(itemObj.price).join(""),
+  //   total: Object.values(itemObj.total).join(""),
+  // };
+
+
+  // itemsArr.push(...itemsArr, firstObj, secondObj);
+  //  finalitemsArr = Object.values(itemsArr)
+  //  finalObj = Object.assign(finalObj, { items: finalitemsArr })
+  //  delete finalObj.itemName,
+  //  delete finalObj.itemQuantity,
+  //  delete finalObj.itemPrice,
+  //  delete finalObj.itemTotal,
 
    
-   console.log(finalObj)
+  //  console.log(finalObj)
 
-  function send() {
-    finalObj.status="panding"
-    finalObj.total= Number(`${firstObj.total + secondObj.total}`)
-    console.log(finalObj)
-  }
-  function draft() {
-    finalObj.status="draft"
-    finalObj.total= `${firstObj.total}` + `${secondObj.total}`
-    console.log(finalObj)
-  }
-  function discard(){
-    createInvoice.idcreatedAt.value = "",
-    createInvoice.description.value = "",
-    createInvoice.paymentTerms = "",
-    createInvoice.clientName = "",
-    createInvoice.clientEmail = "",
-    createInvoice.senderAddressStreet.target.value = "",
-    createInvoice.senderAddressCity = "",
-    createInvoice.senderAddressPostCode = "",
-    createInvoice.senderAddressCountry = "",
-    createInvoice.clientAddressStreet = "",
-    createInvoice.clientAddressCity = "",
-    createInvoice.clientAddressPostCode = "",
-    createInvoice.clientAddressCountry = "",
-    createInvoice.itemName = "",
-    createInvoice.itemQuantity = "",
-    createInvoice.itemPrice = "",
-    createInvoice.itemTotal = ""
-    console.log(createInvoice.senderAddressStreet)
-  }
-  console.log(createInvoice.senderAddressStreet)
+  // function send() {
+  //   finalObj.status="panding"
+  //   finalObj.total= Number(`${firstObj.total + secondObj.total}`)
+  //   console.log(finalObj)
+  // }
+  // function draft() {
+  //   finalObj.status="draft"
+  //   finalObj.total= `${firstObj.total}` + `${secondObj.total}`
+  //   console.log(finalObj)
+  // }
+  // function discard(){
+  //   createInvoice.idcreatedAt.value = "",
+  //   createInvoice.description.value = "",
+  //   createInvoice.paymentTerms = "",
+  //   createInvoice.clientName = "",
+  //   createInvoice.clientEmail = "",
+  //   createInvoice.senderAddressStreet.target.value = "",
+  //   createInvoice.senderAddressCity = "",
+  //   createInvoice.senderAddressPostCode = "",
+  //   createInvoice.senderAddressCountry = "",
+  //   createInvoice.clientAddressStreet = "",
+  //   createInvoice.clientAddressCity = "",
+  //   createInvoice.clientAddressPostCode = "",
+  //   createInvoice.clientAddressCountry = "",
+  //   createInvoice.itemName = "",
+  //   createInvoice.itemQuantity = "",
+  //   createInvoice.itemPrice = "",
+  //   createInvoice.itemTotal = ""
+  //   console.log(createInvoice.senderAddressStreet)
+  // }
+  // console.log(createInvoice.senderAddressStreet)
 
-    console.log(finalObj)
+  //   console.log(finalObj)
+
+
+    
+    // function list(){
+    //   arr.map((item)=>{
+    //    for (let i=0; i<5; i++){
+    //     if (arr.indexOf(item)==i){
+    //       console.log(arr[item])
+    //     }
+    //     }
+    //   })
+    // }
+
+
+    // const [list, setList] = useState({
+    //   "day1": 1,
+    //   "day1": 7,
+    //   "day1": 14,
+    //   "day1": 30
+    // })
+
+    
   
   return (
     <>
@@ -480,7 +572,7 @@ export default function Create({ addItemTable, setAddItemTable, darkLight }) {
                     id="InvoiceDate"
                     name="createdAt"
                     value={createInvoice.createdAt}
-                    type="Date"
+                    type="date"
                     onChange={handleChange}
                   />
                 </Couple>
@@ -499,6 +591,19 @@ export default function Create({ addItemTable, setAddItemTable, darkLight }) {
                     type="number"
                     onChange={handleChange}
                   />
+                  <ArrowDownIcon 
+                    src={arrowDownicon}
+                    alt="arrow"
+                    onClick={() => setList(!list)}
+                    list={list}
+                  />
+                  {/* <DiwnDrop darkLight={darkLight} list={list}> */}
+                    {/* <div list={list} className="days1" onClick={list}>Net 1 Days</div> 
+                    <div lost={list} className="days7" onClick={list}>Net 7 Days</div>
+                    <div lost={list} className="days14" onClick={list}>Net 14 Days</div>
+                    <div lost={list} className="days30" onClick={list}>Net 30 Days</div> */}
+                  {/* </DiwnDrop> */}
+
                 </Couple>
               </DateTerms>
 
@@ -584,7 +689,7 @@ export default function Create({ addItemTable, setAddItemTable, darkLight }) {
                   <img src={deleteIcon} alt="" />
                 </ItemsPriceDel>
               </div>
-              {maxItem.map((item, index) => (
+              { itemsArr.map((item, index) => (
                 <div
                   key={index}
                   style={{ display: addItemTable < 10 ? "block" : "none" }}
@@ -598,7 +703,7 @@ export default function Create({ addItemTable, setAddItemTable, darkLight }) {
                     <input
                       id="ItemName"
                       name="itemName"
-                      value={secondObj.name}
+                      value={itemsArr[0].name}
                       type="text"
                       disabled={disabled}
                       onChange={handleChange}
@@ -617,7 +722,7 @@ export default function Create({ addItemTable, setAddItemTable, darkLight }) {
                         <input
                           id="Qty"
                           name="itemQuantity"
-                          value={secondObj.quantity}
+                          value={itemsArr[0].quantity}
                           type="number"
                           disabled={disabled}
                           onChange={handleChange}
@@ -633,7 +738,7 @@ export default function Create({ addItemTable, setAddItemTable, darkLight }) {
                         <input
                           id="Price"
                           name="itemPrice"
-                          value={secondObj.price}
+                          value={itemsArr[0].price}
                           type="number"
                           disabled={disabled}
                           onChange={handleChange}
@@ -646,7 +751,7 @@ export default function Create({ addItemTable, setAddItemTable, darkLight }) {
                         <input
                           id="TotalPrice"
                           name="itemTotal"
-                          value={secondObj.total}
+                          value={itemsArr.total}
                           type="number"
                           disabled={disabled}
                           onChange={handleChange}
@@ -674,16 +779,16 @@ export default function Create({ addItemTable, setAddItemTable, darkLight }) {
       <EmptyContainer darkLight={darkLight}></EmptyContainer>
       <Buttons darkLight={darkLight}>
 
-        <button className="discard" type="click"  onClick={discard}>
+        {/* <button className="discard" type="click"  onClick={discard}> */}
 
           Discard
-        </button>
-        <button className="draft" type="onSubmit" onClick={draft} onSubmit={errorMessage}>
+        {/* </button> */}
+        {/* <button className="draft" type="onSubmit" onClick={draft} onSubmit={errorMessage}> */}
           Save as Draft
-        </button>
-        <button className="send" type="onClick" onClick={send} onSubmit={errorMessage}>
+        {/* </button> */}
+        {/* // <button className="send" type="onClick" onClick={send} onSubmit={errorMessage}> */}
           Save & Send
-        </button>
+        {/* </button> */}
       </Buttons>
     </>
   );
@@ -768,10 +873,10 @@ const SenderAddress = styled.form`
     font-weight: 500;
     line-height: 15px; /* 115.385% */
     letter-spacing: -0.1px;
-
     color: ${(props) => (props.darkLight ? "#7e88c3" : "#7e88c3")};
-    font-size: 10px;
   }
+  
+
   p {
     margin-top: 4.1rem;
     margin-bottom: 2.4rem;
@@ -782,21 +887,16 @@ const DateTerms = styled.div`
   display: flex;
   flex-direction: column; /*tablet, desktop*/
   gap: 2.5rem;
+  justify-content: space-between;
 
-  margin-top: 2.5rem;
+  margin-bottom: 2.5rem;
 `;
 const CityPostcodeCountry = styled.div`
   display: flex;
   flex-direction: column;
   gap: 2.5rem;
   margin-top: 2.5rem;
-
-
-  input::-webkit-calendar-picker-indicator {
-    position: absolute;
-    right: 10%;
-  }
-
+  margin-bottom: 2.5rem;
 `;
 
 const CityPostCode = styled.div`
@@ -810,18 +910,46 @@ const Couple = styled.div`
   display: flex;
   flex-direction: column;
   gap: 0.9rem;
-
   justify-content: center;
+
+  .days1, .days7, .days14, .days30 {
+
+/* display: flex; */
+/* align-items: center; */
+/* justify-content: space-between; */
+width: 55rem;
+height: 4.8rem;
+border-radius: 0.4rem;
+border: solid 0.1rem ${(props) => (props.darkLight ? "#dfe3fa" : "#252945")};
+padding: 1.8rem 11.5rem 1.5rem 1.2rem;
+font-size: 1.5rem;
+font-weight: bold;
+letter-spacing: -0.25px;
+text-align: left;
+color: ${(props) => (props.darkLight ? "#0c0e16" : "#ffffff")};
+text-align: left;
+/* background-color: ${(props) => (props.darkLight ? "#ffffff" : "#1e2139")}; */
+display : ${(props)=>(props.list ? "block" : "none")};
+background-color: red;
+
+width: 40%;
+/* position: absolute; */
+margin-top: 27.5rem;
+/* display: flex; */
+/* flex-direction: column; */
+/* justify-content: center; */
+/* background-color: ${(props) => (props.darkLight ? "bleck" : "#7e88c3")}; */
+
+
+  }
 
 
   input[type="date"]::-webkit-calendar-picker-indicator {
     background-color: ${(props) => (props.darkLight ? "bleck" : "#7e88c3")};
     cursor: pointer;
-    right: 80%;
-    transform: translateX(5000%);
-    
+    /* right: 80%; */
+    /* transform: translateX(5000%); */
   }
-
 
   #street,
   #City,
@@ -837,6 +965,8 @@ const Couple = styled.div`
   #PostCodeTo,
   #CountryTo,
   #ItemName {
+    justify-content: space-between;
+    width: 100%;
     height: 4.8rem;
     border-radius: 0.4rem;
 
@@ -852,24 +982,13 @@ const Couple = styled.div`
     text-align: left;
     background-color: ${(props) => (props.darkLight ? "#ffffff" : "#1e2139")};
   }
-
+  
   #City,
   #PostCode,
   #CityTo,
-  #PostCodeTo {
-    width: 15.2rem;
-    padding-right: 0;
-  }
-
-  #InvoiceDate {
-    display: flex;
-    justify-content: space-between;
-    padding: 1rem 1rem 1rem 1rem;
-    width: 100%;
-  }
-
+  #PostCodeTo,
   #Qty {
-    width: 6.4rem;
+    width: 100%;
     height: 4.8rem;
     border: solid 0.1rem #dfe3fa;
     text-align: center;
@@ -886,7 +1005,6 @@ const Couple = styled.div`
     width: 4.7rem;
     height: 4.8rem;
     border: none;
-
     background-color: ${(props) => (props.darkLight ? "#fff" : "#141625")};
   }
 
@@ -894,8 +1012,14 @@ const Couple = styled.div`
   #Qty {
     background-color: ${(props) => (props.darkLight ? "#fff" : "#1e2139")};
     border: solid 0.1rem ${(props) => (props.darkLight ? "#dfe3fa" : "#252945")};
+
+  }
+    #InvoiceDate,
+    #PaymentTerms {
+    position: relative;
   }
 
+  
   span {
     display: block;
   }
@@ -915,7 +1039,7 @@ const ItemList = styled.div`
   #add {
     border-radius: 2.4rem;
 
-    background-color: ${(props) => (props.darkLight ? "#fff" : "#1e2139")};
+    background-color: ${(props) => props.darkLight ? "#f9fafe" : "#1e2139"};
     border: solid 0.1rem ${(props) => (props.darkLight ? "#dfe3fa" : "#252945")};
 
     padding: 1.8rem 10.7rem 1.5rem 10.8rem;
@@ -1007,3 +1131,25 @@ const Buttons = styled.div`
     cursor: pointer;
   }
 `;
+
+// const DiwnDrop = styled.div`
+  /* width: 40%;
+  position: absolute;
+  margin-top: 27.5rem;
+  display: flex;
+  flex-direction: column;
+  /* justify-content: center; */
+  /* background-color: ${(props) => (props.darkLight ? "bleck" : "#7e88c3")}; */
+ 
+ 
+  const ArrowDownIcon = styled.img`
+    
+    position: absolute;
+    width: 1.5rem;
+    margin-left: 30rem;
+    margin-top: 2rem;
+    transform: ${(props) => (props.list ? "rotate(180deg)" : "rotate( 0 deg)")};
+    
+  `;
+
+

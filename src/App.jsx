@@ -14,6 +14,7 @@ function App() {
   const [addItemTable, setAddItemTable] = useState(false);
   const [darkLight, setDarkLight] = useState(true);
   const [getInvoice, setGetInvoice] = useState(0);
+  const [list, setList] = useState(false);
 
   return (
     <>
@@ -45,11 +46,15 @@ function App() {
                 setAddItemTable={setAddItemTable}
                 darkLight={darkLight}
                 setDarkLight={setDarkLight}
+                show={show}
+                setShow={setShow}
+                list={list}
+                setList={setList}
               />
             }
           />
           <Route
-            path="/viewinvoice/"
+            path="/viewinvoice/:id"
             element={
               <ViewInvoice darkLight={darkLight} setDarkLight={setDarkLight} />
             }

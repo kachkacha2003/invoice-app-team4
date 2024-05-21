@@ -2,23 +2,24 @@
 import React from "react"
 import styled from "styled-components";
 import arrowLeft from "/images/icon-arrow-left.svg";
-import { Link } from "react-router-dom";
+import { Link, Navigate } from "react-router-dom";
 import data from "../data.json/";
+import { useParams } from 'react-router-dom';
 
 
 
 export default function ViewInvoice({darkLight}) {
-    
+    const { id } = useParams();
     let invoiceObj
 
     for (let i=0; i<data.people.length; i++) {
-        if (data.people[i].id == "XM9141"){
-         invoiceObj = data.people[i]
-        }
-       
+        if (data.id== {id}){
+         invoiceObj = data[i]
+        } 
     }
 
-
+    
+   
     return (
         <>
     <MainContainer darkLight={darkLight}>

@@ -10,6 +10,7 @@ import { useMediaQuery } from "@uidotdev/usehooks";
 import { Link } from "react-router-dom";
 import FilterContainer from "../components/FilterContainer";
 import arrowRight from "/images/icon-arrow-right.svg";
+import { useNavigate } from 'react-router-dom';
 
 export default function Invoices({
   data,
@@ -63,6 +64,16 @@ export default function Invoices({
     setData(info);
   }
 
+  function getInvoisNumber() {
+    const navigate = useNavigate();
+  
+    const viewInvoice = (id) => {
+      navigate(`/viewinvoice/${id}`);
+    };
+  }
+  
+        
+
 
   return (
     <>
@@ -108,10 +119,13 @@ export default function Invoices({
           ) : null}
         </InvoicecCounterCon>
 
-        <InvoicesListsCon darkLight={darkLight}>
+        <InvoicesListsCon 
+        
+        darkLight={darkLight}>
           {FilterDataToShow.map((person, index) => {
             return (
               <InvoiceContainer
+                onClick={() => console.log(person.id)}
                 status={person.status.name}
                 key={index}
                 darkLight={darkLight}
