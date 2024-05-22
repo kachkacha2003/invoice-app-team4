@@ -1,8 +1,22 @@
 import React from "react";
 import styled from "styled-components";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 
 export default function DeletionConfirm({ setDeleteSpanShow, deleteSpanShow }) {
+  const navigate = useNavigate();
   console.log(setDeleteSpanShow, deleteSpanShow);
+  const id = location.pathname.slice(-6);
+  async function deleteInvoice() {
+    const res = await fetch(
+      `https://invoice-api-bcbr.onrender.com/api/invoice/${id}`,
+      {
+        method: "DELETE",
+        "Content-Type": "application/json",
+      }
+    );
+    navigate("/");
+  }
+
   return (
     <Cover>
       <Hone>Confirm Deletion</Hone>
@@ -14,7 +28,7 @@ export default function DeletionConfirm({ setDeleteSpanShow, deleteSpanShow }) {
         <CancelCon onClick={() => setDeleteSpanShow(!deleteSpanShow)}>
           Cancel
         </CancelCon>
-        <DeleteCon>Delete</DeleteCon>
+        <DeleteCon onClick={deleteInvoice}>Delete </DeleteCon>
       </Containerr>
     </Cover>
   );

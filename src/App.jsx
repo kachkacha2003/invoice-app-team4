@@ -8,7 +8,6 @@ import ViewInvoice from "./pages/ViewInvoice";
 
 function App() {
   const [data, setData] = useState([]);
-
   const [filtered, setFiltered] = useState(["Draft", "Pending", "Paid"]);
   const [show, setShow] = useState(false);
   const [addItemTable, setAddItemTable] = useState(false);
@@ -57,7 +56,7 @@ function App() {
             }
           />
           <Route
-            path="/viewinvoice/"
+            path="/viewinvoice/:id"
             element={
               <ViewInvoice darkLight={darkLight} setDarkLight={setDarkLight} />
             }

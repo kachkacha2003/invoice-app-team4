@@ -253,10 +253,22 @@ export default function Create({ addItemTable, setAddItemTable, darkLight }) {
     delete finalObj.itemTotal,
     console.log(finalObj);
 
-  function send() {
-    finalObj.status = "panding";
-    finalObj.total = Number(`${firstObj.total + secondObj.total}`);
+  async function send() {
+    finalObj.status = "pending";
     console.log(finalObj);
+    finalObj.total = `${firstObj.total + secondObj.total}`;
+    const res = await fetch(
+      `https://invoice-api-bcbr.onrender.com/api/invoice`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(finalObj),
+      }
+    );
+    const dataa = await res.json();
+    console.log(dataa);
   }
   function draft() {
     finalObj.status = "draft";
