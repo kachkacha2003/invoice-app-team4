@@ -251,25 +251,23 @@ export default function Create({ addItemTable, setAddItemTable, darkLight }) {
     delete finalObj.itemQuantity,
     delete finalObj.itemPrice,
     delete finalObj.itemTotal,
-    console.log(finalObj);
-
-  async function send() {
-    finalObj.status = "pending";
-    console.log(finalObj);
-    finalObj.total = `${firstObj.total + secondObj.total}`;
-    const res = await fetch(
-      `https://invoice-api-bcbr.onrender.com/api/invoice`,
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(finalObj),
-      }
-    );
-    const dataa = await res.json();
-    console.log(dataa);
-  }
+    async function send() {
+      finalObj.status = "pending";
+      console.log(finalObj);
+      finalObj.total = `${firstObj.total + secondObj.total}`;
+      const res = await fetch(
+        `https://invoice-api-bcbr.onrender.com/api/invoice`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(finalObj),
+        }
+      );
+      const dataa = await res.json();
+      console.log(dataa);
+    };
   function draft() {
     finalObj.status = "draft";
     finalObj.total = `${firstObj.total}` + `${secondObj.total}`;
@@ -689,12 +687,7 @@ export default function Create({ addItemTable, setAddItemTable, darkLight }) {
           >
             Save as Draft
           </button>
-          <button
-            className="send"
-            type="onClick"
-            onClick={send}
-            onSubmit={errorMessage}
-          >
+          <button className="send" type="onClick" onSubmit={errorMessage}>
             Save & Send
           </button>
         </Buttons>

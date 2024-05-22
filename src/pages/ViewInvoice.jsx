@@ -6,8 +6,10 @@ import { useMediaQuery } from "@uidotdev/usehooks";
 import DeletionConfirm from "../components/DeletionConfirm";
 import { useState, useEffect } from "react";
 import { useLocation } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 export default function ViewInvoice({ darkLight }) {
+  const navigate = useNavigate();
   const [invoiceObj, setInvoiceObj] = useState({});
   const location = useLocation();
   const id = location.pathname.slice(-6);
@@ -22,6 +24,19 @@ export default function ViewInvoice({ darkLight }) {
       }`;
   }
 
+  async function changeItem() {
+    const res = await fetch(
+      `https://invoice-api-bcbr.onrender.com/api/invoice/mark_as_paid/${id}`,
+      {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({}),
+      }
+    );
+    navigate("/");
+  }
   useEffect(() => {
     async function fetchData2() {
       const res = await fetch(
@@ -64,7 +79,12 @@ export default function ViewInvoice({ darkLight }) {
             {DivToShow ? (
               <ThreeConParent>
                 <div className="editIn">
-                  <span>edit</span>
+                  <Link
+                    to={`/viewInvoice/${id}/EditInvoice`}
+                    style={{ textDecoration: "none", color: "#fff" }}
+                  >
+                    <span>edit</span>
+                  </Link>
                 </div>
                 <div
                   className="deleteIn"
@@ -72,7 +92,7 @@ export default function ViewInvoice({ darkLight }) {
                 >
                   <span>Delete</span>
                 </div>
-                <div className="markIn">
+                <div className="markIn" onClick={() => changeItem(id)}>
                   <span>Mark as Paid</span>
                 </div>
               </ThreeConParent>
@@ -176,7 +196,10 @@ export default function ViewInvoice({ darkLight }) {
           </InvoiceContainer>
           {TabletTextToHide ? (
             <Buttons darkLight={darkLight}>
-              <button className="edit">Edit</button>
+              <Link to={`/viewInvoices/${id}/EditInvoices`}>
+                <button className="edit">Edit</button>
+              </Link>
+
               <button
                 className="delete"
                 onClick={() => setDeleteSpanShow(!deleteSpanShow)}

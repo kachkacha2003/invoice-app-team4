@@ -1,24 +1,332 @@
 import React from "react";
-import React from "react";
 import styled from "styled-components";
 import arrowLeft from "/images/icon-arrow-left.svg";
 import deleteIcon from "/images/icon-delete.svg";
 import { useState } from "react";
 import { Link } from "react-router-dom";
 
-export default function EditInvoice() {
+import { useMediaQuery } from "@uidotdev/usehooks";
+
+export default function EditInvoice({
+  addItemTable,
+  setAddItemTable,
+  darkLight,
+}) {
+  async function EditData(id) {
+    const res = await fetch(
+      `https://invoice-api-bcbr.onrender.com/api/invoice/${id}`,
+      {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(finalObj),
+      }
+    );
+  }
+  const [selectedValue, setSelectedValue] = useState("");
+  const mobileText = useMediaQuery("only screen and (max-width : 48rem)");
+
+  let maxItem = [];
+  let secondObj = {};
+  let firstObj = {};
+  let itemsArr = [];
+  let finalitemsArr = [];
+
+  const [createInvoice, setCreateinvoice] = useState({
+    id: "",
+    createdAt: "",
+    paymentDue: "",
+    description: "",
+    paymentTerms: "",
+    clientName: "",
+    clientEmail: "",
+    status: "",
+    senderAddressStreet: "",
+    senderAddressCity: "",
+    senderAddressPostCode: "",
+    senderAddressCountry: "",
+    clientAddressStreet: "",
+    clientAddressCity: "",
+    clientAddressPostCode: "",
+    clientAddressCountry: "",
+    itemName: "",
+    itemQuantity: "",
+    itemPrice: "",
+    itemTotal: "",
+  });
+  const [senderAddress, setSenderAddress] = useState({
+    street: "",
+    city: "",
+    postCode: "",
+    country: "",
+  });
+  const [clientAddress, setClientAddress] = useState({
+    street: "",
+    city: "",
+    postCode: "",
+    country: "",
+  });
+  const [itemObj, setItemObj] = useState({
+    name: "",
+    quantity: 0,
+    price: 0,
+    total: 0,
+  });
+
+  let [finalObj, setFinalObj] = useState({
+    createdAt: "",
+    paymentDue: "",
+    description: "",
+    paymentTerms: "",
+    clientName: "",
+    clientEmail: "",
+    status: "",
+    senderAddress: senderAddress,
+    clientAddress: clientAddress,
+    total: 0,
+  });
+  const [errorMes, setErrorMes] = useState({
+    createdAt: "",
+    description: "",
+    paymentTerms: "",
+    clientName: "",
+    clientEmail: "",
+    senderAddressStreet: "",
+    senderAddressCity: "",
+    senderAddressPostCode: "",
+    senderAddressCountry: "",
+    clientAddressStreet: "",
+    clientAddressCity: "",
+    clientAddressPostCode: "",
+    clientAddressCountry: "",
+    itemName: "",
+    itemQuantity: "",
+    itemPrice: "",
+  });
+  const handleChange = (event) => {
+    event.preventDefault();
+    const { name, value } = event.target;
+    setCreateinvoice({
+      ...createInvoice,
+      [name]: value,
+    });
+
+    setFinalObj({
+      ...finalObj,
+      [name]: value,
+    });
+  };
+  const errorMessage = (event) => {
+    event.preventDefault();
+
+    if (createInvoice.createdAt == "") {
+      errorMes.createdAt = "can't Empty";
+    }
+    if (createInvoice.description == "") {
+      errorMes.description = "can't Empty";
+    }
+    if (createInvoice.paymentTerms == "") {
+      errorMes.paymentTerms = "can't Empty";
+    }
+    if (createInvoice.clientName == "") {
+      errorMes.clientName = "can't Empty";
+    }
+    if (createInvoice.clientEmail == "") {
+      errorMes.clientEmail = "can't Empty";
+    }
+    if (createInvoice.senderAddressStreet == "") {
+      errorMes.senderAddressStreet = "can't Empty";
+    }
+    if (createInvoice.senderAddressCity == "") {
+      errorMes.senderAddressCity = "can't Empty";
+    }
+    if (createInvoice.senderAddressPostCode == "") {
+      errorMes.senderAddressPostCode = "can't Empty";
+    }
+    if (createInvoice.senderAddressCountry == "") {
+      errorMes.senderAddressCountry = "can't Empty";
+    }
+    if (createInvoice.clientAddressStreet == "") {
+      errorMes.clientAddressStreet = "can't Empty";
+    }
+    if (createInvoice.clientAddressCity == "") {
+      errorMes.clientAddressCity = "can't Empty";
+    }
+    if (createInvoice.clientAddressPostCode == "") {
+      errorMes.clientAddressPostCode = "can't Empty";
+    }
+    if (createInvoice.clientAddressCountry == "") {
+      errorMes.clientAddressCountry = "can't Empty";
+    }
+    if (createInvoice.itemName == "") {
+      errorMes.itemName = "can't Empty";
+    }
+    if (createInvoice.itemQuantity == "") {
+      errorMes.itemQuantity = "can't Empty";
+    }
+    if (createInvoice.itemPrice == "") {
+      errorMes.itemPrice = "can't Empty";
+    }
+
+    // ID random
+
+    let str = `ABCDEFGHIJKLMNOPQRSTUVWXYZ`;
+    let numberrandom = Math.floor(Math.random() * 9000) + 999;
+    let stringrandom1 = str.charAt(Math.floor(Math.random() * 27));
+    let stringrandom2 = str.charAt(Math.floor(Math.random() * 27));
+    let resultid = stringrandom1 + stringrandom2 + numberrandom;
+    createInvoice.id = resultid;
+
+    // paymentDue
+    let theDate = new Date(createInvoice.createdAt);
+    theDate.setDate(theDate.getDate() + Number(createInvoice.paymentTerms));
+    let date = new Date(theDate);
+    let year = date.getFullYear();
+    let month = (date.getMonth() + 1).toString().padStart(2, "0");
+    let day = date.getDate().toString().padStart(2, "0");
+    let formattedDate = `${year}-${month}-${day}`;
+
+    //senderAddress and clientAddress objects
+
+    // Object for API
+    delete finalObj.clientAddressCity,
+      delete finalObj.clientAddressCountry,
+      delete finalObj.clientAddressPostCode,
+      delete finalObj.clientAddressStreet,
+      delete finalObj.senderAddressCity,
+      delete finalObj.senderAddressCountry,
+      delete finalObj.senderAddressPostCode,
+      delete finalObj.senderAddressStreet,
+      (finalObj = Object.assign(finalObj, { id: resultid }));
+    finalObj = Object.assign(finalObj, { paymentDue: formattedDate });
+  };
+  {
+    Object.keys(createInvoice).forEach((element) => {
+      if (element.includes("senderAddress")) {
+        senderAddress.street = Object.values(
+          createInvoice.senderAddressStreet
+        ).join("");
+        senderAddress.city = Object.values(
+          createInvoice.senderAddressCity
+        ).join("");
+        senderAddress.postCode = Object.values(
+          createInvoice.senderAddressPostCode
+        ).join("");
+        senderAddress.country = Object.values(
+          createInvoice.senderAddressCountry
+        ).join("");
+      }
+      if (element.includes("clientAddress")) {
+        clientAddress.street = Object.values(
+          createInvoice.clientAddressStreet
+        ).join("");
+        clientAddress.city = Object.values(
+          createInvoice.clientAddressCity
+        ).join("");
+        clientAddress.postCode = Object.values(
+          createInvoice.clientAddressPostCode
+        ).join("");
+        clientAddress.country = Object.values(
+          createInvoice.clientAddressCountry
+        ).join("");
+      }
+    });
+  }
+
+  const [disabled, setDisabled] = useState(true);
+
+  function addItems() {
+    setItemObj({
+      name: createInvoice.itemName,
+      quantity: createInvoice.itemQuantity,
+      price: createInvoice.itemPrice,
+      total: `${createInvoice.itemQuantity * createInvoice.itemPrice}`,
+    });
+  }
+
+  maxItem.push(...maxItem, maxItem);
+
+  firstObj = {
+    name: createInvoice.itemName,
+    quantity: createInvoice.itemQuantity,
+    price: createInvoice.itemPrice,
+    total: `${createInvoice.itemQuantity * createInvoice.itemPrice}`,
+  };
+  secondObj = {
+    name: Object.values(itemObj.name).join(""),
+    quantity: Object.values(itemObj.quantity).join(""),
+    price: Object.values(itemObj.price).join(""),
+    total: Object.values(itemObj.total).join(""),
+  };
+
+  itemsArr.push(...itemsArr, firstObj, secondObj);
+  finalitemsArr = Object.values(itemsArr);
+  finalObj = Object.assign(finalObj, { items: finalitemsArr });
+  delete finalObj.itemName,
+    delete finalObj.itemQuantity,
+    delete finalObj.itemPrice,
+    delete finalObj.itemTotal,
+    async function send() {
+      finalObj.status = "pending";
+      console.log(finalObj);
+      finalObj.total = `${firstObj.total + secondObj.total}`;
+      const res = await fetch(
+        `https://invoice-api-bcbr.onrender.com/api/invoice`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(finalObj),
+        }
+      );
+      const dataa = await res.json();
+      console.log(dataa);
+    };
+  function draft() {
+    finalObj.status = "draft";
+    finalObj.total = `${firstObj.total}` + `${secondObj.total}`;
+    console.log(finalObj);
+  }
+  function discard() {
+    (createInvoice.idcreatedAt.value = ""),
+      (createInvoice.description.value = ""),
+      (createInvoice.paymentTerms = ""),
+      (createInvoice.clientName = ""),
+      (createInvoice.clientEmail = ""),
+      (createInvoice.senderAddressStreet.target.value = ""),
+      (createInvoice.senderAddressCity = ""),
+      (createInvoice.senderAddressPostCode = ""),
+      (createInvoice.senderAddressCountry = ""),
+      (createInvoice.clientAddressStreet = ""),
+      (createInvoice.clientAddressCity = ""),
+      (createInvoice.clientAddressPostCode = ""),
+      (createInvoice.clientAddressCountry = ""),
+      (createInvoice.itemName = ""),
+      (createInvoice.itemQuantity = ""),
+      (createInvoice.itemPrice = ""),
+      (createInvoice.itemTotal = "");
+    console.log(createInvoice.senderAddressStreet);
+  }
+  console.log(createInvoice.senderAddressStreet);
+
+  console.log(finalObj);
+
   return (
     <>
       <MainContainer darkLight={darkLight}>
         <GoBack>
-          <img src={arrowLeft} alt="" />
+          <Link to={"/"}>
+            <img src={arrowLeft} alt="" />
+          </Link>
           <p>
             <Link darkLight={darkLight} id="styleLink" to={"/"}>
               {mobileText ? "Go back" : null}
             </Link>
           </p>
         </GoBack>
-        <h1>New Invoice</h1>
+        <h1>Edit invoice</h1>
         <Bill>
           <p>Bill From</p>
           <SenderAddress onSubmit={errorMessage}>
@@ -383,41 +691,43 @@ export default function EditInvoice() {
             </ItemList>
           </SenderAddress>
         </Bill>
+        <Buttons darkLight={darkLight}>
+          <button className="draft" type="onSubmit">
+            Cancel
+          </button>
+          <button
+            className="send"
+            type="onClick"
+            onSubmit={errorMessage}
+            onClick={() => EditData(finalObj.id)}
+          >
+            Save & Changdes
+          </button>
+        </Buttons>
       </MainContainer>
+
       <EmptyContainer darkLight={darkLight}></EmptyContainer>
-      <Buttons darkLight={darkLight}>
-        <button className="discard" type="click" onClick={discard}>
-          Discard
-        </button>
-        <button
-          className="draft"
-          type="onSubmit"
-          onClick={draft}
-          onSubmit={errorMessage}
-        >
-          Save as Draft
-        </button>
-        <button
-          className="send"
-          type="onClick"
-          onClick={send}
-          onSubmit={errorMessage}
-        >
-          Save & Send
-        </button>
-      </Buttons>
     </>
   );
 }
 
 const MainContainer = styled.div`
+  margin: 0 auto;
   width: 100%;
 
   padding: 3.3rem 2.4rem 0 2.2rem;
   background-color: ${(props) => (props.darkLight ? "#fff" : "#141625")};
   @media (min-width: 48rem) {
+    margin: 0 auto;
     width: 61.6rem;
     padding: 5.9rem 5.6rem 0;
+  }
+  @media (min-width: 90rem) {
+    transform: translateX(-50%);
+    left: 50%;
+    width: 71rem;
+    position: absolute;
+    z-index: 10;
   }
 
   h1 {
@@ -706,11 +1016,6 @@ const Buttons = styled.div`
 
   padding: 2.1rem 2.4rem 2.2rem 2.4rem;
   background-color: ${(props) => (props.darkLight ? "#fff" : "#1e2139")};
-  @media (min-width: 48rem) {
-    width: 52.4rem;
-    margin-left: 3.7rem;
-    padding-right: 0;
-  }
 
   .discard {
     background-color: ${(props) => (props.darkLight ? "#f9fafef" : "#252945")};

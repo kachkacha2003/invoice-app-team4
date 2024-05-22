@@ -5,6 +5,7 @@ import Header from "./components/Header";
 import Invoices from "./pages/Invoices";
 import CreateInvoice from "./pages/CreateInvoice";
 import ViewInvoice from "./pages/ViewInvoice";
+import EditInvoice from "./pages/EditInvoice";
 
 function App() {
   const [data, setData] = useState([]);
@@ -59,6 +60,25 @@ function App() {
             path="/viewinvoice/:id"
             element={
               <ViewInvoice darkLight={darkLight} setDarkLight={setDarkLight} />
+            }
+          />
+          <Route
+            path="/viewInvoice/:id/EditInvoice"
+            element={
+              <EditInvoice
+                data={data}
+                setData={setData}
+                filtered={filtered}
+                setFiltered={setFiltered}
+                show={show}
+                setShow={setShow}
+                darkLight={darkLight}
+                setDarkLight={setDarkLight}
+                getInvoice={getInvoice}
+                setGetInvoice={setGetInvoice}
+                addItemTable={addItemTable}
+                setAddItemTable={setAddItemTable}
+              />
             }
           />
         </Routes>

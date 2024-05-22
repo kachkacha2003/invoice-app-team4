@@ -24,7 +24,6 @@ export default function Invoices({
   setAddItemTable,
 }) {
   const Location = useLocation();
-  console.log(location.pathname);
   const count = data.length;
   const navigate = useNavigate();
   const createPageToHide = useMediaQuery("only screen and (max-width : 48rem)");
