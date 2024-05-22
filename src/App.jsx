@@ -8,7 +8,6 @@ import ViewInvoice from "./pages/ViewInvoice";
 
 function App() {
   const [data, setData] = useState([]);
-
   const [filtered, setFiltered] = useState(["Draft", "Pending", "Paid"]);
   const [show, setShow] = useState(false);
   const [addItemTable, setAddItemTable] = useState(false);
@@ -16,9 +15,44 @@ function App() {
   const [getInvoice, setGetInvoice] = useState(0);
   const [arrowicon, setArrowicon] = useState(true);
   const [list, setList] = useState(["Net 1 Day", "Net 7 Day", "Net 14 Day", "Net 30 Day"]);
+  const [disabled, setDisabled] = useState(true)
+  const [createInvoice, setCreateinvoice] = useState({
+    id: "",
+    createdAt: "",
+    paymentDue: "",
+    description: "",
+    paymentTerms: "",
+    clientName: "",
+    clientEmail: "",
+    status: "",
+    senderAddressStreet: "",
+    senderAddressCity: "",
+    senderAddressPostCode: "",
+    senderAddressCountry: "",
+    clientAddressStreet: "",
+    clientAddressCity: "",
+    clientAddressPostCode: "",
+    clientAddressCountry: "",
+    itemName: "",
+    itemQuantity: "",
+    itemPrice: "",
+    itemTotal: "",
+  });
+  const [senderAddress, setSenderAddress] = useState({
+    street: "",
+    city: "",
+    postCode: "",
+    country: "",
+  });
+  const [clientAddress, setClientAddress] = useState({
+    street: "",
+    city: "",
+    postCode: "",
+    country: "",
+  });
   
 
-   
+   console.log(createInvoice)
   
   return (
     <>
@@ -39,6 +73,10 @@ function App() {
                 setDarklight={setDarklight}
                 getInvoice={getInvoice}
                 setGetInvoice={setGetInvoice}
+                senderAddress={senderAddress}
+                setSenderAddress={setSenderAddress}
+                clientAddress={clientAddress}
+              setClientAddress={setClientAddress}
               />
             }
           />
@@ -53,7 +91,12 @@ function App() {
                 arrowicon={arrowicon} 
                 setArrowicon={setArrowicon}
                 list={list}
-                setList={setList}                
+                setList={setList} 
+                createInvoice={createInvoice}  
+                setCreateinvoice={setCreateinvoice} 
+                disabled={disabled}
+                
+
               />
             }
           />

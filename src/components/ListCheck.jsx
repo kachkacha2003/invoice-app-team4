@@ -11,7 +11,9 @@ export default function ListCheck({
   list,
   setList, 
   arrowicon, 
-  createInvoice}) {
+  createInvoice,
+setCreateinvoice
+}) {
   console.log(list)
     return(
           <DayListCon >
@@ -21,24 +23,38 @@ export default function ListCheck({
                       list={list} 
                       setList={setList} 
                       arrowicon={arrowicon}
+                      createInvoice={createInvoice}
                       styled = {{display: arrowicon ? "block" : "none"}}
                       
-                      onClick={(item) =>
-                        
+
+
+                      onClick={() =>
+
+                       
                         item.includes("1 ")
-                        ? createInvoice.paymentTerms = "1"
+                        ?  setCreateinvoice({
+                          ...createInvoice,
+                          paymentTerms: 1
+                        })
+                        
                         :
 
                         item.includes("7")
-                        ? createInvoice.paymentTerms = 7
-                        : 
+                        ? setCreateinvoice({
+                          ...createInvoice,
+                          paymentTerms: 7})
+                          :
 
                         item.includes("14")
-                        ? createInvoice.paymentTerms = 14
-                        : 
+                        ? setCreateinvoice({
+                          ...createInvoice,
+                          paymentTerms: 14})
+                          :
 
                         item.includes("30")
-                        ? createInvoice.paymentTerms = 30
+                        ? setCreateinvoice({
+                          ...createInvoice,
+                          paymentTerms: 30})
                         : null
 
                       }>{item}</DayList>

@@ -16,39 +16,22 @@ export default function Create({
   arrowicon, 
   setArrowicon,
   list,
-  setList
+  setList,
+  createInvoice,
+  setCreateinvoice,
+  disabled
+  
 
 }) {
 
   const mobileText = useMediaQuery("only screen and (max-width : 48rem)");
-  const [disabled, setDisabled] = useState(true)
+  
 
   let firstObj = {};
   let itemsArr = [];
   let subtotal = 0
 
-  const [createInvoice, setCreateinvoice] = useState({
-    id: "",
-    createdAt: "",
-    paymentDue: "",
-    description: "",
-    paymentTerms: "",
-    clientName: "",
-    clientEmail: "",
-    status: "",
-    senderAddressStreet: "",
-    senderAddressCity: "",
-    senderAddressPostCode: "",
-    senderAddressCountry: "",
-    clientAddressStreet: "",
-    clientAddressCity: "",
-    clientAddressPostCode: "",
-    clientAddressCountry: "",
-    itemName: "",
-    itemQuantity: "",
-    itemPrice: "",
-    itemTotal: "",
-  });
+  
   const [senderAddress, setSenderAddress] = useState({
     street: "",
     city: "",
@@ -275,6 +258,38 @@ export default function Create({
       console.log(finalObj)
     }
 
+    function discard() {
+      finalObj.status="draft"
+     
+        setCreateinvoice({
+          ...createInvoice,
+          id: "",
+          createdAt: "",
+          paymentDue: "",
+          description: "",
+          paymentTerms: "",
+          clientName: "",
+          clientEmail: "",
+          status: "",
+          senderAddressStreet: "",
+          senderAddressCity: "",
+          senderAddressPostCode: "",
+          senderAddressCountry: "",
+          clientAddressStreet: "",
+          clientAddressCity: "",
+          clientAddressPostCode: "",
+          clientAddressCountry: "",
+          itemName: "",
+          itemQuantity: "",
+          itemPrice: "",
+          itemTotal: ""
+        })
+
+
+    
+      console.log(finalObj)
+    }
+
     
     
      
@@ -494,6 +509,8 @@ export default function Create({
                 </Couple>
 
                 <ListCheck
+                  createInvoice={createInvoice}
+                  setCreateinvoice={setCreateinvoice}
                   list={list} 
                   setList={setList}
                 />
@@ -579,7 +596,16 @@ export default function Create({
                     </Couple>
                   </ItemPrice>
 
-                  <img src={deleteIcon} alt="" />
+                  <img src={deleteIcon} alt="" onClick={()=>{
+                      setCreateinvoice({
+                        ...createInvoice,
+                        itemName: "",
+                        itemQuantity: "",
+                        itemPrice: "",
+                        itemTotal: ""
+                      })
+                    }
+                  }/>
                 </ItemsPriceDel>
               </div>
               { itemsArr.map((item, index) => (
@@ -652,7 +678,7 @@ export default function Create({
                       </Couple>
                     </ItemPrice>
 
-                    <img src={deleteIcon} alt="" />
+                    <img src={deleteIcon} alt=""/>
                   </ItemsPriceDel>
                 </div>
               ))}
@@ -660,7 +686,7 @@ export default function Create({
               <button
                 id="add"
                 type="click"
-                darklight={darklight}
+                darkLight={darklight}
                 onClick={addItems}
               >
                 + Add New Item
@@ -672,7 +698,7 @@ export default function Create({
       <EmptyContainer darklight={darklight}></EmptyContainer>
       <Buttons darklight={darklight}>
 
-        <button className="discard" type="click">
+        <button className="discard" type="click" onClick={discard}>
           Discard
         </button>
         <button className="draft" type="onSubmit" onClick={draft} onSubmit={errorMessage}>
@@ -994,7 +1020,7 @@ const Buttons = styled.div`
   const ArrowDownIcon = styled.img`
     position: absolute;
     width: 1.5rem;
-    margin-left: 33rem;
+    margin-left: 43rem;
     margin-top: 2rem;
     transform: ${(props) => (props.arrowicon ? "rotate(180deg)" : "rotate( 0 deg)")};
     
