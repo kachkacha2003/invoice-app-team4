@@ -40,11 +40,19 @@ function App() {
           <Route
             path="/createinvoice"
             element={
-              <CreateInvoice
-                addItemTable={addItemTable}
-                setAddItemTable={setAddItemTable}
+              <Invoices
+                data={data}
+                setData={setData}
+                filtered={filtered}
+                setFiltered={setFiltered}
+                show={show}
+                setShow={setShow}
                 darkLight={darkLight}
                 setDarkLight={setDarkLight}
+                getInvoice={getInvoice}
+                setGetInvoice={setGetInvoice}
+                addItemTable={addItemTable}
+                setAddItemTable={setAddItemTable}
               />
             }
           />

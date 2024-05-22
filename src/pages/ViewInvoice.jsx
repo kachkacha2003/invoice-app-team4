@@ -10,7 +10,7 @@ import { useState } from "react";
 export default function ViewInvoice({ darkLight }) {
   const [deleteSpanShow, setDeleteSpanShow] = useState(false);
   const DivToShow = useMediaQuery("only screen and (min-width:48rem)");
-  const TabletTextToHide = useMediaQuery("only screen and (max-width : 767px)");
+  const TabletTextToHide = useMediaQuery("only screen and (max-width:48rem)");
   let invoiceObj;
 
   for (let i = 0; i < data.people.length; i++) {
@@ -18,11 +18,17 @@ export default function ViewInvoice({ darkLight }) {
       invoiceObj = data.people[i];
     }
   }
+  console.log(deleteSpanShow);
 
   return (
     <>
       <MainContainer darkLight={darkLight}>
-        {deleteSpanShow ? <DeletionConfirm /> : null}
+        {deleteSpanShow ? (
+          <DeletionConfirm
+            setDeleteSpanShow={setDeleteSpanShow}
+            deleteSpanShow={deleteSpanShow}
+          />
+        ) : null}
         <GoBack>
           <img src={arrowLeft} alt="" />
 
@@ -46,7 +52,10 @@ export default function ViewInvoice({ darkLight }) {
               <div className="editIn">
                 <span>edit</span>
               </div>
-              <div className="deleteIn">
+              <div
+                className="deleteIn"
+                onClick={() => setDeleteSpanShow(!deleteSpanShow)}
+              >
                 <span>Delete</span>
               </div>
               <div className="markIn">
@@ -149,19 +158,19 @@ export default function ViewInvoice({ darkLight }) {
             </GrandTotal>
           </MainInformation>
         </InvoiceContainer>
+        {TabletTextToHide ? (
+          <Buttons darkLight={darkLight}>
+            <button className="edit">Edit</button>
+            <button
+              className="delete"
+              onClick={() => setDeleteSpanShow(!deleteSpanShow)}
+            >
+              Delete
+            </button>
+            <button className="mark">Mark as Paid</button>
+          </Buttons>
+        ) : null}
       </MainContainer>
-      {TabletTextToHide ? (
-        <Buttons darkLight={darkLight}>
-          <button className="edit">Edit</button>
-          <button
-            className="delete"
-            onClick={() => setDeleteSpanShow(!deleteSpanShow)}
-          >
-            Delete
-          </button>
-          <button className="mark">Mark as Paid</button>
-        </Buttons>
-      ) : null}
     </>
   );
 }
@@ -229,12 +238,15 @@ const ThreeConParent = styled.div`
 `;
 
 const MainContainer = styled.div`
-  position: relative;
   width: 100%;
   padding: 3.3rem 2.4rem 2rem 2.2rem;
   background-color: ${(props) => (props.darkLight ? "#F8F8FB" : "#141625")};
   font-family: "League Spartan";
   overflow-y: auto;
+  @media (min-width: 90rem) {
+    margin-top: 6.5rem;
+    margin-left: 25rem;
+  }
 
   .samestyle {
     font-size: 1.3rem;
@@ -485,13 +497,12 @@ const GrandTotal = styled.div`
 const Buttons = styled.div`
   width: 100%;
   height: 9.1rem;
-  background-color: #ffffff;
   display: flex;
   gap: 0.8rem;
   justify-content: space-around;
   align-items: center;
   padding: 0 2.4rem;
-  background-color: ${(props) => (props.darkLight ? "#ffffff" : "#1e2139")};
+  background-color: ${(props) => (props.darkLight ? "#fff" : "#1e2139")};
 
   .edit,
   .delete,

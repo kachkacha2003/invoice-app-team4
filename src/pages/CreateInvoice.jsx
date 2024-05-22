@@ -291,7 +291,9 @@ export default function Create({ addItemTable, setAddItemTable, darkLight }) {
     <>
       <MainContainer darkLight={darkLight}>
         <GoBack>
-          <img src={arrowLeft} alt="" />
+          <Link to={"/"}>
+            <img src={arrowLeft} alt="" />
+          </Link>
           <p>
             <Link darkLight={darkLight} id="styleLink" to={"/"}>
               {mobileText ? "Go back" : null}
@@ -663,29 +665,30 @@ export default function Create({ addItemTable, setAddItemTable, darkLight }) {
             </ItemList>
           </SenderAddress>
         </Bill>
+        <Buttons darkLight={darkLight}>
+          <button className="discard" type="click" onClick={discard}>
+            Discard
+          </button>
+          <button
+            className="draft"
+            type="onSubmit"
+            onClick={draft}
+            onSubmit={errorMessage}
+          >
+            Save as Draft
+          </button>
+          <button
+            className="send"
+            type="onClick"
+            onClick={send}
+            onSubmit={errorMessage}
+          >
+            Save & Send
+          </button>
+        </Buttons>
       </MainContainer>
+
       <EmptyContainer darkLight={darkLight}></EmptyContainer>
-      <Buttons darkLight={darkLight}>
-        <button className="discard" type="click" onClick={discard}>
-          Discard
-        </button>
-        <button
-          className="draft"
-          type="onSubmit"
-          onClick={draft}
-          onSubmit={errorMessage}
-        >
-          Save as Draft
-        </button>
-        <button
-          className="send"
-          type="onClick"
-          onClick={send}
-          onSubmit={errorMessage}
-        >
-          Save & Send
-        </button>
-      </Buttons>
     </>
   );
 }
@@ -698,6 +701,14 @@ const MainContainer = styled.div`
   @media (min-width: 48rem) {
     width: 61.6rem;
     padding: 5.9rem 5.6rem 0;
+    position: absolute;
+    left: 0;
+  }
+  @media (min-width: 90rem) {
+    left: 11rem;
+    width: 71rem;
+    position: absolute;
+    z-index: 10;
   }
 
   h1 {
