@@ -7,20 +7,25 @@ import { Link } from "react-router-dom";
 
 import { useMediaQuery } from "@uidotdev/usehooks";
 import arrowDownicon from "/images/icon-arrow-down.svg";
+import  ListCheck  from "../components/ListCheck";
 
-export default function Create({ addItemTable, darkLight, arrowIcon, setArrowIcon, list, setList }) {
+
+export default function Create({ 
+  addItemTable, 
+  darklight, 
+  arrowicon, 
+  setArrowicon,
+  list,
+  setList
+
+}) {
 
   const mobileText = useMediaQuery("only screen and (max-width : 48rem)");
   const [disabled, setDisabled] = useState(true)
 
-
-  
-  let maxItem = [];
-  let secondObj = {};
   let firstObj = {};
   let itemsArr = [];
-  let finalitemsArr = [];
-  let arr = [1, 7, 14, 30];
+  let subtotal = 0
 
   const [createInvoice, setCreateinvoice] = useState({
     id: "",
@@ -245,143 +250,44 @@ export default function Create({ addItemTable, darkLight, arrowIcon, setArrowIco
   
     itemsArr.push(...itemsArr, firstObj);
 
-     
+     console.log(itemsArr[0].total)
      finalObj = Object.assign(finalObj, { items: itemsArr })
      delete finalObj.itemName,
      delete finalObj.itemQuantity,
      delete finalObj.itemPrice,
      delete finalObj.itemTotal,
   
-     
      console.log(finalObj)
 
+     for (let i=0; i<itemsArr.length; i++){
+      subtotal =+  Number(itemsArr[0].total)
+     }
+
+    
+     function send() {
+      finalObj.status="panding"
+      finalObj.total= subtotal
+      console.log(finalObj)
+    }
+    function draft() {
+      finalObj.status="draft"
+      finalObj.total= subtotal
+      console.log(finalObj)
+    }
+
+    
+    
      
-  
-    // function send() {
-    //   finalObj.status="panding"
-    //   finalObj.total= Number(`${firstObj.total}`)
-    //   console.log(finalObj)
-    // }
-    // function draft() {
-    //   finalObj.status="draft"
-    //   finalObj.total= `${firstObj.total}`
-    //   console.log(finalObj)
-    // }
-    // function discard(){
-    //   createInvoice.idcreatedAt.value = "",
-    //   createInvoice.description.value = "",
-    //   createInvoice.paymentTerms = "",
-    //   createInvoice.clientName = "",
-    //   createInvoice.clientEmail = "",
-    //   createInvoice.senderAddressStreet.target.value = "",
-    //   createInvoice.senderAddressCity = "",
-    //   createInvoice.senderAddressPostCode = "",
-    //   createInvoice.senderAddressCountry = "",
-    //   createInvoice.clientAddressStreet = "",
-    //   createInvoice.clientAddressCity = "",
-    //   createInvoice.clientAddressPostCode = "",
-    //   createInvoice.clientAddressCountry = "",
-    //   createInvoice.itemName = "",
-    //   createInvoice.itemQuantity = "",
-    //   createInvoice.itemPrice = "",
-    //   createInvoice.itemTotal = ""
-    //   console.log(createInvoice.senderAddressStreet)
-    // }
-
-
-  //    function addItems() {
-  //   setItemObj({
-  //     name: createInvoice.itemName,
-  //     quantity: createInvoice.itemQuantity,
-  //     price: createInvoice.itemPrice,
-  //     total: `${createInvoice.itemQuantity * createInvoice.itemPrice}`,
-  //   });
     
-  // }
- 
-  //   maxItem.push(...maxItem, maxItem);
-  
-  // firstObj = {
-  //   name: createInvoice.itemName,
-  //   quantity: createInvoice.itemQuantity,
-  //   price: createInvoice.itemPrice,
-  //   total: `${createInvoice.itemQuantity * createInvoice.itemPrice}`,
-  // };
-  // secondObj = {
-  //   name: Object.values(itemObj.name).join(""),
-  //   quantity: Object.values(itemObj.quantity).join(""),
-  //   price: Object.values(itemObj.price).join(""),
-  //   total: Object.values(itemObj.total).join(""),
-  // };
-
-
-  // itemsArr.push(...itemsArr, firstObj, secondObj);
-  //  finalitemsArr = Object.values(itemsArr)
-  //  finalObj = Object.assign(finalObj, { items: finalitemsArr })
-  //  delete finalObj.itemName,
-  //  delete finalObj.itemQuantity,
-  //  delete finalObj.itemPrice,
-  //  delete finalObj.itemTotal,
-
-   
-  //  console.log(finalObj)
-
-  // function send() {
-  //   finalObj.status="panding"
-  //   finalObj.total= Number(`${firstObj.total + secondObj.total}`)
-  //   console.log(finalObj)
-  // }
-  // function draft() {
-  //   finalObj.status="draft"
-  //   finalObj.total= `${firstObj.total}` + `${secondObj.total}`
-  //   console.log(finalObj)
-  // }
-  // function discard(){
-  //   createInvoice.idcreatedAt.value = "",
-  //   createInvoice.description.value = "",
-  //   createInvoice.paymentTerms = "",
-  //   createInvoice.clientName = "",
-  //   createInvoice.clientEmail = "",
-  //   createInvoice.senderAddressStreet.target.value = "",
-  //   createInvoice.senderAddressCity = "",
-  //   createInvoice.senderAddressPostCode = "",
-  //   createInvoice.senderAddressCountry = "",
-  //   createInvoice.clientAddressStreet = "",
-  //   createInvoice.clientAddressCity = "",
-  //   createInvoice.clientAddressPostCode = "",
-  //   createInvoice.clientAddressCountry = "",
-  //   createInvoice.itemName = "",
-  //   createInvoice.itemQuantity = "",
-  //   createInvoice.itemPrice = "",
-  //   createInvoice.itemTotal = ""
-  //   console.log(createInvoice.senderAddressStreet)
-  // }
-  // console.log(createInvoice.senderAddressStreet)
-
-  //   console.log(finalObj)
-
-
     
-    // function list(){
-    //   arr.map((item)=>{
-    //    for (let i=0; i<5; i++){
-    //     if (arr.indexOf(item)==i){
-    //       console.log(arr[item])
-    //     }
-    //     }
-    //   })
-    // }
-
-
-   
 
   return (
     <>
-      <MainContainer darkLight={darkLight}>
+      <MainContainer darklight={darklight}>
         <GoBack>
           <img src={arrowLeft} alt="" />
           <p>
-            <Link darkLight={darkLight} id="styleLink" to={"/"}>
+            <Link darklight={darklight} id="styleLink" to={"/"}>
               {mobileText ? "Go back" : null}
             </Link>
           </p>
@@ -391,7 +297,7 @@ export default function Create({ addItemTable, darkLight, arrowIcon, setArrowIco
           <p>Bill From</p>
           <SenderAddress onSubmit={errorMessage}>
             <div>
-              <Couple darkLight={darkLight}>
+              <Couple darklight={darklight}>
                 <label className="label" htmlFor="street">
                   Street Address{" "}
                   <span style={{ color: "red" }}>
@@ -408,7 +314,7 @@ export default function Create({ addItemTable, darkLight, arrowIcon, setArrowIco
               </Couple>
               <CityPostcodeCountry>
                 <CityPostCode>
-                  <Couple darkLight={darkLight}>
+                  <Couple darklight={darklight}>
                     <label className="label" htmlFor="City">
                       City
                       <span style={{ color: "red" }}>
@@ -423,7 +329,7 @@ export default function Create({ addItemTable, darkLight, arrowIcon, setArrowIco
                       onChange={handleChange}
                     />
                   </Couple>
-                  <Couple darkLight={darkLight}>
+                  <Couple darklight={darklight}>
                     <label className="label" htmlFor="Post Code">
                       Post Code
                       <span style={{ color: "red" }}>
@@ -439,7 +345,7 @@ export default function Create({ addItemTable, darkLight, arrowIcon, setArrowIco
                     />
                   </Couple>
                 </CityPostCode>
-                <Couple darkLight={darkLight}>
+                <Couple darklight={darklight}>
                   <label className="label" htmlFor="Country">
                     Country
                     <span style={{ color: "red" }}>
@@ -458,7 +364,7 @@ export default function Create({ addItemTable, darkLight, arrowIcon, setArrowIco
 
               <p>Bill To</p>
               <NameEmail>
-                <Couple darkLight={darkLight}>
+                <Couple darklight={darklight}>
                   <label className="label" htmlFor="ClientsName">
                     Client's Name{" "}
                     <span style={{ color: "red" }}>{errorMes.clientName}</span>
@@ -472,7 +378,7 @@ export default function Create({ addItemTable, darkLight, arrowIcon, setArrowIco
                   />
                 </Couple>
 
-                <Couple darkLight={darkLight}>
+                <Couple darklight={darklight}>
                   <label className="label" htmlFor="ClientsEmail">
                     Client's Email{" "}
                     <span style={{ color: "red" }}>{errorMes.clientEmail}</span>
@@ -486,7 +392,7 @@ export default function Create({ addItemTable, darkLight, arrowIcon, setArrowIco
                   />
                 </Couple>
 
-                <Couple darkLight={darkLight}>
+                <Couple darklight={darklight}>
                   <label className="label" htmlFor="streetTo">
                     Street Address{" "}
                     <span style={{ color: "red" }}>
@@ -504,7 +410,7 @@ export default function Create({ addItemTable, darkLight, arrowIcon, setArrowIco
               </NameEmail>
               <CityPostcodeCountry>
                 <CityPostCode>
-                  <Couple darkLight={darkLight}>
+                  <Couple darklight={darklight}>
                     <label className="label" htmlFor="CityTo">
                       City
                       <span style={{ color: "red" }}>
@@ -519,7 +425,7 @@ export default function Create({ addItemTable, darkLight, arrowIcon, setArrowIco
                       onChange={handleChange}
                     />
                   </Couple>
-                  <Couple darkLight={darkLight}>
+                  <Couple darklight={darklight}>
                     <label className="label" htmlFor="Post Code To">
                       Post Code
                       <span style={{ color: "red" }}>
@@ -535,7 +441,7 @@ export default function Create({ addItemTable, darkLight, arrowIcon, setArrowIco
                     />
                   </Couple>
                 </CityPostCode>
-                <Couple darkLight={darkLight}>
+                <Couple darklight={darklight}>
                   <label className="label" htmlFor="CountryTo">
                     Country
                     <span style={{ color: "red" }}>
@@ -552,7 +458,7 @@ export default function Create({ addItemTable, darkLight, arrowIcon, setArrowIco
                 </Couple>
               </CityPostcodeCountry>
               <DateTerms>
-                <Couple darkLight={darkLight}>
+                <Couple darklight={darklight}>
                   <label className="label" htmlFor="InvoiceDate">
                     Invoice Date
                     <span style={{ color: "red" }}>{errorMes.createdAt}</span>
@@ -565,15 +471,14 @@ export default function Create({ addItemTable, darkLight, arrowIcon, setArrowIco
                     onChange={handleChange}
                   />
                 </Couple>
-                <Couple darkLight={darkLight}>
+                <Couple darklight={darklight}>
                   <label className="label" htmlFor="PaymentTerms">
                     Payment Terms
                     <span style={{ color: "red" }}>
                       {errorMes.paymentTerms}
                     </span>
                   </label>
-                  <div style={{backgroundColor: "red"}}> </div>
-                    <input
+                  <input
                     id="PaymentTerms"
                     name="paymentTerms"
                     value={createInvoice.paymentTerms}
@@ -583,27 +488,18 @@ export default function Create({ addItemTable, darkLight, arrowIcon, setArrowIco
                   <ArrowDownIcon 
                     src={arrowDownicon}
                     alt="arrow"
-                    onClick={() => setArrowIcon(!arrowIcon)}
-                    arrowIcon={arrowIcon}
+                    onClick={() => setArrowicon(!arrowicon)}
+                    arrowicon={arrowicon}
                   />
-                  
-                  {list.map((item)=>{
-                   
-                    <div  className="days1" >item</div> }
-                  )}
-                    {/* <div className="days7" >Net 7 Days</div>
-                    <div className="days14" >Net 14 Days</div>
-                    <div className="days30" >Net 30 Days</div> */}
-                  
-
-                  
-     
-                  
-
                 </Couple>
+
+                <ListCheck
+                  list={list} 
+                  setList={setList}
+                />
               </DateTerms>
 
-              <Couple darkLight={darkLight}>
+              <Couple darklight={darklight}>
                 <label className="label" htmlFor="ProjectDescription">
                   Project Description
                   <span style={{ color: "red" }}>{errorMes.description}</span>
@@ -620,7 +516,7 @@ export default function Create({ addItemTable, darkLight, arrowIcon, setArrowIco
             <ItemList>
               <p>Item List</p>
               <div>
-                <Couple darkLight={darkLight}>
+                <Couple darklight={darklight}>
                   <label className="label" htmlFor="ItemName">
                     Item Name
                     <span style={{ color: "red" }}>{errorMes.itemName}</span>
@@ -636,7 +532,7 @@ export default function Create({ addItemTable, darkLight, arrowIcon, setArrowIco
 
                 <ItemsPriceDel>
                   <ItemPrice>
-                    <Couple darkLight={darkLight}>
+                    <Couple darklight={darklight}>
                       <label className="label" htmlFor="Qty">
                         QTY.
                         <span style={{ color: "red" }}>
@@ -651,7 +547,7 @@ export default function Create({ addItemTable, darkLight, arrowIcon, setArrowIco
                         onChange={handleChange}
                       />
                     </Couple>
-                    <Couple darkLight={darkLight}>
+                    <Couple darklight={darklight}>
                       <label className="label" htmlFor="Price">
                         Price
                         <span style={{ color: "red" }}>
@@ -666,7 +562,7 @@ export default function Create({ addItemTable, darkLight, arrowIcon, setArrowIco
                         onChange={handleChange}
                       />
                     </Couple>
-                    <Couple darkLight={darkLight}>
+                    <Couple darklight={darklight}>
                       <label className="label" htmlFor="Total">
                         Total
                       </label>
@@ -678,6 +574,7 @@ export default function Create({ addItemTable, darkLight, arrowIcon, setArrowIco
                         }`}
                         type="number"
                         onChange={handleChange}
+                        disabled={disabled}
                       />
                     </Couple>
                   </ItemPrice>
@@ -691,7 +588,7 @@ export default function Create({ addItemTable, darkLight, arrowIcon, setArrowIco
                   style={{ display: addItemTable < 10 ? "block" : "none" }}
                   className="addTable"
                 >
-                  <Couple darkLight={darkLight}>
+                  <Couple darklight={darklight}>
                     <label className="label" htmlFor="ItemName">
                       Item Name
                       <span style={{ color: "red" }}>{errorMes.itemName}</span>
@@ -708,7 +605,7 @@ export default function Create({ addItemTable, darkLight, arrowIcon, setArrowIco
 
                   <ItemsPriceDel>
                     <ItemPrice>
-                      <Couple darkLight={darkLight}>
+                      <Couple darklight={darklight}>
                         <label className="label" htmlFor="Qty">
                           QTY.
                           <span style={{ color: "red" }}>
@@ -724,7 +621,7 @@ export default function Create({ addItemTable, darkLight, arrowIcon, setArrowIco
                           onChange={handleChange}
                         />
                       </Couple>
-                      <Couple darkLight={darkLight}>
+                      <Couple darklight={darklight}>
                         <label className="label" htmlFor="Price">
                           Price
                           <span style={{ color: "red" }}>
@@ -740,14 +637,14 @@ export default function Create({ addItemTable, darkLight, arrowIcon, setArrowIco
                           onChange={handleChange}
                         />
                       </Couple>
-                      <Couple darkLight={darkLight}>
+                      <Couple darklight={darklight}>
                         <label className="label" htmlFor="Total">
                           Total
                         </label>
                         <input
                           id="TotalPrice"
                           name="itemTotal"
-                          value={itemsArr.total}
+                          value={itemsArr[0].total}
                           type="number"
                           disabled={disabled}
                           onChange={handleChange}
@@ -763,7 +660,7 @@ export default function Create({ addItemTable, darkLight, arrowIcon, setArrowIco
               <button
                 id="add"
                 type="click"
-                darkLight={darkLight}
+                darklight={darklight}
                 onClick={addItems}
               >
                 + Add New Item
@@ -772,19 +669,18 @@ export default function Create({ addItemTable, darkLight, arrowIcon, setArrowIco
           </SenderAddress>
         </Bill>
       </MainContainer>
-      <EmptyContainer darkLight={darkLight}></EmptyContainer>
-      <Buttons darkLight={darkLight}>
+      <EmptyContainer darklight={darklight}></EmptyContainer>
+      <Buttons darklight={darklight}>
 
-        {/* <button className="discard" type="click"  onClick={discard}> */}
-
+        <button className="discard" type="click">
           Discard
-        {/* </button> */}
-        {/* <button className="draft" type="onSubmit" onClick={draft} onSubmit={errorMessage}> */}
+        </button>
+        <button className="draft" type="onSubmit" onClick={draft} onSubmit={errorMessage}>
           Save as Draft
-        {/* </button> */}
-        {/* // <button className="send" type="onClick" onClick={send} onSubmit={errorMessage}> */}
+        </button>
+        <button className="send" type="onClick" onClick={send} onSubmit={errorMessage}>
           Save & Send
-        {/* </button> */}
+        </button>
       </Buttons>
     </>
   );
@@ -794,14 +690,14 @@ const MainContainer = styled.div`
   width: 100%;
 
   padding: 3.3rem 2.4rem 0 2.2rem;
-  background-color: ${(props) => (props.darkLight ? "#fff" : "#141625")};
+  background-color: ${(props) => (props.darklight ? "#fff" : "#141625")};
 
   h1 {
     margin-top: 2.6rem;
     font-size: 2.4rem;
     font-weight: bold;
 
-    color: ${(props) => (props.darkLight ? "#0c0e16" : "#ffffff")};
+    color: ${(props) => (props.darklight ? "#0c0e16" : "#ffffff")};
   }
 
   p {
@@ -823,7 +719,7 @@ const GoBack = styled.div`
   p {
     font-size: 1.5rem;
     font-weight: bold;
-    color: ${(props) => (props.darkLight ? "#373b53" : "#1e2139")};
+    color: ${(props) => (props.darklight ? "#373b53" : "#1e2139")};
 
     letter-spacing: -0.25px;
   }
@@ -869,7 +765,7 @@ const SenderAddress = styled.form`
     font-weight: 500;
     line-height: 15px; /* 115.385% */
     letter-spacing: -0.1px;
-    color: ${(props) => (props.darkLight ? "#7e88c3" : "#7e88c3")};
+    color: ${(props) => (props.darklight ? "#7e88c3" : "#7e88c3")};
   }
   
 
@@ -908,40 +804,9 @@ const Couple = styled.div`
   gap: 0.9rem;
   justify-content: center;
 
-  .days1, .days7, .days14, .days30 {
-
-/* display: flex; */
-/* align-items: center; */
-/* justify-content: space-between; */
-width: 55rem;
-height: 4.8rem;
-border-radius: 0.4rem;
-border: solid 0.1rem ${(props) => (props.darkLight ? "#dfe3fa" : "#252945")};
-padding: 1.8rem 11.5rem 1.5rem 1.2rem;
-font-size: 1.5rem;
-font-weight: bold;
-letter-spacing: -0.25px;
-text-align: left;
-color: ${(props) => (props.darkLight ? "#0c0e16" : "#ffffff")};
-text-align: left;
-/* background-color: ${(props) => (props.darkLight ? "#ffffff" : "#1e2139")}; */
-display : ${(props)=>(props.arrowIcon ? "block" : "none")};
-background-color: red;
-
-width: 40%;
-/* position: absolute; */
-margin-top: 27.5rem;
-/* display: flex; */
-/* flex-direction: column; */
-/* justify-content: center; */
-/* background-color: ${(props) => (props.darkLight ? "bleck" : "#7e88c3")}; */
-
-
-  }
-
-
+  
   input[type="date"]::-webkit-calendar-picker-indicator {
-    background-color: ${(props) => (props.darkLight ? "bleck" : "#7e88c3")};
+    background-color: ${(props) => (props.darklight ? "bleck" : "#7e88c3")};
     cursor: pointer;
     /* right: 80%; */
     /* transform: translateX(5000%); */
@@ -966,7 +831,7 @@ margin-top: 27.5rem;
     height: 4.8rem;
     border-radius: 0.4rem;
 
-    border: solid 0.1rem ${(props) => (props.darkLight ? "#dfe3fa" : "#252945")};
+    border: solid 0.1rem ${(props) => (props.darklight ? "#dfe3fa" : "#252945")};
 
     padding: 1.8rem 11.5rem 1.5rem 1.2rem;
     font-size: 1.5rem;
@@ -974,9 +839,9 @@ margin-top: 27.5rem;
     letter-spacing: -0.25px;
     text-align: left;
 
-    color: ${(props) => (props.darkLight ? "#0c0e16" : "#ffffff")};
+    color: ${(props) => (props.darklight ? "#0c0e16" : "#ffffff")};
     text-align: left;
-    background-color: ${(props) => (props.darkLight ? "#ffffff" : "#1e2139")};
+    background-color: ${(props) => (props.darklight ? "#ffffff" : "#1e2139")};
   }
   
   #City,
@@ -1001,13 +866,13 @@ margin-top: 27.5rem;
     width: 4.7rem;
     height: 4.8rem;
     border: none;
-    background-color: ${(props) => (props.darkLight ? "#fff" : "#141625")};
+    background-color: ${(props) => (props.darklight ? "#fff" : "#141625")};
   }
 
   #Price,
   #Qty {
-    background-color: ${(props) => (props.darkLight ? "#fff" : "#1e2139")};
-    border: solid 0.1rem ${(props) => (props.darkLight ? "#dfe3fa" : "#252945")};
+    background-color: ${(props) => (props.darklight ? "#fff" : "#1e2139")};
+    border: solid 0.1rem ${(props) => (props.darklight ? "#dfe3fa" : "#252945")};
 
   }
     #InvoiceDate,
@@ -1034,9 +899,8 @@ const ItemList = styled.div`
 
   #add {
     border-radius: 2.4rem;
-
-    background-color: ${(props) => props.darkLight ? "#f9fafe" : "#1e2139"};
-    border: solid 0.1rem ${(props) => (props.darkLight ? "#dfe3fa" : "#252945")};
+    background-color: ${(props) => (props.darklight ? "#f9fafe" : "#1e2139")};
+    border: solid 0.1rem ${(props) => (props.darklight ? "#dfe3fa" : "#252945")};
 
     padding: 1.8rem 10.7rem 1.5rem 10.8rem;
     color: #7e88c3;
@@ -1069,9 +933,9 @@ const EmptyContainer = styled.div`
   width: 100%;
   height: 6.4rem;
   background-color: ${(props) =>
-    props.darkLight
-      ? "linear-gradient(to bottom, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.1))"
-      : "#141625"};
+    props.darklight
+    ? "linear-gradient(to bottom, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.1))"
+    : "#141625"};
 `;
 const Buttons = styled.div`
   display: flex;
@@ -1080,13 +944,13 @@ const Buttons = styled.div`
   gap: 0.7rem;
 
   padding: 2.1rem 2.4rem 2.2rem 2.4rem;
-  background-color: ${(props) => (props.darkLight ? "#fff" : "#1e2139")};
+  background-color: ${(props) => (props.darklight ? "#fff" : "#1e2139")};
 
   .discard {
-    background-color: ${(props) => (props.darkLight ? "#f9fafef" : "#252945")};
+    background-color: ${(props) => (props.darklight ? "#f9fafef" : "#373b53")};
     padding: 1.8rem 1.9rem 1.5rem 1.8rem;
     width: 8.4rem;
-    color: ${(props) => (props.darkLight ? "#dfe3fa" : "#7e88c3")};
+    color: ${(props) => (props.darklight ? "#7e88c3" : "#dfe3fa")};
 
     border-radius: 2.4rem;
     border: none;
@@ -1100,7 +964,7 @@ const Buttons = styled.div`
     padding: 1.8rem 1.39rem 1.5rem 1.61rem;
     width: 11.7rem;
 
-    color: ${(props) => (props.darkLight ? "#888eb0" : "#dfe3fa")};
+    color: ${(props) => (props.darklight ? "#888eb0" : "#dfe3fa")};
 
     border-radius: 2.4rem;
     border: none;
@@ -1114,7 +978,7 @@ const Buttons = styled.div`
     padding: 1.8rem 1.5rem 1.5rem 1.6rem;
     width: 11.2rem;
 
-    color: ${(props) => (props.darkLight ? "#dfe3fa" : "#ffffff")};
+    color: ${(props) => (props.darklight ? "#dfe3fa" : "#ffffff")};
 
     border-radius: 2.4rem;
     border: none;
@@ -1125,27 +989,24 @@ const Buttons = styled.div`
 
   .send:hover {
     cursor: pointer;
-  }
-`;
-
-// const DiwnDrop = styled.div`
-  /* width: 40%;
-  position: absolute;
-  margin-top: 27.5rem;
-  display: flex;
-  flex-direction: column;
-  /* justify-content: center; */
-  /* background-color: ${(props) => (props.darkLight ? "bleck" : "#7e88c3")}; */
- 
+  }`
  
   const ArrowDownIcon = styled.img`
-    
     position: absolute;
     width: 1.5rem;
-    margin-left: 30rem;
+    margin-left: 33rem;
     margin-top: 2rem;
-    transform: ${(props) => (props.arrowIcon ? "rotate(180deg)" : "rotate( 0 deg)")};
+    transform: ${(props) => (props.arrowicon ? "rotate(180deg)" : "rotate( 0 deg)")};
     
   `;
+
+  
+    
+    
+    
+   
+
+
+ 
 
 

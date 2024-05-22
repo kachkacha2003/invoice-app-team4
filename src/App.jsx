@@ -12,17 +12,18 @@ function App() {
   const [filtered, setFiltered] = useState(["Draft", "Pending", "Paid"]);
   const [show, setShow] = useState(false);
   const [addItemTable, setAddItemTable] = useState(false);
-  const [darkLight, setDarkLight] = useState(true);
+  const [darklight, setDarklight] = useState(true);
   const [getInvoice, setGetInvoice] = useState(0);
-  const [arrowIcon, setArrowIcon] = useState(false)
-  const [list, setList] = useState(["Net 1 Day", "Net 7 Day"], "Net 14 Day", "Net 30 Day");
+  const [arrowicon, setArrowicon] = useState(true);
+  const [list, setList] = useState(["Net 1 Day", "Net 7 Day", "Net 14 Day", "Net 30 Day"]);
+  
 
    
   
   return (
     <>
       <BrowserRouter>
-        <Header darkLight={darkLight} setDarkLight={setDarkLight} />
+        <Header darklight={darklight} setDarklight={setDarklight} />
         <Routes>
           <Route
             path="/"
@@ -34,8 +35,8 @@ function App() {
                 setFiltered={setFiltered}
                 show={show}
                 setShow={setShow}
-                darkLight={darkLight}
-                setDarkLight={setDarkLight}
+                darklight={darklight}
+                setDarklight={setDarklight}
                 getInvoice={getInvoice}
                 setGetInvoice={setGetInvoice}
               />
@@ -47,19 +48,19 @@ function App() {
               <CreateInvoice
                 addItemTable={addItemTable}
                 setAddItemTable={setAddItemTable}
-                darkLight={darkLight}
-                setDarkLight={setDarkLight}
-                arrowIcon={arrowIcon} 
-                setArrowIcon={setArrowIcon}
+                darklight={darklight}
+                setDarklight={setDarklight}
+                arrowicon={arrowicon} 
+                setArrowicon={setArrowicon}
                 list={list}
-                setList={setList}
+                setList={setList}                
               />
             }
           />
           <Route
             path="/viewinvoice/:id"
             element={
-              <ViewInvoice to={"/ViewInvoice/id"}  darkLight={darkLight} setDarkLight={setDarkLight} navi/>
+              <ViewInvoice to={"/ViewInvoice/:id"}  darklight={darklight} setDarklight={setDarklight} navi/>
             }
           />
         </Routes>
