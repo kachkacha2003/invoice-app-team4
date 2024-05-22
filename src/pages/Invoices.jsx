@@ -64,13 +64,15 @@ export default function Invoices({
     setData(info);
   }
 
-  function getInvoisNumber() {
-    const navigate = useNavigate();
+
   
-    const viewInvoice = (id) => {
-      navigate(`/viewinvoice/${id}`);
-    };
-  }
+  
+    
+    // useEffect(()=>{
+    //   navigate(`/viewinvoice/${id}`);
+    // }, [])
+  
+    
   
         
 

@@ -8,18 +8,18 @@ import { Link } from "react-router-dom";
 import { useMediaQuery } from "@uidotdev/usehooks";
 import arrowDownicon from "/images/icon-arrow-down.svg";
 
-export default function Create({ addItemTable, darkLight, list, setList }) {
+export default function Create({ addItemTable, darkLight, arrowIcon, setArrowIcon, list, setList }) {
 
   const mobileText = useMediaQuery("only screen and (max-width : 48rem)");
-
+  const [disabled, setDisabled] = useState(true)
 
 
   let maxItem = [];
   let secondObj = {};
   let firstObj = {};
-  let itemsArr = []
-  let finalitemsArr = []
-  let arr = [1, 7, 14, 30]
+  let itemsArr = [];
+  let finalitemsArr = [];
+  let arr = [1, 7, 14, 30];
 
   const [createInvoice, setCreateinvoice] = useState({
     id: "",
@@ -234,12 +234,10 @@ export default function Create({ addItemTable, darkLight, list, setList }) {
       });
       
     }
-   
-      maxItem.push(...maxItem, maxItem);
     
     firstObj = {
       name: Object.values(itemObj.name).join(""),
-      quantity: Object.values(itemObj.uantity).join(""),
+      quantity: Object.values(itemObj.quantity).join(""),
       price: Object.values(itemObj.price).join(""),
       total: Object.values(itemObj.total).join(""),
     };
@@ -255,6 +253,8 @@ export default function Create({ addItemTable, darkLight, list, setList }) {
   
      
      console.log(finalObj)
+
+     
   
     // function send() {
     //   finalObj.status="panding"
@@ -287,12 +287,7 @@ export default function Create({ addItemTable, darkLight, list, setList }) {
     //   console.log(createInvoice.senderAddressStreet)
     // }
 
-  const [disabled, setDisabled] = useState(true);
 
-
-
-
- 
   //    function addItems() {
   //   setItemObj({
   //     name: createInvoice.itemName,
@@ -377,15 +372,8 @@ export default function Create({ addItemTable, darkLight, list, setList }) {
     // }
 
 
-    // const [list, setList] = useState({
-    //   "day1": 1,
-    //   "day1": 7,
-    //   "day1": 14,
-    //   "day1": 30
-    // })
+   
 
-    
-  
   return (
     <>
       <MainContainer darkLight={darkLight}>
@@ -594,15 +582,22 @@ export default function Create({ addItemTable, darkLight, list, setList }) {
                   <ArrowDownIcon 
                     src={arrowDownicon}
                     alt="arrow"
-                    onClick={() => setList(!list)}
-                    list={list}
+                    onClick={() => setArrowIcon(!arrowIcon)}
+                    arrowIcon={arrowIcon}
                   />
-                  {/* <DiwnDrop darkLight={darkLight} list={list}> */}
-                    {/* <div list={list} className="days1" onClick={list}>Net 1 Days</div> 
-                    <div lost={list} className="days7" onClick={list}>Net 7 Days</div>
-                    <div lost={list} className="days14" onClick={list}>Net 14 Days</div>
-                    <div lost={list} className="days30" onClick={list}>Net 30 Days</div> */}
-                  {/* </DiwnDrop> */}
+                  
+                  {list.map((item)=>{
+                   
+                    <div  className="days1" >item</div> }
+                  )}
+                    {/* <div className="days7" >Net 7 Days</div>
+                    <div className="days14" >Net 14 Days</div>
+                    <div className="days30" >Net 30 Days</div> */}
+                  
+
+                  
+     
+                  
 
                 </Couple>
               </DateTerms>
@@ -929,7 +924,7 @@ text-align: left;
 color: ${(props) => (props.darkLight ? "#0c0e16" : "#ffffff")};
 text-align: left;
 /* background-color: ${(props) => (props.darkLight ? "#ffffff" : "#1e2139")}; */
-display : ${(props)=>(props.list ? "block" : "none")};
+display : ${(props)=>(props.arrowIcon ? "block" : "none")};
 background-color: red;
 
 width: 40%;
@@ -1148,7 +1143,7 @@ const Buttons = styled.div`
     width: 1.5rem;
     margin-left: 30rem;
     margin-top: 2rem;
-    transform: ${(props) => (props.list ? "rotate(180deg)" : "rotate( 0 deg)")};
+    transform: ${(props) => (props.arrowIcon ? "rotate(180deg)" : "rotate( 0 deg)")};
     
   `;
 

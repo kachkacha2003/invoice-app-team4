@@ -8,17 +8,21 @@ import { useParams } from 'react-router-dom';
 
 
 
+
 export default function ViewInvoice({darkLight}) {
-    const { id } = useParams();
-    let invoiceObj
+    // const { id } = useParams();
+    // const invoiceNumber = params.Id
+    // // let invoiceObj
 
-    for (let i=0; i<data.people.length; i++) {
-        if (data.id== {id}){
-         invoiceObj = data[i]
-        } 
-    }
+    // // for (let i=0; i<data.people.length; i++) {
+    //     // if (data.id== {id}){
+    //     //  invoiceObj = data[i]
+    //     // } 
 
-    
+    //     const invoiceId = data.find((invObj)=> invObj.id === invoiceNumber)
+    // }
+
+
    
     return (
         <>
@@ -114,8 +118,8 @@ export default function ViewInvoice({darkLight}) {
     <button className="mark">Mark as Paid</button>
 </Buttons>
 </>
-    )
-}
+    )}
+
 
 
 const MainContainer = styled.div`

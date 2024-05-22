@@ -14,8 +14,11 @@ function App() {
   const [addItemTable, setAddItemTable] = useState(false);
   const [darkLight, setDarkLight] = useState(true);
   const [getInvoice, setGetInvoice] = useState(0);
-  const [list, setList] = useState(false);
+  const [arrowIcon, setArrowIcon] = useState(false)
+  const [list, setList] = useState(["Net 1 Day", "Net 7 Day"], "Net 14 Day", "Net 30 Day");
 
+   
+  
   return (
     <>
       <BrowserRouter>
@@ -46,8 +49,8 @@ function App() {
                 setAddItemTable={setAddItemTable}
                 darkLight={darkLight}
                 setDarkLight={setDarkLight}
-                show={show}
-                setShow={setShow}
+                arrowIcon={arrowIcon} 
+                setArrowIcon={setArrowIcon}
                 list={list}
                 setList={setList}
               />
@@ -56,7 +59,7 @@ function App() {
           <Route
             path="/viewinvoice/:id"
             element={
-              <ViewInvoice darkLight={darkLight} setDarkLight={setDarkLight} />
+              <ViewInvoice to={"/ViewInvoice/id"}  darkLight={darkLight} setDarkLight={setDarkLight} navi/>
             }
           />
         </Routes>
