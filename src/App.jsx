@@ -12,7 +12,7 @@ function App() {
   const [filtered, setFiltered] = useState(["Draft", "Pending", "Paid"]);
   const [show, setShow] = useState(false);
   const [addItemTable, setAddItemTable] = useState(false);
-  const [darklight, setDarklight] = useState(true);
+  const [darkLight, setDarkLight] = useState(true);
   const [getInvoice, setGetInvoice] = useState(0);
   const [arrowicon, setArrowicon] = useState(true);
   const [list, setList] = useState([
@@ -57,12 +57,10 @@ function App() {
     country: "",
   });
 
-  console.log(createInvoice);
-
   return (
     <>
       <BrowserRouter>
-        <Header darklight={darklight} setDarklight={setDarklight} />
+        <Header darkLight={darkLight} setDarkLight={setDarkLight} />
         <Routes>
           <Route
             path="/"
@@ -74,8 +72,8 @@ function App() {
                 setFiltered={setFiltered}
                 show={show}
                 setShow={setShow}
-                darklight={darklight}
-                setDarkLight={setDarklight}
+                darkLight={darkLight}
+                setDarkLight={setDarkLight}
                 getInvoice={getInvoice}
                 setGetInvoice={setGetInvoice}
                 senderAddress={senderAddress}
@@ -97,8 +95,8 @@ function App() {
                 setFiltered={setFiltered}
                 show={show}
                 setShow={setShow}
-                darklight={darklight}
-                setDarkLight={setDarklight}
+                darkLight={darkLight}
+                setDarkLight={setDarkLight}
                 getInvoice={getInvoice}
                 list={list}
                 setList={setList}
@@ -116,8 +114,8 @@ function App() {
             element={
               <ViewInvoice
                 to={"/ViewInvoice/:id"}
-                darklight={darklight}
-                setDarkLight={setDarklight}
+                darkLight={darkLight}
+                setDarkLight={setDarkLight}
                 navi
               />
             }
@@ -132,8 +130,8 @@ function App() {
                 setFiltered={setFiltered}
                 show={show}
                 setShow={setShow}
-                darkLight={darklight}
-                setDarkLight={setDarklight}
+                darkLight={darkLight}
+                setDarkLight={setDarkLight}
                 getInvoice={getInvoice}
                 setGetInvoice={setGetInvoice}
                 addItemTable={addItemTable}

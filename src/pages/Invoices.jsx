@@ -12,7 +12,6 @@ import arrowRight from "/images/icon-arrow-right.svg";
 
 import Create from "./CreateInvoice";
 
-
 export default function Invoices({
   data,
   setData,
@@ -71,8 +70,6 @@ export default function Invoices({
     const info = await res.json();
     setData(info);
   }
-
-
   return (
     <>
       {location.pathname === "/createinvoice" ? (
@@ -126,7 +123,6 @@ export default function Invoices({
             ) : null}
           </InvoicecCounterCon>
 
-
           <InvoicesListsCon darkLight={darkLight}>
             {FilterDataToShow.map((person, index) => {
               return (
@@ -167,7 +163,6 @@ export default function Invoices({
           ) : null}
         </InvoicesInfoDiv>
       )}
-
     </>
   );
 }

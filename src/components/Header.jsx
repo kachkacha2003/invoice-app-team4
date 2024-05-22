@@ -14,7 +14,7 @@ export default function Header({ darkLight, setDarkLight }) {
 
         <img className="logo" src={logo} alt="" />
 
-        <MoonSum darkLight={darkLight}>
+        <MoonSum darklight={darkLight}>
           <img className="sun" src={sun} alt="" />
           <img className="moon" src={moon} alt="" />
         </MoonSum>
@@ -89,10 +89,10 @@ const MoonSum = styled.div`
   align-items: center;
 
   .sun {
-    display: ${(props) => (props.darkLight ? "none" : "block")};
+    display: ${(props) => (props.darklight ? "none" : "block")};
     margin-left: 0.8rem;
   }
   .moon {
-    display: ${(props) => (props.darkLight ? "block" : "none")};
+    display: ${(props) => (props.darklight ? "block" : "none")};
   }
 `;
