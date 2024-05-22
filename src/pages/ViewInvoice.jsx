@@ -3,164 +3,213 @@ import styled from "styled-components";
 import arrowLeft from "/images/icon-arrow-left.svg";
 import { Link } from "react-router-dom";
 import { useMediaQuery } from "@uidotdev/usehooks";
-import data from "../data.json/";
 import DeletionConfirm from "../components/DeletionConfirm";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useLocation } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 export default function ViewInvoice({ darkLight }) {
+  const navigate = useNavigate();
+  const [invoiceObj, setInvoiceObj] = useState({});
+  const location = useLocation();
+  const id = location.pathname.slice(-6);
   const [deleteSpanShow, setDeleteSpanShow] = useState(false);
   const DivToShow = useMediaQuery("only screen and (min-width:48rem)");
-  const TabletTextToHide = useMediaQuery("only screen and (max-width : 767px)");
-  let invoiceObj;
-
-  for (let i = 0; i < data.people.length; i++) {
-    if (data.people[i].id == "XM9141") {
-      invoiceObj = data.people[i];
-    }
+  const TabletTextToHide = useMediaQuery("only screen and (max-width:48rem)");
+  async function deleteInvoice() {
+    const res =
+      await fetch`https://invoice-api-bcbr.onrender.com/api/invoice/${id} , {
+        method: 'DELETE',
+        'Content-Type': 'application/json',
+      }`;
   }
+
+  async function changeItem() {
+    const res = await fetch(
+      `https://invoice-api-bcbr.onrender.com/api/invoice/mark_as_paid/${id}`,
+      {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({}),
+      }
+    );
+    navigate("/");
+  }
+  useEffect(() => {
+    async function fetchData2() {
+      const res = await fetch(
+        `https://invoice-api-bcbr.onrender.com/api/invoice/${id}`
+      );
+      const info = await res.json();
+      setInvoiceObj(info);
+    }
+    fetchData2();
+  }, []);
 
   return (
     <>
-      <MainContainer darkLight={darkLight}>
-        {deleteSpanShow ? <DeletionConfirm /> : null}
-        <GoBack>
-          <img src={arrowLeft} alt="" />
-
-          <p>
-            <Link id="styleLink" to={"/"}>
-              Go back
-            </Link>
-          </p>
-        </GoBack>
-
-        <StatusMain darkLight={darkLight}>
-          <Status darkLight={darkLight}>
-            <p>Status</p>
-            <SpanCon>
-              <Circletwo></Circletwo>
-              <span className="personStatus">Pending</span>
-            </SpanCon>
-          </Status>
-          {DivToShow ? (
-            <ThreeConParent>
-              <div className="editIn">
-                <span>edit</span>
-              </div>
-              <div className="deleteIn">
-                <span>Delete</span>
-              </div>
-              <div className="markIn">
-                <span>Mark as Paid</span>
-              </div>
-            </ThreeConParent>
+      {invoiceObj.status ? (
+        <MainContainer darkLight={darkLight}>
+          {deleteSpanShow ? (
+            <DeletionConfirm
+              setDeleteSpanShow={setDeleteSpanShow}
+              deleteSpanShow={deleteSpanShow}
+            />
           ) : null}
-        </StatusMain>
+          <GoBack>
+            <img src={arrowLeft} alt="" />
 
-        <InvoiceContainer darkLight={darkLight}>
-          <MainInformation darkLight={darkLight}>
-            <IdAndAdresComoCon>
-              <NumberDesc>
-                <div className="id">
-                  <span>#</span>
-                  {invoiceObj.id}
-                </div>
-                <div className="samestyle">{invoiceObj.description}</div>
-              </NumberDesc>
+            <p>
+              <Link id="styleLink" to={"/"}>
+                Go back
+              </Link>
+            </p>
+          </GoBack>
 
-              <Address>
-                <div className="samestyle">
-                  {invoiceObj.senderAddress.street}
+          <StatusMain darkLight={darkLight}>
+            <Status darkLight={darkLight}>
+              <p>Status</p>
+              <SpanCon>
+                <Circletwo></Circletwo>
+                <span className="personStatus">Pending</span>
+              </SpanCon>
+            </Status>
+            {DivToShow ? (
+              <ThreeConParent>
+                <div className="editIn">
+                  <Link
+                    to={`/viewInvoice/${id}/EditInvoice`}
+                    style={{ textDecoration: "none", color: "#fff" }}
+                  >
+                    <span>edit</span>
+                  </Link>
                 </div>
-                <div className="samestyle">{invoiceObj.senderAddress.city}</div>
-                <div className="samestyle">
-                  {invoiceObj.senderAddress.postCode}
+                <div
+                  className="deleteIn"
+                  onClick={() => setDeleteSpanShow(!deleteSpanShow)}
+                >
+                  <span>Delete</span>
                 </div>
-                <div className="samestyle">
-                  {invoiceObj.senderAddress.country}
+                <div className="markIn" onClick={() => changeItem(id)}>
+                  <span>Mark as Paid</span>
                 </div>
-              </Address>
-            </IdAndAdresComoCon>
+              </ThreeConParent>
+            ) : null}
+          </StatusMain>
 
-            <InvoiceInfo>
-              <ClientInfo>
-                <Dates>
-                  <div className="dateInfo">
-                    <div className="samestyle">Invoice Date</div>
-                    <div className="id">{invoiceObj.createdAt}</div>
+          <InvoiceContainer darkLight={darkLight}>
+            <MainInformation darkLight={darkLight}>
+              <IdAndAdresComoCon>
+                <NumberDesc>
+                  <div className="id">
+                    <span>#</span>
+                    {invoiceObj.id}
                   </div>
+                  <div className="samestyle">{invoiceObj.description}</div>
+                </NumberDesc>
 
-                  <div className="dateInfo">
-                    <div className="samestyle">Payment Due</div>
-                    <div className="id">{invoiceObj.paymentDue}</div>
-                  </div>
-                </Dates>
-
-                <Bill>
-                  <div className="samestyle">Bill To</div>
-                  <div className="clientName id">{invoiceObj.clientName}</div>
+                <Address>
                   <div className="samestyle">
-                    {invoiceObj.clientAddress.street}
+                    {invoiceObj.senderAddress.street}
                   </div>
                   <div className="samestyle">
-                    {invoiceObj.clientAddress.city}
+                    {invoiceObj.senderAddress.city}
                   </div>
                   <div className="samestyle">
-                    {invoiceObj.clientAddress.postCode}
+                    {invoiceObj.senderAddress.postCode}
                   </div>
                   <div className="samestyle">
-                    {invoiceObj.clientAddress.country}
+                    {invoiceObj.senderAddress.country}
                   </div>
-                </Bill>
-              </ClientInfo>
-              <div className="clientMail">
-                <div className="samestyle">Sent to</div>
-                <div className="id">{invoiceObj.clientEmail}</div>
-              </div>
-            </InvoiceInfo>
+                </Address>
+              </IdAndAdresComoCon>
 
-            <PriceInfo darkLight={darkLight}>
-              {DivToShow ? (
-                <div className="priceTitle">
-                  <p className="samestyle">Item Name</p>
-                  <p className="samestyle">QTY.</p>
-                  <p className="samestyle">Price</p>
-                  <p className="samestyle">Total</p>
-                </div>
-              ) : null}
-              {invoiceObj.items.map((item) => (
-                <Prices darkLight={darkLight}>
-                  <ProductInfo>
-                    <p className="id">{item.name}</p>
-                    <div className="quantity">
-                      <p className="samestyle">{item.quantity}</p>
-                      {TabletTextToHide ? (
-                        <span className="samestyle">x</span>
-                      ) : null}
-                      <p className="samestyle">£ {item.price.toFixed(2)}</p>
+              <InvoiceInfo>
+                <ClientInfo>
+                  <Dates>
+                    <div className="dateInfo">
+                      <div className="samestyle">Invoice Date</div>
+                      <div className="id">{invoiceObj.createdAt}</div>
                     </div>
-                  </ProductInfo>
-                  <div className="id">£ {item.total.toFixed(2)}</div>
-                </Prices>
-              ))}
-            </PriceInfo>
-            <GrandTotal darkLight={darkLight}>
-              <p>Amount Due</p>
-              <h2>£ {invoiceObj.total.toFixed(2)}</h2>
-            </GrandTotal>
-          </MainInformation>
-        </InvoiceContainer>
-      </MainContainer>
-      {TabletTextToHide ? (
-        <Buttons darkLight={darkLight}>
-          <button className="edit">Edit</button>
-          <button
-            className="delete"
-            onClick={() => setDeleteSpanShow(!deleteSpanShow)}
-          >
-            Delete
-          </button>
-          <button className="mark">Mark as Paid</button>
-        </Buttons>
+
+                    <div className="dateInfo">
+                      <div className="samestyle">Payment Due</div>
+                      <div className="id">{invoiceObj.paymentDue}</div>
+                    </div>
+                  </Dates>
+
+                  <Bill>
+                    <div className="samestyle">Bill To</div>
+                    <div className="clientName id">{invoiceObj.clientName}</div>
+                    <div className="samestyle">
+                      {invoiceObj.clientAddress.street}
+                    </div>
+                    <div className="samestyle">
+                      {invoiceObj.clientAddress.city}
+                    </div>
+                    <div className="samestyle">
+                      {invoiceObj.clientAddress.postCode}
+                    </div>
+                    <div className="samestyle">
+                      {invoiceObj.clientAddress.country}
+                    </div>
+                  </Bill>
+                </ClientInfo>
+                <div className="clientMail">
+                  <div className="samestyle">Sent to</div>
+                  <div className="id">{invoiceObj.clientEmail}</div>
+                </div>
+              </InvoiceInfo>
+
+              <PriceInfo darkLight={darkLight}>
+                {DivToShow ? (
+                  <div className="priceTitle">
+                    <p className="samestyle">Item Name</p>
+                    <p className="samestyle">QTY.</p>
+                    <p className="samestyle">Price</p>
+                    <p className="samestyle">Total</p>
+                  </div>
+                ) : null}
+                {invoiceObj.items.map((item, index) => (
+                  <Prices darkLight={darkLight} key={index}>
+                    <ProductInfo>
+                      <p className="id">{item.name}</p>
+                      <div className="quantity">
+                        <p className="samestyle">{item.quantity}</p>
+                        {TabletTextToHide ? (
+                          <span className="samestyle">x</span>
+                        ) : null}
+                        <p className="samestyle">£ {item.price.toFixed(2)}</p>
+                      </div>
+                    </ProductInfo>
+                    <div className="id">£ {item.total.toFixed(2)}</div>
+                  </Prices>
+                ))}
+              </PriceInfo>
+              <GrandTotal darkLight={darkLight}>
+                <p>Amount Due</p>
+                <h2>£ {Number(invoiceObj.total).toFixed(2)}</h2>
+              </GrandTotal>
+            </MainInformation>
+          </InvoiceContainer>
+          {TabletTextToHide ? (
+            <Buttons darkLight={darkLight}>
+              <Link to={`/viewInvoices/${id}/EditInvoices`}>
+                <button className="edit">Edit</button>
+              </Link>
+
+              <button
+                className="delete"
+                onClick={() => setDeleteSpanShow(!deleteSpanShow)}
+              >
+                Delete
+              </button>
+              <button className="mark">Mark as Paid</button>
+            </Buttons>
+          ) : null}
+        </MainContainer>
       ) : null}
     </>
   );
@@ -229,12 +278,15 @@ const ThreeConParent = styled.div`
 `;
 
 const MainContainer = styled.div`
-  position: relative;
   width: 100%;
   padding: 3.3rem 2.4rem 2rem 2.2rem;
   background-color: ${(props) => (props.darkLight ? "#F8F8FB" : "#141625")};
   font-family: "League Spartan";
   overflow-y: auto;
+  @media (min-width: 90rem) {
+    margin-top: 6.5rem;
+    margin-left: 25rem;
+  }
 
   .samestyle {
     font-size: 1.3rem;
@@ -485,13 +537,12 @@ const GrandTotal = styled.div`
 const Buttons = styled.div`
   width: 100%;
   height: 9.1rem;
-  background-color: #ffffff;
   display: flex;
   gap: 0.8rem;
   justify-content: space-around;
   align-items: center;
   padding: 0 2.4rem;
-  background-color: ${(props) => (props.darkLight ? "#ffffff" : "#1e2139")};
+  background-color: ${(props) => (props.darkLight ? "#fff" : "#1e2139")};
 
   .edit,
   .delete,

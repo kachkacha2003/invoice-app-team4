@@ -92,6 +92,9 @@ const Inside = styled.div`
   align-items: center;
   display: flex;
   gap: 0.5rem;
+  @media (min-width: 90rem) {
+    gap: 1.3rem;
+  }
   & span {
     color: var(--08, #0c0e16);
     font-family: "League Spartan";
@@ -121,5 +124,10 @@ const Parent = styled.div`
   @media (min-width: 48rem) {
     right: 23.5rem;
     top: 12rem;
+  }
+  @media (min-width: 48rem) {
+    width: 19.2rem;
+    right: 22rem;
+    top: 11rem;
   }
 `;

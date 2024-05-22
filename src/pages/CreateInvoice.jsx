@@ -251,13 +251,23 @@ export default function Create({ addItemTable, setAddItemTable, darkLight }) {
     delete finalObj.itemQuantity,
     delete finalObj.itemPrice,
     delete finalObj.itemTotal,
-    console.log(finalObj);
-
-  function send() {
-    finalObj.status = "panding";
-    finalObj.total = Number(`${firstObj.total + secondObj.total}`);
-    console.log(finalObj);
-  }
+    async function send() {
+      finalObj.status = "pending";
+      console.log(finalObj);
+      finalObj.total = `${firstObj.total + secondObj.total}`;
+      const res = await fetch(
+        `https://invoice-api-bcbr.onrender.com/api/invoice`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(finalObj),
+        }
+      );
+      const dataa = await res.json();
+      console.log(dataa);
+    };
   function draft() {
     finalObj.status = "draft";
     finalObj.total = `${firstObj.total}` + `${secondObj.total}`;
@@ -291,7 +301,9 @@ export default function Create({ addItemTable, setAddItemTable, darkLight }) {
     <>
       <MainContainer darkLight={darkLight}>
         <GoBack>
-          <img src={arrowLeft} alt="" />
+          <Link to={"/"}>
+            <img src={arrowLeft} alt="" />
+          </Link>
           <p>
             <Link darkLight={darkLight} id="styleLink" to={"/"}>
               {mobileText ? "Go back" : null}
@@ -663,29 +675,25 @@ export default function Create({ addItemTable, setAddItemTable, darkLight }) {
             </ItemList>
           </SenderAddress>
         </Bill>
+        <Buttons darkLight={darkLight}>
+          <button className="discard" type="click" onClick={discard}>
+            Discard
+          </button>
+          <button
+            className="draft"
+            type="onSubmit"
+            onClick={draft}
+            onSubmit={errorMessage}
+          >
+            Save as Draft
+          </button>
+          <button className="send" type="onClick" onSubmit={errorMessage}>
+            Save & Send
+          </button>
+        </Buttons>
       </MainContainer>
+
       <EmptyContainer darkLight={darkLight}></EmptyContainer>
-      <Buttons darkLight={darkLight}>
-        <button className="discard" type="click" onClick={discard}>
-          Discard
-        </button>
-        <button
-          className="draft"
-          type="onSubmit"
-          onClick={draft}
-          onSubmit={errorMessage}
-        >
-          Save as Draft
-        </button>
-        <button
-          className="send"
-          type="onClick"
-          onClick={send}
-          onSubmit={errorMessage}
-        >
-          Save & Send
-        </button>
-      </Buttons>
     </>
   );
 }
@@ -698,6 +706,14 @@ const MainContainer = styled.div`
   @media (min-width: 48rem) {
     width: 61.6rem;
     padding: 5.9rem 5.6rem 0;
+    position: absolute;
+    left: 0;
+  }
+  @media (min-width: 90rem) {
+    left: 11rem;
+    width: 71rem;
+    position: absolute;
+    z-index: 10;
   }
 
   h1 {

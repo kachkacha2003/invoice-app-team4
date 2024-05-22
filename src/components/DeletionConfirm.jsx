@@ -1,7 +1,22 @@
 import React from "react";
 import styled from "styled-components";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 
-export default function DeletionConfirm() {
+export default function DeletionConfirm({ setDeleteSpanShow, deleteSpanShow }) {
+  const navigate = useNavigate();
+  console.log(setDeleteSpanShow, deleteSpanShow);
+  const id = location.pathname.slice(-6);
+  async function deleteInvoice() {
+    const res = await fetch(
+      `https://invoice-api-bcbr.onrender.com/api/invoice/${id}`,
+      {
+        method: "DELETE",
+        "Content-Type": "application/json",
+      }
+    );
+    navigate("/");
+  }
+
   return (
     <Cover>
       <Hone>Confirm Deletion</Hone>
@@ -10,8 +25,10 @@ export default function DeletionConfirm() {
         undone.
       </Para>
       <Containerr>
-        <CancelCon>Cancel</CancelCon>
-        <DeleteCon>Delete</DeleteCon>
+        <CancelCon onClick={() => setDeleteSpanShow(!deleteSpanShow)}>
+          Cancel
+        </CancelCon>
+        <DeleteCon onClick={deleteInvoice}>Delete </DeleteCon>
       </Containerr>
     </Cover>
   );
@@ -69,14 +86,14 @@ const Hone = styled.h5`
   margin-bottom: 0.8rem;
 `;
 const Cover = styled.div`
+  transform: translate(-50%, -50%);
   justify-content: center;
   top: 50%;
-  left: 10%;
+  left: 50%;
   position: absolute;
   border-radius: 8px;
   background: #fff;
   box-shadow: 0px 10px 10px -10px rgba(72, 84, 159, 0.1);
   width: 32.7rem;
   padding: 3.2rem;
-  top: 41%;
 `;
