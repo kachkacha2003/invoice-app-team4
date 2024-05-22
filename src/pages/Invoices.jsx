@@ -4,13 +4,14 @@ import arrowDown from "/images/icon-arrow-down.svg";
 import plus from "/images/icon-plus.svg";
 import empty from "/images/illustration-empty.svg";
 import { useEffect } from "react";
-
+import { useNavigate, useLocation } from "react-router-dom";
 import { useMediaQuery } from "@uidotdev/usehooks";
-
 import { Link } from "react-router-dom";
 import FilterContainer from "../components/FilterContainer";
 import arrowRight from "/images/icon-arrow-right.svg";
-import { useNavigate } from 'react-router-dom';
+
+import Create from "./CreateInvoice";
+
 
 export default function Invoices({
   data,
@@ -20,7 +21,14 @@ export default function Invoices({
   show,
   setShow,
   darkLight,
+  setDarkLight,
+  addItemTable,
+  setAddItemTable,
 }) {
+  const Location = useLocation();
+  const count = data.length;
+  const navigate = useNavigate();
+  const createPageToHide = useMediaQuery("only screen and (max-width : 48rem)");
   const tabletText = useMediaQuery("only screen and (min-width : 48rem)");
   const tabletArrow = useMediaQuery("only screen and (min-width : 48rem)");
   const FilterDataToShow = data.filter((item) => {
@@ -65,103 +73,101 @@ export default function Invoices({
   }
 
 
-  
-  
-    
-    // useEffect(()=>{
-    //   navigate(`/viewinvoice/${id}`);
-    // }, [])
-  
-    
-  
-        
-
-
   return (
     <>
-      <InvoicesInfoDiv darkLight={darkLight}>
-        <InvoicecCounterCon>
-          <InvoiceCountersDiv>
-            <span>Invoices</span>
-            <p>
-              {tabletText ? "There are  " : null} 7
-              {tabletText ? " total  " : null}
-              invoices
-            </p>
-          </InvoiceCountersDiv>
-          <FilterAndNew>
-            <FilterCon show={show} setShow={setShow}>
-              <span onClick={() => setShow(!show)}>
-                Filter {tabletText ? "by status" : null}
-              </span>
-              <ArrowImg
-                src={arrowDown}
-                alt="arrow down"
-                onClick={() => setShow(!show)}
+      {location.pathname === "/createinvoice" ? (
+        <Create
+          addItemTable={addItemTable}
+          setAddItemTable={setAddItemTable}
+          darkLight={darkLight}
+          setDarkLight={setDarkLight}
+        />
+      ) : null}
+      {createPageToHide && location.pathname === "/createinvoice" ? null : (
+        <InvoicesInfoDiv darkLight={darkLight}>
+          <InvoicecCounterCon>
+            <InvoiceCountersDiv>
+              <span>Invoices</span>
+              <p>
+                {tabletText ? "There are  " : null} {count}
+                {tabletText ? " total  " : null}
+                invoices
+              </p>
+            </InvoiceCountersDiv>
+            <FilterAndNew>
+              <FilterCon show={show} setShow={setShow}>
+                <span onClick={() => setShow(!show)}>
+                  Filter {tabletText ? "by status" : null}
+                </span>
+                <ArrowImg
+                  src={arrowDown}
+                  alt="arrow down"
+                  onClick={() => setShow(!show)}
+                  show={show}
+                />
+              </FilterCon>
+              <BtnCon>
+                <Btn>
+                  <Link id="styleLink" to={"/createinvoice"}>
+                    New{tabletText ? " Invoice" : null}
+                  </Link>
+                </Btn>
+                <Circle>
+                  <img src={plus} alt="" />
+                </Circle>
+              </BtnCon>
+            </FilterAndNew>
+            {show ? (
+              <FilterContainer
+                filtered={filtered}
+                setFiltered={setFiltered}
                 show={show}
               />
-            </FilterCon>
-            <BtnCon>
-              <Btn>
-                <Link id="styleLink" to={"/createinvoice"}>
-                  New{tabletText ? " Invoice" : null}
-                </Link>
-              </Btn>
-              <Circle>
-                <img src={plus} alt="" />
-              </Circle>
-            </BtnCon>
-          </FilterAndNew>
-          {show ? (
-            <FilterContainer
-              filtered={filtered}
-              setFiltered={setFiltered}
-              show={show}
-            />
-          ) : null}
-        </InvoicecCounterCon>
+            ) : null}
+          </InvoicecCounterCon>
 
-        <InvoicesListsCon 
-        
-        darkLight={darkLight}>
-          {FilterDataToShow.map((person, index) => {
-            return (
-              <InvoiceContainer
-                onClick={() => console.log(person.id)}
-                status={person.status.name}
-                key={index}
-                darkLight={darkLight}
-              >
-                <span className="personId">
-                  <span className="symbol">#</span>
-                  {person.id}
-                </span>
-                <span className="personName">{person.clientName}</span>
-                <span className="personPayDate">Due {person.paymentDue}</span>
-                <span className="personTotal"> £ {person.total}</span>
-                <SpanCon status={person.status.name} darkLight={darkLight}>
-                  <Circletwo
-                    status={person.status.name}
-                    darkLight={darkLight}
-                  ></Circletwo>
-                  <span className="personStatus">{person.status.name}</span>
-                </SpanCon>
-                {tabletArrow ? <img src={arrowRight} alt="" /> : null}
-              </InvoiceContainer>
-            );
-          })}
-        </InvoicesListsCon>
-      </InvoicesInfoDiv>
-      {data.length === 0 ? (
-        <EmptyCon>
-          <img src={empty} alt="" />
-          <span>There is nothing here</span>
-          <p>
-            Create an invoice by clicking the <span>New</span> button and get
-            started
-          </p>
-        </EmptyCon>
-      ) : null}
+
+          <InvoicesListsCon darkLight={darkLight}>
+            {FilterDataToShow.map((person, index) => {
+              return (
+                <InvoiceContainer
+                  status={person.status.name}
+                  key={index}
+                  darkLight={darkLight}
+                  onClick={() => navigate(`/viewinvoice/${person.id}`)}
+                >
+                  <span className="personId">
+                    <span className="symbol">#</span>
+                    {person.id}
+                  </span>
+                  <span className="personName">{person.clientName}</span>
+                  <span className="personPayDate">Due {person.paymentDue}</span>
+                  <span className="personTotal"> £ {person.total}</span>
+                  <SpanCon status={person.status.name} darkLight={darkLight}>
+                    <Circletwo
+                      status={person.status.name}
+                      darkLight={darkLight}
+                    ></Circletwo>
+                    <span className="personStatus">{person.status.name}</span>
+                  </SpanCon>
+                  {tabletArrow ? <img src={arrowRight} alt="" /> : null}
+                </InvoiceContainer>
+              );
+            })}
+          </InvoicesListsCon>
+          {data.length === 0 ? (
+            <EmptyCon>
+              <img src={empty} alt="" />
+              <span>There is nothing here</span>
+              <p>
+                Create an invoice by clicking the <span>New</span> button and
+                get started
+              </p>
+            </EmptyCon>
+          ) : null}
+        </InvoicesInfoDiv>
+      )}
+
     </>
   );
 }
@@ -289,9 +295,6 @@ const InvoiceContainer = styled.div`
       : "0 10px 10px -10px rgba(72, 84, 159, 0.1);"};
   background: ${(props) => (props.darkLight ? "#fff" : "#1e2139")};
 
-  &:hover {
-    cursor: pointer;
-  }
   @media (min-width: 48rem) {
     display: flex;
     flex-direction: row;
@@ -438,6 +441,7 @@ const InvoiceCountersDiv = styled.div`
   }
 `;
 const InvoicesInfoDiv = styled.div`
+  width: 100%;
   display: flex;
   flex-direction: column;
   gap: 3.2rem;
@@ -449,5 +453,11 @@ const InvoicesInfoDiv = styled.div`
   @media (min-width: 48rem) {
     padding: 6.2rem 4.8rem 4rem 4.8rem;
     gap: 5.5rem;
+  }
+  @media (min-width: 90rem) {
+    height: 100vh;
+    position: absolute;
+    width: 73rem;
+    left: 45.5rem;
   }
 `;

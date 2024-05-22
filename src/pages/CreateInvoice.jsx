@@ -10,26 +10,23 @@ import arrowDownicon from "/images/icon-arrow-down.svg";
 import  ListCheck  from "../components/ListCheck";
 
 
-export default function Create({ 
-  addItemTable, 
-  darklight, 
-  arrowicon, 
+
+export default function Create({ addItemTable, setAddItemTable, darkLight,arrowicon, 
   setArrowicon,
   list,
   setList,
   createInvoice,
   setCreateinvoice,
-  disabled
-  
-
-}) {
-
+  disabled }) {
+  const [selectedValue, setSelectedValue] = useState("");
   const mobileText = useMediaQuery("only screen and (max-width : 48rem)");
-  
 
+  let maxItem = [];
+  let secondObj = {};
   let firstObj = {};
   let itemsArr = [];
-  let subtotal = 0
+  let finalitemsArr = [];
+
 
   
   const [senderAddress, setSenderAddress] = useState({
@@ -50,7 +47,7 @@ export default function Create({
     price: 0,
     total: 0,
   });
-  
+
   let [finalObj, setFinalObj] = useState({
     createdAt: "",
     paymentDue: "",
@@ -167,7 +164,7 @@ export default function Create({
     //senderAddress and clientAddress objects
 
     // Object for API
-      delete finalObj.clientAddressCity,
+    delete finalObj.clientAddressCity,
       delete finalObj.clientAddressCountry,
       delete finalObj.clientAddressPostCode,
       delete finalObj.clientAddressStreet,
@@ -175,10 +172,9 @@ export default function Create({
       delete finalObj.senderAddressCountry,
       delete finalObj.senderAddressPostCode,
       delete finalObj.senderAddressStreet,
-      finalObj = Object.assign(finalObj, { id: resultid });
-      finalObj = Object.assign(finalObj, { paymentDue: formattedDate });
-      
-    };
+      (finalObj = Object.assign(finalObj, { id: resultid }));
+    finalObj = Object.assign(finalObj, { paymentDue: formattedDate });
+  };
   {
     Object.keys(createInvoice).forEach((element) => {
       if (element.includes("senderAddress")) {
@@ -212,95 +208,93 @@ export default function Create({
     });
   }
 
+  const [disabled, setDisabled] = useState(true);
+
   function addItems() {
+    setItemObj({
+      name: createInvoice.itemName,
+      quantity: createInvoice.itemQuantity,
+      price: createInvoice.itemPrice,
+      total: `${createInvoice.itemQuantity * createInvoice.itemPrice}`,
+    });
+  }
 
-    
-      setItemObj({
-        name: createInvoice.itemName,
-        quantity: createInvoice.itemQuantity,
-        price: createInvoice.itemPrice,
-        total: `${createInvoice.itemQuantity * createInvoice.itemPrice}`,
-      });
-      
-    }
-    
-    firstObj = {
-      name: Object.values(itemObj.name).join(""),
-      quantity: Object.values(itemObj.quantity).join(""),
-      price: Object.values(itemObj.price).join(""),
-      total: Object.values(itemObj.total).join(""),
+  maxItem.push(...maxItem, maxItem);
+
+  firstObj = {
+    name: createInvoice.itemName,
+    quantity: createInvoice.itemQuantity,
+    price: createInvoice.itemPrice,
+    total: `${createInvoice.itemQuantity * createInvoice.itemPrice}`,
+  };
+  secondObj = {
+    name: Object.values(itemObj.name).join(""),
+    quantity: Object.values(itemObj.quantity).join(""),
+    price: Object.values(itemObj.price).join(""),
+    total: Object.values(itemObj.total).join(""),
+  };
+
+  itemsArr.push(...itemsArr, firstObj, secondObj);
+  finalitemsArr = Object.values(itemsArr);
+  finalObj = Object.assign(finalObj, { items: finalitemsArr });
+  delete finalObj.itemName,
+    delete finalObj.itemQuantity,
+    delete finalObj.itemPrice,
+    delete finalObj.itemTotal,
+    async function send() {
+      finalObj.status = "pending";
+      console.log(finalObj);
+      finalObj.total = `${firstObj.total + secondObj.total}`;
+      const res = await fetch(
+        `https://invoice-api-bcbr.onrender.com/api/invoice`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(finalObj),
+        }
+      );
+      const dataa = await res.json();
+      console.log(dataa);
     };
-  
-    itemsArr.push(...itemsArr, firstObj);
+  function draft() {
+    finalObj.status = "draft";
+    finalObj.total = `${firstObj.total}` + `${secondObj.total}`;
+    console.log(finalObj);
+  }
+  function discard() {
+    (createInvoice.idcreatedAt.value = ""),
+      (createInvoice.description.value = ""),
+      (createInvoice.paymentTerms = ""),
+      (createInvoice.clientName = ""),
+      (createInvoice.clientEmail = ""),
+      (createInvoice.senderAddressStreet.target.value = ""),
+      (createInvoice.senderAddressCity = ""),
+      (createInvoice.senderAddressPostCode = ""),
+      (createInvoice.senderAddressCountry = ""),
+      (createInvoice.clientAddressStreet = ""),
+      (createInvoice.clientAddressCity = ""),
+      (createInvoice.clientAddressPostCode = ""),
+      (createInvoice.clientAddressCountry = ""),
+      (createInvoice.itemName = ""),
+      (createInvoice.itemQuantity = ""),
+      (createInvoice.itemPrice = ""),
+      (createInvoice.itemTotal = "");
+    console.log(createInvoice.senderAddressStreet);
+  }
+  console.log(createInvoice.senderAddressStreet);
 
-     console.log(itemsArr[0].total)
-     finalObj = Object.assign(finalObj, { items: itemsArr })
-     delete finalObj.itemName,
-     delete finalObj.itemQuantity,
-     delete finalObj.itemPrice,
-     delete finalObj.itemTotal,
-  
-     console.log(finalObj)
+  console.log(finalObj);
 
-     for (let i=0; i<itemsArr.length; i++){
-      subtotal =+  Number(itemsArr[0].total)
-     }
-
-    
-     function send() {
-      finalObj.status="panding"
-      finalObj.total= subtotal
-      console.log(finalObj)
-    }
-    function draft() {
-      finalObj.status="draft"
-      finalObj.total= subtotal
-      console.log(finalObj)
-    }
-
-    function discard() {
-      finalObj.status="draft"
-     
-        setCreateinvoice({
-          ...createInvoice,
-          id: "",
-          createdAt: "",
-          paymentDue: "",
-          description: "",
-          paymentTerms: "",
-          clientName: "",
-          clientEmail: "",
-          status: "",
-          senderAddressStreet: "",
-          senderAddressCity: "",
-          senderAddressPostCode: "",
-          senderAddressCountry: "",
-          clientAddressStreet: "",
-          clientAddressCity: "",
-          clientAddressPostCode: "",
-          clientAddressCountry: "",
-          itemName: "",
-          itemQuantity: "",
-          itemPrice: "",
-          itemTotal: ""
-        })
-
-
-    
-      console.log(finalObj)
-    }
-
-    
-    
-     
-    
-    
 
   return (
     <>
       <MainContainer darklight={darklight}>
         <GoBack>
-          <img src={arrowLeft} alt="" />
+          <Link to={"/"}>
+            <img src={arrowLeft} alt="" />
+          </Link>
           <p>
             <Link darklight={darklight} id="styleLink" to={"/"}>
               {mobileText ? "Go back" : null}
@@ -493,6 +487,7 @@ export default function Create({
                       {errorMes.paymentTerms}
                     </span>
                   </label>
+
                   <input
                     id="PaymentTerms"
                     name="paymentTerms"
@@ -694,20 +689,27 @@ export default function Create({
             </ItemList>
           </SenderAddress>
         </Bill>
+        <Buttons darkLight={darkLight}>
+          <button className="discard" type="click" onClick={discard}>
+            Discard
+          </button>
+          <button
+            className="draft"
+            type="onSubmit"
+            onClick={draft}
+            onSubmit={errorMessage}
+          >
+            Save as Draft
+          </button>
+          <button className="send" type="onClick" onSubmit={errorMessage}>
+            Save & Send
+          </button>
+        </Buttons>
       </MainContainer>
-      <EmptyContainer darklight={darklight}></EmptyContainer>
-      <Buttons darklight={darklight}>
 
-        <button className="discard" type="click" onClick={discard}>
-          Discard
-        </button>
-        <button className="draft" type="onSubmit" onClick={draft} onSubmit={errorMessage}>
-          Save as Draft
-        </button>
-        <button className="send" type="onClick" onClick={send} onSubmit={errorMessage}>
-          Save & Send
-        </button>
-      </Buttons>
+
+      <EmptyContainer darkLight={darkLight}></EmptyContainer>
+
     </>
   );
 }
@@ -716,12 +718,29 @@ const MainContainer = styled.div`
   width: 100%;
 
   padding: 3.3rem 2.4rem 0 2.2rem;
-  background-color: ${(props) => (props.darklight ? "#fff" : "#141625")};
+
+  background-color: ${(props) => (props.darkLight ? "#fff" : "#141625")};
+  @media (min-width: 48rem) {
+    width: 61.6rem;
+    padding: 5.9rem 5.6rem 0;
+    position: absolute;
+    left: 0;
+  }
+  @media (min-width: 90rem) {
+    left: 11rem;
+    width: 71rem;
+    position: absolute;
+    z-index: 10;
+  }
+
 
   h1 {
     margin-top: 2.6rem;
     font-size: 2.4rem;
     font-weight: bold;
+    @media (min-width: 48rem) {
+      margin-top: 4.6rem;
+    }
 
     color: ${(props) => (props.darklight ? "#0c0e16" : "#ffffff")};
   }
@@ -734,7 +753,6 @@ const GoBack = styled.div`
   display: flex;
   flex-direction: row;
   gap: 2.79rem;
-
   align-items: center;
 
   #styleLink {
@@ -783,7 +801,6 @@ const SenderAddress = styled.form`
     display: flex;
     flex-direction: row;
     justify-content: space-between;
-
     color: var(--07, #7e88c3);
     font-family: "League Spartan";
     font-size: 13px;
@@ -791,7 +808,9 @@ const SenderAddress = styled.form`
     font-weight: 500;
     line-height: 15px; /* 115.385% */
     letter-spacing: -0.1px;
+
     color: ${(props) => (props.darklight ? "#7e88c3" : "#7e88c3")};
+
   }
   
 
@@ -803,25 +822,45 @@ const SenderAddress = styled.form`
 
 const DateTerms = styled.div`
   display: flex;
-  flex-direction: column; /*tablet, desktop*/
+  flex-direction: column;
   gap: 2.5rem;
-  justify-content: space-between;
 
-  margin-bottom: 2.5rem;
+  width: 100%;
+
+  margin-top: 2.5rem;
+  @media (min-width: 48rem) {
+    flex-direction: row;
+    width: 100%;
+    gap: 6%;
+    align-items: center;
+    margin-bottom: 2.5rem;
+  }
+
 `;
 const CityPostcodeCountry = styled.div`
   display: flex;
   flex-direction: column;
   gap: 2.5rem;
   margin-top: 2.5rem;
-  margin-bottom: 2.5rem;
+
+  @media (min-width: 48rem) {
+    flex-direction: row;
+    gap: 3rem;
+    justify-content: space-between;
+  }
+
+  input::-webkit-calendar-picker-indicator {
+    position: absolute;
+    right: 10%;
+  }
+
 `;
 
 const CityPostCode = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-  gap: 2.3rem;
+  gap: 2rem;
 `;
 
 const Couple = styled.div`
@@ -830,12 +869,12 @@ const Couple = styled.div`
   gap: 0.9rem;
   justify-content: center;
 
-  
+
   input[type="date"]::-webkit-calendar-picker-indicator {
     background-color: ${(props) => (props.darklight ? "bleck" : "#7e88c3")};
     cursor: pointer;
-    /* right: 80%; */
-    /* transform: translateX(5000%); */
+
+  
   }
 
   #street,
@@ -859,7 +898,7 @@ const Couple = styled.div`
 
     border: solid 0.1rem ${(props) => (props.darklight ? "#dfe3fa" : "#252945")};
 
-    padding: 1.8rem 11.5rem 1.5rem 1.2rem;
+    padding: 1.8rem 0.5rem 1.5rem 1rem;
     font-size: 1.5rem;
     font-weight: bold;
     letter-spacing: -0.25px;
@@ -869,11 +908,38 @@ const Couple = styled.div`
     text-align: left;
     background-color: ${(props) => (props.darklight ? "#ffffff" : "#1e2139")};
   }
-  
+
+  #PaymentTerms {
+    width: 23.6rem;
+  }
+  @media (min-width: 48rem) {
+    #CountryTo {
+      width: 15rem;
+    }
+  }
+  @media (min-width: 48rem) {
+    #Country {
+      width: 15.2rem;
+    }
+  }
   #City,
   #PostCode,
   #CityTo,
-  #PostCodeTo,
+  #PostCodeTo {
+    width: 15.2rem;
+    padding-right: 0;
+  }
+
+  #InvoiceDate {
+    display: flex;
+    justify-content: space-between;
+    padding: 1rem 1rem 1rem 1rem;
+    width: 100%;
+    @media (min-width: 48rem) {
+      width: 23.6rem;
+    }
+  }
+
   #Qty {
     width: 100%;
     height: 4.8rem;
@@ -970,7 +1036,14 @@ const Buttons = styled.div`
   gap: 0.7rem;
 
   padding: 2.1rem 2.4rem 2.2rem 2.4rem;
-  background-color: ${(props) => (props.darklight ? "#fff" : "#1e2139")};
+
+  background-color: ${(props) => (props.darkLight ? "#fff" : "#1e2139")};
+  @media (min-width: 48rem) {
+    width: 52.4rem;
+    margin-left: 3.7rem;
+    padding-right: 0;
+  }
+
 
   .discard {
     background-color: ${(props) => (props.darklight ? "#f9fafef" : "#373b53")};
@@ -983,6 +1056,9 @@ const Buttons = styled.div`
     font-size: 1.2rem;
     font-weight: bold;
     letter-spacing: -0.25px;
+    @media (min-width: 48rem) {
+      width: 12.8rem;
+    }
   }
 
   .draft {
@@ -997,6 +1073,9 @@ const Buttons = styled.div`
     font-size: 1.2rem;
     font-weight: bold;
     letter-spacing: -0.25px;
+    @media (min-width: 48rem) {
+      width: 12.8rem;
+    }
   }
 
   .send {

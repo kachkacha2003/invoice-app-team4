@@ -5,6 +5,7 @@ import Header from "./components/Header";
 import Invoices from "./pages/Invoices";
 import CreateInvoice from "./pages/CreateInvoice";
 import ViewInvoice from "./pages/ViewInvoice";
+import EditInvoice from "./pages/EditInvoice";
 
 function App() {
   const [data, setData] = useState([]);
@@ -83,19 +84,27 @@ function App() {
           <Route
             path="/createinvoice"
             element={
-              <CreateInvoice
-                addItemTable={addItemTable}
-                setAddItemTable={setAddItemTable}
-                darklight={darklight}
-                setDarklight={setDarklight}
-                arrowicon={arrowicon} 
+
+              <Invoices
+                 arrowicon={arrowicon} 
                 setArrowicon={setArrowicon}
+                data={data}
+                setData={setData}
+                filtered={filtered}
+                setFiltered={setFiltered}
+                show={show}
+                setShow={setShow}
+                darkLight={darkLight}
+                setDarkLight={setDarkLight}
+                getInvoice={getInvoice}
                 list={list}
                 setList={setList} 
                 createInvoice={createInvoice}  
                 setCreateinvoice={setCreateinvoice} 
                 disabled={disabled}
-                
+                setGetInvoice={setGetInvoice}
+                addItemTable={addItemTable}
+                setAddItemTable={setAddItemTable}
 
               />
             }
@@ -104,6 +113,25 @@ function App() {
             path="/viewinvoice/:id"
             element={
               <ViewInvoice to={"/ViewInvoice/:id"}  darklight={darklight} setDarklight={setDarklight} navi/>
+            }
+          />
+          <Route
+            path="/viewInvoice/:id/EditInvoice"
+            element={
+              <EditInvoice
+                data={data}
+                setData={setData}
+                filtered={filtered}
+                setFiltered={setFiltered}
+                show={show}
+                setShow={setShow}
+                darkLight={darkLight}
+                setDarkLight={setDarkLight}
+                getInvoice={getInvoice}
+                setGetInvoice={setGetInvoice}
+                addItemTable={addItemTable}
+                setAddItemTable={setAddItemTable}
+              />
             }
           />
         </Routes>
