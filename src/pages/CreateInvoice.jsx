@@ -6,8 +6,18 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 
 import { useMediaQuery } from "@uidotdev/usehooks";
+import arrowDownicon from "/images/icon-arrow-down.svg";
+import  ListCheck  from "../components/ListCheck";
 
-export default function Create({ addItemTable, setAddItemTable, darkLight }) {
+
+
+export default function Create({ addItemTable, setAddItemTable, darkLight,arrowicon, 
+  setArrowicon,
+  list,
+  setList,
+  createInvoice,
+  setCreateinvoice,
+  disabled }) {
   const [selectedValue, setSelectedValue] = useState("");
   const mobileText = useMediaQuery("only screen and (max-width : 48rem)");
 
@@ -17,28 +27,8 @@ export default function Create({ addItemTable, setAddItemTable, darkLight }) {
   let itemsArr = [];
   let finalitemsArr = [];
 
-  const [createInvoice, setCreateinvoice] = useState({
-    id: "",
-    createdAt: "",
-    paymentDue: "",
-    description: "",
-    paymentTerms: "",
-    clientName: "",
-    clientEmail: "",
-    status: "",
-    senderAddressStreet: "",
-    senderAddressCity: "",
-    senderAddressPostCode: "",
-    senderAddressCountry: "",
-    clientAddressStreet: "",
-    clientAddressCity: "",
-    clientAddressPostCode: "",
-    clientAddressCountry: "",
-    itemName: "",
-    itemQuantity: "",
-    itemPrice: "",
-    itemTotal: "",
-  });
+
+  
   const [senderAddress, setSenderAddress] = useState({
     street: "",
     city: "",
@@ -297,15 +287,16 @@ export default function Create({ addItemTable, setAddItemTable, darkLight }) {
 
   console.log(finalObj);
 
+
   return (
     <>
-      <MainContainer darkLight={darkLight}>
+      <MainContainer darklight={darklight}>
         <GoBack>
           <Link to={"/"}>
             <img src={arrowLeft} alt="" />
           </Link>
           <p>
-            <Link darkLight={darkLight} id="styleLink" to={"/"}>
+            <Link darklight={darklight} id="styleLink" to={"/"}>
               {mobileText ? "Go back" : null}
             </Link>
           </p>
@@ -315,7 +306,7 @@ export default function Create({ addItemTable, setAddItemTable, darkLight }) {
           <p>Bill From</p>
           <SenderAddress onSubmit={errorMessage}>
             <div>
-              <Couple darkLight={darkLight}>
+              <Couple darklight={darklight}>
                 <label className="label" htmlFor="street">
                   Street Address{" "}
                   <span style={{ color: "red" }}>
@@ -332,7 +323,7 @@ export default function Create({ addItemTable, setAddItemTable, darkLight }) {
               </Couple>
               <CityPostcodeCountry>
                 <CityPostCode>
-                  <Couple darkLight={darkLight}>
+                  <Couple darklight={darklight}>
                     <label className="label" htmlFor="City">
                       City
                       <span style={{ color: "red" }}>
@@ -347,7 +338,7 @@ export default function Create({ addItemTable, setAddItemTable, darkLight }) {
                       onChange={handleChange}
                     />
                   </Couple>
-                  <Couple darkLight={darkLight}>
+                  <Couple darklight={darklight}>
                     <label className="label" htmlFor="Post Code">
                       Post Code
                       <span style={{ color: "red" }}>
@@ -363,7 +354,7 @@ export default function Create({ addItemTable, setAddItemTable, darkLight }) {
                     />
                   </Couple>
                 </CityPostCode>
-                <Couple darkLight={darkLight}>
+                <Couple darklight={darklight}>
                   <label className="label" htmlFor="Country">
                     Country
                     <span style={{ color: "red" }}>
@@ -382,7 +373,7 @@ export default function Create({ addItemTable, setAddItemTable, darkLight }) {
 
               <p>Bill To</p>
               <NameEmail>
-                <Couple darkLight={darkLight}>
+                <Couple darklight={darklight}>
                   <label className="label" htmlFor="ClientsName">
                     Client's Name{" "}
                     <span style={{ color: "red" }}>{errorMes.clientName}</span>
@@ -396,7 +387,7 @@ export default function Create({ addItemTable, setAddItemTable, darkLight }) {
                   />
                 </Couple>
 
-                <Couple darkLight={darkLight}>
+                <Couple darklight={darklight}>
                   <label className="label" htmlFor="ClientsEmail">
                     Client's Email{" "}
                     <span style={{ color: "red" }}>{errorMes.clientEmail}</span>
@@ -410,7 +401,7 @@ export default function Create({ addItemTable, setAddItemTable, darkLight }) {
                   />
                 </Couple>
 
-                <Couple darkLight={darkLight}>
+                <Couple darklight={darklight}>
                   <label className="label" htmlFor="streetTo">
                     Street Address{" "}
                     <span style={{ color: "red" }}>
@@ -428,7 +419,7 @@ export default function Create({ addItemTable, setAddItemTable, darkLight }) {
               </NameEmail>
               <CityPostcodeCountry>
                 <CityPostCode>
-                  <Couple darkLight={darkLight}>
+                  <Couple darklight={darklight}>
                     <label className="label" htmlFor="CityTo">
                       City
                       <span style={{ color: "red" }}>
@@ -443,7 +434,7 @@ export default function Create({ addItemTable, setAddItemTable, darkLight }) {
                       onChange={handleChange}
                     />
                   </Couple>
-                  <Couple darkLight={darkLight}>
+                  <Couple darklight={darklight}>
                     <label className="label" htmlFor="Post Code To">
                       Post Code
                       <span style={{ color: "red" }}>
@@ -459,7 +450,7 @@ export default function Create({ addItemTable, setAddItemTable, darkLight }) {
                     />
                   </Couple>
                 </CityPostCode>
-                <Couple darkLight={darkLight}>
+                <Couple darklight={darklight}>
                   <label className="label" htmlFor="CountryTo">
                     Country
                     <span style={{ color: "red" }}>
@@ -476,7 +467,7 @@ export default function Create({ addItemTable, setAddItemTable, darkLight }) {
                 </Couple>
               </CityPostcodeCountry>
               <DateTerms>
-                <Couple darkLight={darkLight}>
+                <Couple darklight={darklight}>
                   <label className="label" htmlFor="InvoiceDate">
                     Invoice Date
                     <span style={{ color: "red" }}>{errorMes.createdAt}</span>
@@ -485,18 +476,18 @@ export default function Create({ addItemTable, setAddItemTable, darkLight }) {
                     id="InvoiceDate"
                     name="createdAt"
                     value={createInvoice.createdAt}
-                    type="Date"
+                    type="date"
                     onChange={handleChange}
                   />
                 </Couple>
-                <Couple darkLight={darkLight}>
+                <Couple darklight={darklight}>
                   <label className="label" htmlFor="PaymentTerms">
                     Payment Terms
                     <span style={{ color: "red" }}>
                       {errorMes.paymentTerms}
                     </span>
                   </label>
-                  <div style={{ backgroundColor: "red" }}> </div>
+
                   <input
                     id="PaymentTerms"
                     name="paymentTerms"
@@ -504,10 +495,23 @@ export default function Create({ addItemTable, setAddItemTable, darkLight }) {
                     type="number"
                     onChange={handleChange}
                   />
+                  <ArrowDownIcon 
+                    src={arrowDownicon}
+                    alt="arrow"
+                    onClick={() => setArrowicon(!arrowicon)}
+                    arrowicon={arrowicon}
+                  />
                 </Couple>
+
+                <ListCheck
+                  createInvoice={createInvoice}
+                  setCreateinvoice={setCreateinvoice}
+                  list={list} 
+                  setList={setList}
+                />
               </DateTerms>
 
-              <Couple darkLight={darkLight}>
+              <Couple darklight={darklight}>
                 <label className="label" htmlFor="ProjectDescription">
                   Project Description
                   <span style={{ color: "red" }}>{errorMes.description}</span>
@@ -524,7 +528,7 @@ export default function Create({ addItemTable, setAddItemTable, darkLight }) {
             <ItemList>
               <p>Item List</p>
               <div>
-                <Couple darkLight={darkLight}>
+                <Couple darklight={darklight}>
                   <label className="label" htmlFor="ItemName">
                     Item Name
                     <span style={{ color: "red" }}>{errorMes.itemName}</span>
@@ -540,7 +544,7 @@ export default function Create({ addItemTable, setAddItemTable, darkLight }) {
 
                 <ItemsPriceDel>
                   <ItemPrice>
-                    <Couple darkLight={darkLight}>
+                    <Couple darklight={darklight}>
                       <label className="label" htmlFor="Qty">
                         QTY.
                         <span style={{ color: "red" }}>
@@ -555,7 +559,7 @@ export default function Create({ addItemTable, setAddItemTable, darkLight }) {
                         onChange={handleChange}
                       />
                     </Couple>
-                    <Couple darkLight={darkLight}>
+                    <Couple darklight={darklight}>
                       <label className="label" htmlFor="Price">
                         Price
                         <span style={{ color: "red" }}>
@@ -570,7 +574,7 @@ export default function Create({ addItemTable, setAddItemTable, darkLight }) {
                         onChange={handleChange}
                       />
                     </Couple>
-                    <Couple darkLight={darkLight}>
+                    <Couple darklight={darklight}>
                       <label className="label" htmlFor="Total">
                         Total
                       </label>
@@ -582,20 +586,30 @@ export default function Create({ addItemTable, setAddItemTable, darkLight }) {
                         }`}
                         type="number"
                         onChange={handleChange}
+                        disabled={disabled}
                       />
                     </Couple>
                   </ItemPrice>
 
-                  <img src={deleteIcon} alt="" />
+                  <img src={deleteIcon} alt="" onClick={()=>{
+                      setCreateinvoice({
+                        ...createInvoice,
+                        itemName: "",
+                        itemQuantity: "",
+                        itemPrice: "",
+                        itemTotal: ""
+                      })
+                    }
+                  }/>
                 </ItemsPriceDel>
               </div>
-              {maxItem.map((item, index) => (
+              { itemsArr.map((item, index) => (
                 <div
                   key={index}
                   style={{ display: addItemTable < 10 ? "block" : "none" }}
                   className="addTable"
                 >
-                  <Couple darkLight={darkLight}>
+                  <Couple darklight={darklight}>
                     <label className="label" htmlFor="ItemName">
                       Item Name
                       <span style={{ color: "red" }}>{errorMes.itemName}</span>
@@ -603,7 +617,7 @@ export default function Create({ addItemTable, setAddItemTable, darkLight }) {
                     <input
                       id="ItemName"
                       name="itemName"
-                      value={secondObj.name}
+                      value={itemsArr[0].name}
                       type="text"
                       disabled={disabled}
                       onChange={handleChange}
@@ -612,7 +626,7 @@ export default function Create({ addItemTable, setAddItemTable, darkLight }) {
 
                   <ItemsPriceDel>
                     <ItemPrice>
-                      <Couple darkLight={darkLight}>
+                      <Couple darklight={darklight}>
                         <label className="label" htmlFor="Qty">
                           QTY.
                           <span style={{ color: "red" }}>
@@ -622,13 +636,13 @@ export default function Create({ addItemTable, setAddItemTable, darkLight }) {
                         <input
                           id="Qty"
                           name="itemQuantity"
-                          value={secondObj.quantity}
+                          value={itemsArr[0].quantity}
                           type="number"
                           disabled={disabled}
                           onChange={handleChange}
                         />
                       </Couple>
-                      <Couple darkLight={darkLight}>
+                      <Couple darklight={darklight}>
                         <label className="label" htmlFor="Price">
                           Price
                           <span style={{ color: "red" }}>
@@ -638,20 +652,20 @@ export default function Create({ addItemTable, setAddItemTable, darkLight }) {
                         <input
                           id="Price"
                           name="itemPrice"
-                          value={secondObj.price}
+                          value={itemsArr[0].price}
                           type="number"
                           disabled={disabled}
                           onChange={handleChange}
                         />
                       </Couple>
-                      <Couple darkLight={darkLight}>
+                      <Couple darklight={darklight}>
                         <label className="label" htmlFor="Total">
                           Total
                         </label>
                         <input
                           id="TotalPrice"
                           name="itemTotal"
-                          value={secondObj.total}
+                          value={itemsArr[0].total}
                           type="number"
                           disabled={disabled}
                           onChange={handleChange}
@@ -659,7 +673,7 @@ export default function Create({ addItemTable, setAddItemTable, darkLight }) {
                       </Couple>
                     </ItemPrice>
 
-                    <img src={deleteIcon} alt="" />
+                    <img src={deleteIcon} alt=""/>
                   </ItemsPriceDel>
                 </div>
               ))}
@@ -667,7 +681,7 @@ export default function Create({ addItemTable, setAddItemTable, darkLight }) {
               <button
                 id="add"
                 type="click"
-                darkLight={darkLight}
+                darkLight={darklight}
                 onClick={addItems}
               >
                 + Add New Item
@@ -693,7 +707,9 @@ export default function Create({ addItemTable, setAddItemTable, darkLight }) {
         </Buttons>
       </MainContainer>
 
+
       <EmptyContainer darkLight={darkLight}></EmptyContainer>
+
     </>
   );
 }
@@ -702,6 +718,7 @@ const MainContainer = styled.div`
   width: 100%;
 
   padding: 3.3rem 2.4rem 0 2.2rem;
+
   background-color: ${(props) => (props.darkLight ? "#fff" : "#141625")};
   @media (min-width: 48rem) {
     width: 61.6rem;
@@ -716,6 +733,7 @@ const MainContainer = styled.div`
     z-index: 10;
   }
 
+
   h1 {
     margin-top: 2.6rem;
     font-size: 2.4rem;
@@ -724,7 +742,7 @@ const MainContainer = styled.div`
       margin-top: 4.6rem;
     }
 
-    color: ${(props) => (props.darkLight ? "#0c0e16" : "#ffffff")};
+    color: ${(props) => (props.darklight ? "#0c0e16" : "#ffffff")};
   }
 
   p {
@@ -736,6 +754,7 @@ const GoBack = styled.div`
   flex-direction: row;
   gap: 2.79rem;
   align-items: center;
+
   #styleLink {
     text-decoration: none;
   }
@@ -743,7 +762,7 @@ const GoBack = styled.div`
   p {
     font-size: 1.5rem;
     font-weight: bold;
-    color: ${(props) => (props.darkLight ? "#373b53" : "#1e2139")};
+    color: ${(props) => (props.darklight ? "#373b53" : "#1e2139")};
 
     letter-spacing: -0.25px;
   }
@@ -753,6 +772,7 @@ const GoBack = styled.div`
     height: 0.85rem;
   }
 `;
+
 
 const Bill = styled.div`
   margin-top: 2.2rem;
@@ -788,8 +808,12 @@ const SenderAddress = styled.form`
     font-weight: 500;
     line-height: 15px; /* 115.385% */
     letter-spacing: -0.1px;
-    color: ${(props) => (props.darkLight ? "#7e88c3" : "#7e88c3")};
+
+    color: ${(props) => (props.darklight ? "#7e88c3" : "#7e88c3")};
+
   }
+  
+
   p {
     margin-top: 4.1rem;
     margin-bottom: 2.4rem;
@@ -800,6 +824,7 @@ const DateTerms = styled.div`
   display: flex;
   flex-direction: column;
   gap: 2.5rem;
+
   width: 100%;
 
   margin-top: 2.5rem;
@@ -810,12 +835,14 @@ const DateTerms = styled.div`
     align-items: center;
     margin-bottom: 2.5rem;
   }
+
 `;
 const CityPostcodeCountry = styled.div`
   display: flex;
   flex-direction: column;
   gap: 2.5rem;
   margin-top: 2.5rem;
+
   @media (min-width: 48rem) {
     flex-direction: row;
     gap: 3rem;
@@ -826,6 +853,7 @@ const CityPostcodeCountry = styled.div`
     position: absolute;
     right: 10%;
   }
+
 `;
 
 const CityPostCode = styled.div`
@@ -839,14 +867,14 @@ const Couple = styled.div`
   display: flex;
   flex-direction: column;
   gap: 0.9rem;
-
   justify-content: center;
 
+
   input[type="date"]::-webkit-calendar-picker-indicator {
-    background-color: ${(props) => (props.darkLight ? "bleck" : "#7e88c3")};
+    background-color: ${(props) => (props.darklight ? "bleck" : "#7e88c3")};
     cursor: pointer;
-    right: 80%;
-    transform: translateX(5000%);
+
+  
   }
 
   #street,
@@ -863,10 +891,12 @@ const Couple = styled.div`
   #PostCodeTo,
   #CountryTo,
   #ItemName {
+    justify-content: space-between;
+    width: 100%;
     height: 4.8rem;
     border-radius: 0.4rem;
 
-    border: solid 0.1rem ${(props) => (props.darkLight ? "#dfe3fa" : "#252945")};
+    border: solid 0.1rem ${(props) => (props.darklight ? "#dfe3fa" : "#252945")};
 
     padding: 1.8rem 0.5rem 1.5rem 1rem;
     font-size: 1.5rem;
@@ -874,10 +904,11 @@ const Couple = styled.div`
     letter-spacing: -0.25px;
     text-align: left;
 
-    color: ${(props) => (props.darkLight ? "#0c0e16" : "#ffffff")};
+    color: ${(props) => (props.darklight ? "#0c0e16" : "#ffffff")};
     text-align: left;
-    background-color: ${(props) => (props.darkLight ? "#ffffff" : "#1e2139")};
+    background-color: ${(props) => (props.darklight ? "#ffffff" : "#1e2139")};
   }
+
   #PaymentTerms {
     width: 23.6rem;
   }
@@ -910,7 +941,7 @@ const Couple = styled.div`
   }
 
   #Qty {
-    width: 6.4rem;
+    width: 100%;
     height: 4.8rem;
     border: solid 0.1rem #dfe3fa;
     text-align: center;
@@ -927,16 +958,21 @@ const Couple = styled.div`
     width: 4.7rem;
     height: 4.8rem;
     border: none;
-
-    background-color: ${(props) => (props.darkLight ? "#fff" : "#141625")};
+    background-color: ${(props) => (props.darklight ? "#fff" : "#141625")};
   }
 
   #Price,
   #Qty {
-    background-color: ${(props) => (props.darkLight ? "#fff" : "#1e2139")};
-    border: solid 0.1rem ${(props) => (props.darkLight ? "#dfe3fa" : "#252945")};
+    background-color: ${(props) => (props.darklight ? "#fff" : "#1e2139")};
+    border: solid 0.1rem ${(props) => (props.darklight ? "#dfe3fa" : "#252945")};
+
+  }
+    #InvoiceDate,
+    #PaymentTerms {
+    position: relative;
   }
 
+  
   span {
     display: block;
   }
@@ -955,9 +991,8 @@ const ItemList = styled.div`
 
   #add {
     border-radius: 2.4rem;
-
-    background-color: ${(props) => (props.darkLight ? "#fff" : "#1e2139")};
-    border: solid 0.1rem ${(props) => (props.darkLight ? "#dfe3fa" : "#252945")};
+    background-color: ${(props) => (props.darklight ? "#f9fafe" : "#1e2139")};
+    border: solid 0.1rem ${(props) => (props.darklight ? "#dfe3fa" : "#252945")};
 
     padding: 1.8rem 10.7rem 1.5rem 10.8rem;
     color: #7e88c3;
@@ -990,9 +1025,9 @@ const EmptyContainer = styled.div`
   width: 100%;
   height: 6.4rem;
   background-color: ${(props) =>
-    props.darkLight
-      ? "linear-gradient(to bottom, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.1))"
-      : "#141625"};
+    props.darklight
+    ? "linear-gradient(to bottom, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.1))"
+    : "#141625"};
 `;
 const Buttons = styled.div`
   display: flex;
@@ -1001,6 +1036,7 @@ const Buttons = styled.div`
   gap: 0.7rem;
 
   padding: 2.1rem 2.4rem 2.2rem 2.4rem;
+
   background-color: ${(props) => (props.darkLight ? "#fff" : "#1e2139")};
   @media (min-width: 48rem) {
     width: 52.4rem;
@@ -1008,11 +1044,12 @@ const Buttons = styled.div`
     padding-right: 0;
   }
 
+
   .discard {
-    background-color: ${(props) => (props.darkLight ? "#f9fafef" : "#252945")};
+    background-color: ${(props) => (props.darklight ? "#f9fafef" : "#373b53")};
     padding: 1.8rem 1.9rem 1.5rem 1.8rem;
     width: 8.4rem;
-    color: ${(props) => (props.darkLight ? "#dfe3fa" : "#7e88c3")};
+    color: ${(props) => (props.darklight ? "#7e88c3" : "#dfe3fa")};
 
     border-radius: 2.4rem;
     border: none;
@@ -1029,7 +1066,7 @@ const Buttons = styled.div`
     padding: 1.8rem 1.39rem 1.5rem 1.61rem;
     width: 11.7rem;
 
-    color: ${(props) => (props.darkLight ? "#888eb0" : "#dfe3fa")};
+    color: ${(props) => (props.darklight ? "#888eb0" : "#dfe3fa")};
 
     border-radius: 2.4rem;
     border: none;
@@ -1046,7 +1083,7 @@ const Buttons = styled.div`
     padding: 1.8rem 1.5rem 1.5rem 1.6rem;
     width: 11.2rem;
 
-    color: ${(props) => (props.darkLight ? "#dfe3fa" : "#ffffff")};
+    color: ${(props) => (props.darklight ? "#dfe3fa" : "#ffffff")};
 
     border-radius: 2.4rem;
     border: none;
@@ -1057,5 +1094,24 @@ const Buttons = styled.div`
 
   .send:hover {
     cursor: pointer;
-  }
-`;
+  }`
+ 
+  const ArrowDownIcon = styled.img`
+    position: absolute;
+    width: 1.5rem;
+    margin-left: 43rem;
+    margin-top: 2rem;
+    transform: ${(props) => (props.arrowicon ? "rotate(180deg)" : "rotate( 0 deg)")};
+    
+  `;
+
+  
+    
+    
+    
+   
+
+
+ 
+
+

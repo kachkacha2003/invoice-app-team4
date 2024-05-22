@@ -1,7 +1,8 @@
 import React from "react";
 import styled from "styled-components";
 import arrowLeft from "/images/icon-arrow-left.svg";
-import { Link } from "react-router-dom";
+
+import { Link, Navigate } from "react-router-dom";
 import { useMediaQuery } from "@uidotdev/usehooks";
 import DeletionConfirm from "../components/DeletionConfirm";
 import { useState, useEffect } from "react";
@@ -59,6 +60,7 @@ export default function ViewInvoice({ darkLight }) {
             />
           ) : null}
           <GoBack>
+
             <img src={arrowLeft} alt="" />
 
             <p>
@@ -75,6 +77,7 @@ export default function ViewInvoice({ darkLight }) {
                 <Circletwo></Circletwo>
                 <span className="personStatus">Pending</span>
               </SpanCon>
+
             </Status>
             {DivToShow ? (
               <ThreeConParent>
@@ -214,6 +217,7 @@ export default function ViewInvoice({ darkLight }) {
     </>
   );
 }
+
 
 const IdAndAdresComoCon = styled.div`
   @media (min-width: 48rem) {

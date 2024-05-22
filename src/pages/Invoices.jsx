@@ -9,7 +9,9 @@ import { useMediaQuery } from "@uidotdev/usehooks";
 import { Link } from "react-router-dom";
 import FilterContainer from "../components/FilterContainer";
 import arrowRight from "/images/icon-arrow-right.svg";
+
 import Create from "./CreateInvoice";
+
 
 export default function Invoices({
   data,
@@ -70,6 +72,7 @@ export default function Invoices({
     setData(info);
   }
 
+
   return (
     <>
       {location.pathname === "/createinvoice" ? (
@@ -123,6 +126,7 @@ export default function Invoices({
             ) : null}
           </InvoicecCounterCon>
 
+
           <InvoicesListsCon darkLight={darkLight}>
             {FilterDataToShow.map((person, index) => {
               return (
@@ -163,6 +167,7 @@ export default function Invoices({
           ) : null}
         </InvoicesInfoDiv>
       )}
+
     </>
   );
 }
