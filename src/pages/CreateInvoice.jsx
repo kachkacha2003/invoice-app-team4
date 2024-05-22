@@ -7,17 +7,20 @@ import { Link } from "react-router-dom";
 
 import { useMediaQuery } from "@uidotdev/usehooks";
 import arrowDownicon from "/images/icon-arrow-down.svg";
-import  ListCheck  from "../components/ListCheck";
+import ListCheck from "../components/ListCheck";
 
-
-
-export default function Create({ addItemTable, setAddItemTable, darkLight,arrowicon, 
+export default function Create({
+  addItemTable,
+  setAddItemTable,
+  darkLight,
+  arrowicon,
   setArrowicon,
   list,
   setList,
   createInvoice,
   setCreateinvoice,
-  disabled }) {
+  disabled,
+}) {
   const [selectedValue, setSelectedValue] = useState("");
   const mobileText = useMediaQuery("only screen and (max-width : 48rem)");
 
@@ -27,8 +30,6 @@ export default function Create({ addItemTable, setAddItemTable, darkLight,arrowi
   let itemsArr = [];
   let finalitemsArr = [];
 
-
-  
   const [senderAddress, setSenderAddress] = useState({
     street: "",
     city: "",
@@ -208,8 +209,6 @@ export default function Create({ addItemTable, setAddItemTable, darkLight,arrowi
     });
   }
 
-  const [disabled, setDisabled] = useState(true);
-
   function addItems() {
     setItemObj({
       name: createInvoice.itemName,
@@ -286,7 +285,6 @@ export default function Create({ addItemTable, setAddItemTable, darkLight,arrowi
   console.log(createInvoice.senderAddressStreet);
 
   console.log(finalObj);
-
 
   return (
     <>
@@ -495,7 +493,7 @@ export default function Create({ addItemTable, setAddItemTable, darkLight,arrowi
                     type="number"
                     onChange={handleChange}
                   />
-                  <ArrowDownIcon 
+                  <ArrowDownIcon
                     src={arrowDownicon}
                     alt="arrow"
                     onClick={() => setArrowicon(!arrowicon)}
@@ -506,7 +504,7 @@ export default function Create({ addItemTable, setAddItemTable, darkLight,arrowi
                 <ListCheck
                   createInvoice={createInvoice}
                   setCreateinvoice={setCreateinvoice}
-                  list={list} 
+                  list={list}
                   setList={setList}
                 />
               </DateTerms>
@@ -591,19 +589,22 @@ export default function Create({ addItemTable, setAddItemTable, darkLight,arrowi
                     </Couple>
                   </ItemPrice>
 
-                  <img src={deleteIcon} alt="" onClick={()=>{
+                  <img
+                    src={deleteIcon}
+                    alt=""
+                    onClick={() => {
                       setCreateinvoice({
                         ...createInvoice,
                         itemName: "",
                         itemQuantity: "",
                         itemPrice: "",
-                        itemTotal: ""
-                      })
-                    }
-                  }/>
+                        itemTotal: "",
+                      });
+                    }}
+                  />
                 </ItemsPriceDel>
               </div>
-              { itemsArr.map((item, index) => (
+              {itemsArr.map((item, index) => (
                 <div
                   key={index}
                   style={{ display: addItemTable < 10 ? "block" : "none" }}
@@ -673,7 +674,7 @@ export default function Create({ addItemTable, setAddItemTable, darkLight,arrowi
                       </Couple>
                     </ItemPrice>
 
-                    <img src={deleteIcon} alt=""/>
+                    <img src={deleteIcon} alt="" />
                   </ItemsPriceDel>
                 </div>
               ))}
@@ -707,9 +708,7 @@ export default function Create({ addItemTable, setAddItemTable, darkLight,arrowi
         </Buttons>
       </MainContainer>
 
-
       <EmptyContainer darkLight={darkLight}></EmptyContainer>
-
     </>
   );
 }
@@ -732,7 +731,6 @@ const MainContainer = styled.div`
     position: absolute;
     z-index: 10;
   }
-
 
   h1 {
     margin-top: 2.6rem;
@@ -773,7 +771,6 @@ const GoBack = styled.div`
   }
 `;
 
-
 const Bill = styled.div`
   margin-top: 2.2rem;
   display: flex;
@@ -810,9 +807,7 @@ const SenderAddress = styled.form`
     letter-spacing: -0.1px;
 
     color: ${(props) => (props.darklight ? "#7e88c3" : "#7e88c3")};
-
   }
-  
 
   p {
     margin-top: 4.1rem;
@@ -835,7 +830,6 @@ const DateTerms = styled.div`
     align-items: center;
     margin-bottom: 2.5rem;
   }
-
 `;
 const CityPostcodeCountry = styled.div`
   display: flex;
@@ -853,7 +847,6 @@ const CityPostcodeCountry = styled.div`
     position: absolute;
     right: 10%;
   }
-
 `;
 
 const CityPostCode = styled.div`
@@ -869,12 +862,9 @@ const Couple = styled.div`
   gap: 0.9rem;
   justify-content: center;
 
-
   input[type="date"]::-webkit-calendar-picker-indicator {
     background-color: ${(props) => (props.darklight ? "bleck" : "#7e88c3")};
     cursor: pointer;
-
-  
   }
 
   #street,
@@ -965,14 +955,12 @@ const Couple = styled.div`
   #Qty {
     background-color: ${(props) => (props.darklight ? "#fff" : "#1e2139")};
     border: solid 0.1rem ${(props) => (props.darklight ? "#dfe3fa" : "#252945")};
-
   }
-    #InvoiceDate,
-    #PaymentTerms {
+  #InvoiceDate,
+  #PaymentTerms {
     position: relative;
   }
 
-  
   span {
     display: block;
   }
@@ -1026,8 +1014,8 @@ const EmptyContainer = styled.div`
   height: 6.4rem;
   background-color: ${(props) =>
     props.darklight
-    ? "linear-gradient(to bottom, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.1))"
-    : "#141625"};
+      ? "linear-gradient(to bottom, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.1))"
+      : "#141625"};
 `;
 const Buttons = styled.div`
   display: flex;
@@ -1043,7 +1031,6 @@ const Buttons = styled.div`
     margin-left: 3.7rem;
     padding-right: 0;
   }
-
 
   .discard {
     background-color: ${(props) => (props.darklight ? "#f9fafef" : "#373b53")};
@@ -1094,24 +1081,14 @@ const Buttons = styled.div`
 
   .send:hover {
     cursor: pointer;
-  }`
- 
-  const ArrowDownIcon = styled.img`
-    position: absolute;
-    width: 1.5rem;
-    margin-left: 43rem;
-    margin-top: 2rem;
-    transform: ${(props) => (props.arrowicon ? "rotate(180deg)" : "rotate( 0 deg)")};
-    
-  `;
+  }
+`;
 
-  
-    
-    
-    
-   
-
-
- 
-
-
+const ArrowDownIcon = styled.img`
+  position: absolute;
+  width: 1.5rem;
+  margin-left: 43rem;
+  margin-top: 2rem;
+  transform: ${(props) =>
+    props.arrowicon ? "rotate(180deg)" : "rotate( 0 deg)"};
+`;
