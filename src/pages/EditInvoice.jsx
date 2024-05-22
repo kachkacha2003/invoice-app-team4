@@ -307,11 +307,7 @@ export default function EditInvoice({
       (createInvoice.itemQuantity = ""),
       (createInvoice.itemPrice = ""),
       (createInvoice.itemTotal = "");
-    console.log(createInvoice.senderAddressStreet);
   }
-  console.log(createInvoice.senderAddressStreet);
-
-  console.log(finalObj);
 
   return (
     <>
