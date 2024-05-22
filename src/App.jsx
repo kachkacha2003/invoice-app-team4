@@ -15,8 +15,13 @@ function App() {
   const [darklight, setDarklight] = useState(true);
   const [getInvoice, setGetInvoice] = useState(0);
   const [arrowicon, setArrowicon] = useState(true);
-  const [list, setList] = useState(["Net 1 Day", "Net 7 Day", "Net 14 Day", "Net 30 Day"]);
-  const [disabled, setDisabled] = useState(true)
+  const [list, setList] = useState([
+    "Net 1 Day",
+    "Net 7 Day",
+    "Net 14 Day",
+    "Net 30 Day",
+  ]);
+  const [disabled, setDisabled] = useState(true);
   const [createInvoice, setCreateinvoice] = useState({
     id: "",
     createdAt: "",
@@ -51,10 +56,9 @@ function App() {
     postCode: "",
     country: "",
   });
-  
 
-   console.log(createInvoice)
-  
+  console.log(createInvoice);
+
   return (
     <>
       <BrowserRouter>
@@ -71,22 +75,21 @@ function App() {
                 show={show}
                 setShow={setShow}
                 darklight={darklight}
-                setDarklight={setDarklight}
+                setDarkLight={setDarklight}
                 getInvoice={getInvoice}
                 setGetInvoice={setGetInvoice}
                 senderAddress={senderAddress}
                 setSenderAddress={setSenderAddress}
                 clientAddress={clientAddress}
-              setClientAddress={setClientAddress}
+                setClientAddress={setClientAddress}
               />
             }
           />
           <Route
             path="/createinvoice"
             element={
-
               <Invoices
-                 arrowicon={arrowicon} 
+                arrowicon={arrowicon}
                 setArrowicon={setArrowicon}
                 data={data}
                 setData={setData}
@@ -94,25 +97,29 @@ function App() {
                 setFiltered={setFiltered}
                 show={show}
                 setShow={setShow}
-                darkLight={darkLight}
-                setDarkLight={setDarkLight}
+                darklight={darklight}
+                setDarkLight={setDarklight}
                 getInvoice={getInvoice}
                 list={list}
-                setList={setList} 
-                createInvoice={createInvoice}  
-                setCreateinvoice={setCreateinvoice} 
+                setList={setList}
+                createInvoice={createInvoice}
+                setCreateinvoice={setCreateinvoice}
                 disabled={disabled}
                 setGetInvoice={setGetInvoice}
                 addItemTable={addItemTable}
                 setAddItemTable={setAddItemTable}
-
               />
             }
           />
           <Route
             path="/viewinvoice/:id"
             element={
-              <ViewInvoice to={"/ViewInvoice/:id"}  darklight={darklight} setDarklight={setDarklight} navi/>
+              <ViewInvoice
+                to={"/ViewInvoice/:id"}
+                darklight={darklight}
+                setDarkLight={setDarklight}
+                navi
+              />
             }
           />
           <Route
@@ -125,8 +132,8 @@ function App() {
                 setFiltered={setFiltered}
                 show={show}
                 setShow={setShow}
-                darkLight={darkLight}
-                setDarkLight={setDarkLight}
+                darkLight={darklight}
+                setDarkLight={setDarklight}
                 getInvoice={getInvoice}
                 setGetInvoice={setGetInvoice}
                 addItemTable={addItemTable}
