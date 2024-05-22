@@ -737,7 +737,6 @@ const GoBack = styled.div`
 
   align-items: center;
 
-
   #styleLink {
     text-decoration: none;
   }
@@ -755,6 +754,7 @@ const GoBack = styled.div`
     height: 0.85rem;
   }
 `;
+
 
 const Bill = styled.div`
   margin-top: 2.2rem;
